@@ -13,8 +13,9 @@
  *   - None
  *
  * @section hardware Hardware
- * - Arduino MKR NB 1500 board
- * - HC-SR04 Ultrasonic Sensor
+ * -  Arduino Nano (Original)
+ * -  Arduino MKR NB 1500 board
+ * -  HC-SR04 Ultrasonic Sensor
  *
  * @section author Author
  * Created by Jonathan Camenzuli on 26/11/2022.
@@ -22,19 +23,21 @@
  */
 
 #define echoPin 3 // attach pin D2 Arduino to pin Echo of HC-SR04
-#define trigPin 2 //attach pin D3 Arduino to pin Trig of HC-SR04
+#define trigPin 2 // attach pin D3 Arduino to pin Trig of HC-SR04
 
 // defines variables
 long duration; // variable for the duration of sound wave travel
-int distance; // variable for the distance measurement
+int distance;  // variable for the distance measurement
 int isCarParked;
 
-void setup() {
+void setup()
+{
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
-  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
-  Serial.begin(1200); // // Serial Communication is starting with 9600 of baudrate speed
+  pinMode(echoPin, INPUT);  // Sets the echoPin as an INPUT
+  Serial.begin(1200);       // // Serial Communication is starting with 9600 of baudrate speed
 }
-void loop() {
+void loop()
+{
   // Clears the trigPin condition
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
