@@ -2,10 +2,17 @@
 
 ## To-Do List
 
+- [ ] Architecture
+  - [ ] Estabilish communication protocols
 - [ ] Arduino Firmware
-  - [ ] Car Park Sensor
-  - [ ] Parking Sensor
-  - [ ] Air Quality Monitoring
+  - [ ] Boilerplate
+    - [ ] Car Park Sensor
+    - [ ] Parking Sensor
+    - [ ] Air Quality Monitoring
+  - [ ] Narrowband functionality
+    - [ ] Car Park Sensor
+    - [ ] Parking Sensor
+    - [ ] Air Quality Monitoring
 - [ ] Server Side Software
-  - [ ] Backend
-  - [ ] Frontend (Dashboard)
+  - [ ] Database - InfluxDB
+  - [ ] Visualisation Platform - Grafana
