@@ -13,15 +13,15 @@
  *   - None
  *
  * @section hardware Hardware
- * -  Arduino MKR NB 1500 board
+ * -  Arduino Nano
  * -  HC-SR04 Ultrasonic Sensor
  *
  * @section author Author
- * Created by Jonathan Camenzuli on DD/MM/YYYY.
+ * Created by Jonathan Camenzuli on 26/11/2022.
  *
  */
 
-#include "arduino_secrets.h"
+#include "../arduino_secrets.h"
 
 #define echoPin 3 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 2 // attach pin D3 Arduino to pin Trig of HC-SR04
