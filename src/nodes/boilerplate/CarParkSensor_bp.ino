@@ -26,7 +26,12 @@
 #define echoPin 3 // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 2 // attach pin D3 Arduino to pin Trig of HC-SR04
 
+#define arrayMAX 20
+
 // defines variables
+int distReadings_i = 0;
+int distReadings[arrayMAX];
+float average;
 long duration; // variable for the duration of sound wave travel
 int distance;  // variable for the distance measurement
 int isCarParked;
@@ -37,6 +42,7 @@ void setup()
   pinMode(echoPin, INPUT);  // Sets the echoPin as an INPUT
   Serial.begin(1200);       // // Serial Communication is starting with 9600 of baudrate speed
 }
+
 void loop()
 {
   // Clears the trigPin condition
@@ -50,13 +56,31 @@ void loop()
   duration = pulseIn(echoPin, HIGH);
   // Calculating the distance
   distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-  // Displays the distance on the Serial Monitor
+  distReadings[distReadings_i] = distance;
 
-  if (distance > 5)
-    isCarParked = 0;
+  if (distReadings_i == 9)
+  {
+    average = averageArray(distReadings);
+    if (average < 5)
+    {
+      Serial.println("Car is parked");
+    }
+    else
+    {
+      Serial.println("Car is not parked");
+    }
+    distReadings_i = 0;
+  }
   else
-    isCarParked = 1;
+  {
+    distReadings_i++;
+  }
+}
 
-  Serial.print("isCarParked:");
-  Serial.println(isCarParked);
+float averageArray(int *array) // assuming array is int.
+{
+  long sum = 0L; // sum will be larger than an item, long for safety.
+  for (int i = 0; i < arrayMAX - 1; i++)
+    sum += array[i];
+  return ((float)sum) / arrayMAX; // average will be fractional, so float may be appropriate.
 }
