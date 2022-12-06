@@ -21,15 +21,16 @@
  *
  */
 
-#define echoPin 3             // attach pin D3 Arduino to pin Echo of HC-SR04
-#define trigPin 2             // attach pin D2 Arduino to pin Trig of HC-SR04
+#include "LowPower.h"
 
-#define arrayMAX 20           // Number of elements for averaging array
+#define echoPin 3 // Attach Pin D3 Arduino Nano to pin Echo of HC-SR04
+#define trigPin 2 // Attach Pin D2 Arduino Nano to pin Trig of HC-SR04
 
-#define parkedVehicle_cm 5    // Distance which indicates vehicle is parked
+#define arrayMAX 20        // Number of elements for averaging array
+#define parkedVehicle_cm 5 // Distance which indicates vehicle is parked
 
-int distReadings_i = 0;       // Index to be used with distReadings[]  
 int distReadings[arrayMAX];   // Array which is used for averaging
+int distReadings_i = 0;       // Index to be used with distReadings[]
 float average;                // Average of distReadings[]
 long duration;                // Duration of Ultrasonic wave travel
 int distance;                 // Distance calculated
@@ -62,34 +63,43 @@ void loop()
   if (distReadings_i == 9)
   {
     average = averageArray(distReadings);
-    if (average < 5)
+    if (average < parkedVehicle_cm)
     {
-      if (!isCarParked)
+      if (!isVehicleParked)
       {
         // Indicate that car is ACTUALLY parked and change state
         Serial.println("Car is parked");
-        isCarParked = true;
+        isVehicleParked = true;
         // Turn on radio and transmit change in parking state
       }
     }
     else
     {
-      if (isCarParked)
+      if (isVehicleParked)
       {
         // Indicate that car is ACTUALLY not parked and change state
         Serial.println("Car is not parked");
-        isCarParked = false;
+        isVehicleParked = false;
         // Turn on radio and transmit change in parking state
       }
     }
     // After finishing reset index to 0
     distReadings_i = 0;
+
+    // Forcing line to be printed before sleep
+    Serial.flush();
+
+    // Putting Arduino to sleep for 40secs (supposedly)
+    for (int i = 0; i < 5; i++)
+      LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
+
+    // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
   }
   else
     distReadings_i++;
 }
 
-float averageArray(int* array)
+float averageArray(int *array)
 {
   long sum = 0L;
   for (int i = 0; i < arrayMAX - 1; i++)
