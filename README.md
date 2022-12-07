@@ -7,11 +7,11 @@
 - [ ] Arduino Firmware
   - [ ] Boilerplate
     - [x] Car Park Sensor
-    - [ ] Parking Sensor
+    - [ ] Fire Detection System
     - [ ] Air Quality Monitoring
   - [ ] Narrowband functionality
     - [ ] Car Park Sensor
-    - [ ] Parking Sensor
+    - [ ] Fire Detection System
     - [ ] Air Quality Monitoring
 - [ ] Server Side Software
   - [ ] Database - InfluxDB
