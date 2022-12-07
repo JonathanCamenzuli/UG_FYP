@@ -6,7 +6,7 @@
   - [ ] Estabilish communication protocols
 - [ ] Arduino Firmware
   - [ ] Boilerplate
-    - [ ] Car Park Sensor
+    - [x] Car Park Sensor
     - [ ] Parking Sensor
     - [ ] Air Quality Monitoring
   - [ ] Narrowband functionality

@@ -1,32 +1,31 @@
 /**
  * @file CarParkSensor_bp.ino
  *
- * @section description Description
- * Boilerplate code for the Car Park Sensor
+ * @author Jonathan Camenzuli
  *
- * @section project Project
+ * @brief Boilerplate for Car Park Sensor
+ *
  * Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
  * "Miniature implementation of an IoT-based Smart City"
  *
+ * @date 26/11/2022
+ *
  * @section libraries Libraries
- * - None (none)
- *   - None
+ * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
+ * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  *
  * @section hardware Hardware
  * -  Arduino Nano
  * -  HC-SR04 Ultrasonic Sensor
- *
- * @section author Author
- * Created by Jonathan Camenzuli on 26/11/2022.
- *
  */
 
 #include "LowPower.h"
+#include "fyp_utils.h"
 
 #define echoPin 3 // Attach Pin D3 Arduino Nano to pin Echo of HC-SR04
 #define trigPin 2 // Attach Pin D2 Arduino Nano to pin Trig of HC-SR04
 
-#define arrayMAX 20        // Number of elements for averaging array
+#define arrayMAX 10        // Number of elements for averaging array
 #define parkedVehicle_cm 5 // Distance which indicates vehicle is parked
 
 int distReadings[arrayMAX];   // Array which is used for averaging
@@ -42,8 +41,8 @@ void setup()
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
-  // 1200 Baudrate
-  Serial.begin(1200);
+  // 9600 Baudrate
+  Serial.begin(9600);
 }
 
 void loop()
@@ -62,7 +61,7 @@ void loop()
 
   if (distReadings_i == 9)
   {
-    average = averageArray(distReadings);
+    average = averageArray(distReadings, arrayMAX);
     if (average < parkedVehicle_cm)
     {
       if (!isVehicleParked)
@@ -97,12 +96,4 @@ void loop()
   }
   else
     distReadings_i++;
-}
-
-float averageArray(int *array)
-{
-  long sum = 0L;
-  for (int i = 0; i < arrayMAX - 1; i++)
-    sum += array[i];
-  return ((float)sum) / arrayMAX;
 }
