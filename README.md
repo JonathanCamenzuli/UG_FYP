@@ -3,7 +3,7 @@
 ## To-Do List
 
 - [ ] Architecture
-  - [ ] Estabilish communication protocols
+  - [ ] Establish communication protocols
 - [ ] Arduino Firmware
   - [ ] Boilerplate
     - [x] Car Park Sensor
