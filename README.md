@@ -16,3 +16,4 @@
 - [ ] Server Side Software
   - [ ] Database - InfluxDB
   - [ ] Visualisation Platform - Grafana
+  - [ ] NoIP DNS
