@@ -15,23 +15,34 @@
  * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  *
  * @section hardware Hardware
- * -  Arduino Nano
- * -  isFlamePresent Sensor Module
+ * - Arduino Nano
+ * - Flame Sensor Module
+ * - MQ-135 Gas Sensor
  */
 
 #include "LowPower.h"
 #include "fyp_utils.h"
 
-#define flameSensorPin 2 // Attach Pin D2 Arduino Nano to isFlamePresent Sensor
+#define flameSensorPin 2 // Attach Pin D2 Arduino Nano to Flame Sensor
+#define mqSensorPin 3    // Attach Pin D3 Arduino Nano to MQ-135 Sensor
 
-// #define arrayMAX 10        // Number of elements for averaging array
+#define arrayMAX 10  // Number of elements for averaging array
+#define thresGas 600 // Threshold which indicates smoke is present
 
-int isFlamePresent = HIGH;
+int isFlamePresent = HIGH;   // Flame sensor reading
+int gasReading;              // Individual smoke reading
+int gasReadings[arrayMAX];   // Array which is used for averaging
+int gasReadings_i = 0;       // Index to be used with gasReadings[]
+float gasAverage;            // Average of gasReadings[]
+bool isFireDetected = false; // Is Fire Detected?
 
 void setup()
 {
-    // isFlamePresent Sensor shenanigans
+    // Flame Sensor shenanigans
     pinMode(flameSensorPin, INPUT);
+
+    // MQ-135 sensor shenanigans
+    pinMode(mqSensorPin, INPUT);
 
     // 9600 Baudrate
     Serial.begin(9600);
@@ -39,13 +50,45 @@ void setup()
 
 void loop()
 {
+    // Flame sensor reading
     isFlamePresent = digitalRead(flameSensorPin);
-    if (isFlamePresent == LOW)
+
+    // MQ-135 readings
+    gasReading = digitalRead(mqSensorPin);
+    gasReadings[gasReadings_i] = gasReading;
+
+    if (gasReadings_i == arrayMAX - 1)
     {
-        Serial.println("Fire is Detected");
+        gasAverage = averageArray(gasReadings, arrayMAX);
+        if (isFlamePresent == LOW || gasAverage > thresGas)
+        {
+            if (!isFireDetected)
+            {
+                // Indicate that fire is ACTUALLY present and change state
+                Serial.println("Fire is Detected");
+                isFireDetected = true;
+                // Turn on radio and transmit change
+            }
+        }
+        else
+        {
+            if (isFireDetected)
+            {
+                // Indicate that fire is ACTUALLY not present and change state
+                Serial.println("No Fire is Detected");
+                isFireDetected = false;
+                // Turn on radio and transmit change
+            }
+        }
+        // After finishing reset index to 0
+        distReadings_i = 0;
+
+        // Forcing line to be printed before sleep
+        Serial.flush();
+
+        // Putting Arduino to sleep for 8secs
+        LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
     }
     else
-    {
-        Serial.println("No Fire is Detected");
-    }
+        distReadings_i++;
 }
