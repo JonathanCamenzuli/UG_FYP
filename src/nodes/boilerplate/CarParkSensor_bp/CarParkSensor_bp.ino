@@ -59,7 +59,7 @@ void loop()
   distance = duration * 0.034 / 2;
   distReadings[distReadings_i] = distance;
 
-  if (distReadings_i == 9)
+  if (distReadings_i == arrayMAX-1)
   {
     average = averageArray(distReadings, arrayMAX);
     if (average < parkedVehicle_cm)
