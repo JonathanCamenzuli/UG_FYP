@@ -66,6 +66,7 @@ void loop()
             {
                 // Indicate that fire is ACTUALLY present and change state
                 Serial.println("Fire is Detected");
+
                 isFireDetected = true;
                 // Turn on radio and transmit change
             }
@@ -81,7 +82,7 @@ void loop()
             }
         }
         // After finishing reset index to 0
-        distReadings_i = 0;
+        gasReadings_i = 0;
 
         // Forcing line to be printed before sleep
         Serial.flush();
@@ -90,5 +91,5 @@ void loop()
         LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
     }
     else
-        distReadings_i++;
+        gasReadings_i++;
 }
