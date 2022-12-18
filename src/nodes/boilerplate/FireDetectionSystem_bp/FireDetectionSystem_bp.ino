@@ -65,13 +65,10 @@ void loop()
             if (!isFireDetected)
             {
                 // Indicate that fire is ACTUALLY present and change state
-                Serial.println("Fire is Detected");
-
-                // Debugging
                 if (isFlamePresent == LOW)
-                  Serial.println("CAUSE: Flame Sensor");
+                  Serial.println("Fire is DETECTED: Flame Sensor");
                 if (gasAverage > thresGas)
-                  Serial.println("CAUSE: Gas");
+                  Serial.println("Fire is DETECTED: Gas");
 
                 isFireDetected = true;
                 // Turn on radio and transmit change
