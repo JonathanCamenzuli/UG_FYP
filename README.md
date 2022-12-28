@@ -4,6 +4,7 @@
 
 - [x] Architecture
   - [x] Establish communication protocol (CoAP)
+  - [ ] Establish what data is to be sent
 - [ ] Arduino Firmware
   - [ ] Boilerplate
     - [x] Car Park Sensor
