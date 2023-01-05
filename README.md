@@ -7,7 +7,7 @@
 ```json
 {
   "sensortype": "CPS",
-  "id": 1,
+  "id": "cps0001",
   "data": {
     "isCarParked": true
   }
@@ -19,7 +19,7 @@
 ```json
 {
   "sensortype": "AQS",
-  "id": 1,
+  "id": "aqs0001",
   "data": {
     "temperature": 1,
     "humidity": 1,
@@ -34,7 +34,7 @@
 ```json
 {
   "sensortype": "FDS",
-  "id": 1,
+  "id": "fds0001",
   "data": {
     "temperature": 1,
     "isIRDetected": true,
