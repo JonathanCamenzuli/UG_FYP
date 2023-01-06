@@ -1,9 +1,9 @@
 ##
-# @file cps_client.py
+# @file aqms_client.py
 #
 # @author Jonathan Camenzuli
 #
-# @brief Test Car Park Sensor CoAP Client
+# @brief Test Air Quality Monitoring System CoAP Client
 #
 # Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
 # "Miniature implementation of an IoT-based Smart City"
@@ -29,8 +29,8 @@ async def main():
 
     await asyncio.sleep(2)
 
-    payload = b'{"nodetype": "CPS", "id": "cpsTestClient", "data": {"isCarParked": true}}'
-    request = Message(code=PUT, payload=payload, uri="coap://localhost/cps")
+    payload = b'{"nodetype": "AQMS", "id": "aqmsTestClient", "data": {"temperature_c": 25, "humidity_percent": 100, "co_level_ppm": 1, "co2_level_ppm": 1}}'
+    request = Message(code=PUT, payload=payload, uri="coap://localhost/aqms")
 
     response = await context.request(request).response
 
