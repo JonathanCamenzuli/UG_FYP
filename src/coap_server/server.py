@@ -31,8 +31,10 @@ def main():
     root = resource.Site()
     basicResource = resources.BasicResource()
     cpsResource = resources.CPS_Resource()
+    aqmsResource = resources.AQMS_Resource()
 
     root.add_resource(['cps'], cpsResource)
+    root.add_resource(['aqms'], aqmsResource)
 
     asyncio.Task(aiocoap.Context.create_server_context(
         root, bind=('localhost', 5683)))
