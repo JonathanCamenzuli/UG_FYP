@@ -1,6 +1,9 @@
-# Final Year Project
+# Miniature implementation of an IoT-based Smart City
 
-## Payload to be handled
+Final Year Project in Computer Engineering (2022/23)
+Jonathan Camenzuli
+
+## Payloads to be handled
 
 ### Parking Sensor
 
