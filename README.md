@@ -17,12 +17,12 @@ Jonathan Camenzuli
 }
 ```
 
-### Air Quality System
+### Air Quality Monitoring System
 
 ```json
 {
-  "nodetype": "AQS",
-  "id": "aqs0001",
+  "nodetype": "AQMS",
+  "id": "aqms0001",
   "data": {
     "temperature": 1,
     "humidity": 1,
