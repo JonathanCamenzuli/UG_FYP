@@ -6,7 +6,7 @@
 
 ```json
 {
-  "sensortype": "CPS",
+  "nodetype": "CPS",
   "id": "cps0001",
   "data": {
     "isCarParked": true
@@ -18,7 +18,7 @@
 
 ```json
 {
-  "sensortype": "AQS",
+  "nodetype": "AQS",
   "id": "aqs0001",
   "data": {
     "temperature": 1,
@@ -33,7 +33,7 @@
 
 ```json
 {
-  "sensortype": "FDS",
+  "nodetype": "FDS",
   "id": "fds0001",
   "data": {
     "temperature": 1,
@@ -47,7 +47,7 @@
 
 - [x] Architecture
   - [x] Establish communication protocol (CoAP)
-  - [ ] Establish what data is to be sent
+  - [x] Establish what data is to be sent
 - [ ] Arduino Firmware
   - [ ] Boilerplate
     - [x] Car Park Sensor
