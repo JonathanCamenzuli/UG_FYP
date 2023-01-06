@@ -32,7 +32,10 @@ def main():
     # Resource tree creation
     root = resource.Site()
     basicResource = resources.BasicResource()
-    root.add_resource(['basic'], basicResource)
+    cpsResource = resources.CPS_Resource()
+
+    root.add_resource(['cps'], cpsResource)
+
     asyncio.Task(aiocoap.Context.create_server_context(
         root, bind=('localhost', 5683)))
 
