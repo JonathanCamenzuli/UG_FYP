@@ -16,6 +16,7 @@
 
 import aiocoap.resource as resource
 import aiocoap
+import json
 
 
 class BasicResource(resource.ObservableResource):
@@ -42,8 +43,8 @@ class BasicResource(resource.ObservableResource):
             self.has_observers = False
 
 
-class AQS_Resource(BasicResource):
-    """Air Quality System Resource
+class CPS_Resource(BasicResource):
+    """Parking Sensor Resource
 
     Args:
         BasicResource (_type_): _description_
@@ -52,17 +53,30 @@ class AQS_Resource(BasicResource):
     def __init__(self):
         super().__init__()
 
-        self.status_ppm = 0
+        self.sensor_id = ""
+        self.status_isCarParked = False
 
     async def render_get(self, request):
-        print(f'Air Quality System State: {self.status_ppm}')
-        payload = b'%s PPM' % str(self.status_ppm).encode('ascii')
+        print(f'Is Car Parked?: {self.status_isCarParked}')
+
+        json_obj = {
+            "sensortype": "CPS",
+            "id": {self.sensor_id},
+            "data":
+                {
+                    "isCarParked": {self.status_isCarParked}
+            }
+        }
+        payload = json.dumps(json_obj)
+        payload = payload.encode('ascii')
 
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
         payload = request.payload.decode('ascii')
         print(payload)
-        self.status_ppm = payload
+        payload_json = json.loads(payload)
+        self.sensor_id = payload_json['sensortype']
+        self.status_isCarParked = payload_json['data']['isCarParked']
 
-        return aiocoap.Message(code=aiocoap.CHANGED, payload=b'%s' str(self.status_ppm).encode('ascii'))
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
