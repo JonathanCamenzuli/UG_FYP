@@ -16,6 +16,7 @@
 
 import aiocoap.resource as resource
 import aiocoap
+import logging
 import json
 
 
@@ -78,5 +79,8 @@ class CPS_Resource(BasicResource):
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
         self.status_isCarParked = payload_json['data']['isCarParked']
+
+        logging.info(
+            f'⚠️ Payload from {self.node_id}: isCarParked is {self.status_isCarParked}')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
