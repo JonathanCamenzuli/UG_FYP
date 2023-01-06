@@ -24,10 +24,10 @@ Jonathan Camenzuli
   "nodetype": "AQMS",
   "id": "aqms0001",
   "data": {
-    "temperature": 1,
-    "humidity": 1,
-    "co_level": 1,
-    "co2_level": 1
+    "temperature_c": 1,
+    "humidity_percent": 1,
+    "co_level_ppm": 1,
+    "co2_level_ppm": 1
   }
 }
 ```
