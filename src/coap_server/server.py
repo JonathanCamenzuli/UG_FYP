@@ -12,9 +12,7 @@
 #
 # @section libraries Libraries
 # - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
-# - threading (https://docs.python.org/3/library/threading.html)
-# - logging (https://docs.python.org/3/library/logging.html)
-# - asyncio (https://docs.python.org/3/library/asyncio.html)
+# - General Utilities (./utils)
 #
 
 import aiocoap.resource as resource
