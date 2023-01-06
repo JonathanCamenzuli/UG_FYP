@@ -22,10 +22,8 @@ logging.basicConfig(level=logging.INFO)
 
 
 async def main():
-    """Perform a single PUT request to localhost on the default port, URI
-    "/other/block". The request is sent 2 seconds after initialization.
-
-    The payload is bigger than 1kB, and thus sent as several blocks."""
+    """Perform a single PUT request to localhost on the default port.
+    The request is sent 2 seconds after initialization"""
 
     context = await Context.create_client_context()
 
