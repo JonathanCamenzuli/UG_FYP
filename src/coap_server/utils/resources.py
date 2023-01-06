@@ -44,7 +44,7 @@ class BasicResource(resource.ObservableResource):
 
 
 class CPS_Resource(BasicResource):
-    """Parking Sensor Resource
+    """Car Park Sensor Resource
 
     Args:
         BasicResource (_type_): _description_
@@ -53,15 +53,15 @@ class CPS_Resource(BasicResource):
     def __init__(self):
         super().__init__()
 
-        self.sensor_id = ""
+        self.node_id = ""
         self.status_isCarParked = False
 
     async def render_get(self, request):
         print(f'Is Car Parked?: {self.status_isCarParked}')
 
         json_obj = {
-            "sensortype": "CPS",
-            "id": {self.sensor_id},
+            "nodetype": "CPS",
+            "id": {self.node_id},
             "data":
                 {
                     "isCarParked": {self.status_isCarParked}
@@ -76,7 +76,7 @@ class CPS_Resource(BasicResource):
         payload = request.payload.decode('ascii')
         print(payload)
         payload_json = json.loads(payload)
-        self.sensor_id = payload_json['sensortype']
+        self.node_id = payload_json['id']
         self.status_isCarParked = payload_json['data']['isCarParked']
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
