@@ -64,8 +64,8 @@ class CPS_Resource(BasicResource):
             "nodetype": "CPS",
             "id": {self.node_id},
             "data":
-                {
-                    "isCarParked": {self.status_isCarParked}
+            {
+                "isCarParked": {self.status_isCarParked}
             }
         }
         payload = json.dumps(json_obj)
@@ -82,5 +82,62 @@ class CPS_Resource(BasicResource):
 
         logging.info(
             f'⚠️ Payload from {self.node_id}: isCarParked is {self.status_isCarParked}')
+
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+
+
+class AQMS_Resource(BasicResource):
+    """Air Quality Monitoring System Resource
+
+    Args:
+        BasicResource (_type_): _description_
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.node_id = ""
+        self.status_temp_cel = 0.0
+        self.status_hum_percent = 0.0
+        self.status_co_ppm = 0.0
+        self.status_co2_ppm = 0.0
+
+    async def render_get(self, request):
+        print('Air Quality Monitoring System')
+        print(f'Node ID: {self.node_id}')
+        print(f'Temperature: {self.status_temp_cel}°C')
+        print(f'Humidity: {self.status_hum_percent}%')
+        print(f'CO: {self.status_co_ppm} PPM')
+        print(f'CO2: {self.status_co2_ppm} PPM')
+
+        json_obj = {
+            "nodetype": "AQMS",
+            "id": {self.node_id},
+            "data":
+            {
+                "temperature_c": {self.status_temp_cel},
+                "humidity_percent": {self.status_hum_percent},
+                "co_level_ppm": {self.status_co_ppm},
+                "co2_level_ppm": {self.status_co2_ppm}
+            }
+        }
+        payload = json.dumps(json_obj)
+        payload = payload.encode('ascii')
+
+        return aiocoap.Message(payload=payload)
+
+    async def render_put(self, request):
+        payload = request.payload.decode('ascii')
+        print(payload)
+        payload_json = json.loads(payload)
+
+        self.node_id = payload_json['id']
+        self.status_temp_cel = payload_json['data']['temperature_c']
+        self.status_hum_percent = payload_json['data']['humidity_percent']
+        self.status_co_ppm = payload_json['data']['co_level_ppm']
+        self.status_co2_ppm = payload_json['data']['co2_level_ppm']
+
+        logging.info(
+            f'⚠️ Payload from {self.node_id}:{self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, CO2: {self.status_co2_ppm} PPM')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
