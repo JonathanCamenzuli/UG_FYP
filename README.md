@@ -39,7 +39,7 @@ Jonathan Camenzuli
   "nodetype": "FDS",
   "id": "fds0001",
   "data": {
-    "temperature": 1,
+    "temperature_c": 1,
     "isIRDetected": true,
     "isSmokeDetected": true
   }
