@@ -29,7 +29,7 @@ async def main():
 
     await asyncio.sleep(2)
 
-    payload = b'{"nodetype": "FDS", "id": "fdsTestClient", "data": {"temperature_c": 25, "isIRDetected": true, "isSmokeDetected": true}'
+    payload = b'{"nodetype": "FDS", "id": "fdsTestClient", "data": {"temperature_c": 25, "isIRDetected": true, "isSmokeDetected": true}}'
     request = Message(code=PUT, payload=payload, uri="coap://localhost/fds")
 
     response = await context.request(request).response
