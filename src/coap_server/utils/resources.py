@@ -84,7 +84,7 @@ class CPS_Resource(BasicResource):
             self.status_isCarParked]
 
         logging.info(
-            f'⚠️ Payload from {self.node_id}: {isCarParked_str}')
+            f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
 
@@ -141,7 +141,7 @@ class AQMS_Resource(BasicResource):
         self.status_co2_ppm = payload_json['data']['co2_level_ppm']
 
         logging.info(
-            f'⚠️ Payload from {self.node_id}:{self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, CO2: {self.status_co2_ppm} PPM')
+            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, CO2: {self.status_co2_ppm} PPM')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
 
@@ -199,6 +199,6 @@ class FDS_Resource(BasicResource):
             self.status_isSmokeDetected]
 
         logging.info(
-            f'⚠️ Payload from {self.node_id}:{self.status_temp_cel}°C, {isIRDetected_str}, {isSmokeDetected_str}')
+            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {isIRDetected_str}, {isSmokeDetected_str}')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
