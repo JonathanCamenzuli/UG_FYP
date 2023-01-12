@@ -80,8 +80,11 @@ class CPS_Resource(BasicResource):
         self.node_id = payload_json['id']
         self.status_isCarParked = payload_json['data']['isCarParked']
 
+        isCarParked_str = ("No vehicle is parked", "Vehicle is parked")[
+            self.status_isCarParked]
+
         logging.info(
-            f'⚠️ Payload from {self.node_id}: isCarParked is {self.status_isCarParked}')
+            f'⚠️ Payload from {self.node_id}: {isCarParked_str}')
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
 
