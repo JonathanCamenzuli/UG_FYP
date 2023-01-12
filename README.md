@@ -61,7 +61,7 @@ Jonathan Camenzuli
     - [ ] Fire Detection System
     - [ ] Air Quality Monitoring
 - [ ] Server Side Software
-  - [ ] Create CoAP Server
+  - [x] Payload handler
   - [ ] Database - InfluxDB
   - [ ] Visualisation Platform - Grafana
   - [ ] NoIP DNS
