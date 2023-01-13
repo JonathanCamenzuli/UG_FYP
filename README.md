@@ -51,7 +51,12 @@ Jonathan Camenzuli
 - [x] Architecture
   - [x] Establish communication protocol (CoAP)
   - [x] Establish what data is to be sent
-- [ ] Arduino Firmware
+- [ ] Arduinos
+  - [ ] Libraries
+    - [ ] Resolve hostname into IP address
+    - [ ] JSON serialisation
+    - [ ] CoAP packets
+    - [ ] MQ Sensors
   - [ ] Boilerplate
     - [x] Car Park Sensor
     - [ ] Fire Detection System
