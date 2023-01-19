@@ -12,12 +12,24 @@
 #
 # @section libraries Libraries
 # - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
+# - python-dotenv by @theskumar (https://github.com/theskumar/python-dotenv)
 #
 
 import aiocoap.resource as resource
 import aiocoap
 import logging
 import json
+from dotenv import load_dotenv
+import os
+from influxdb import Influx
+from influxdb import Sensor
+
+load_dotenv()
+
+influxdb_bucket = os.getenv('INFLUXDB_BUCKET')
+influxdb_url = os.getenv('INFLUXDB_URL')
+influxdb_token = os.getenv('INFLUXDB_TOKEN')
+influxdb_org = os.getenv('INFLUXDB_ORG')
 
 
 class BasicResource(resource.ObservableResource):
@@ -29,6 +41,8 @@ class BasicResource(resource.ObservableResource):
 
         self.has_observers = False
         self.notify_observers = False
+        self.influx_client = Influx(
+            influxdb_bucket, influxdb_url, influxdb_token, influxdb_org)
 
     def notify_observers_check(self):
         while True:
@@ -56,6 +70,7 @@ class CPS_Resource(BasicResource):
 
         self.node_id = ""
         self.status_isCarParked = False
+        self.influx_sensor = Sensor("cps", self.influx_client)
 
     async def render_get(self, request):
         print(f'Is Car Parked?: {self.status_isCarParked}')
@@ -104,6 +119,7 @@ class AQMS_Resource(BasicResource):
         self.status_hum_percent = 0.0
         self.status_co_ppm = 0.0
         self.status_co2_ppm = 0.0
+        self.influx_sensor = Sensor("aqms", self.influx_client)
 
     async def render_get(self, request):
         print('Air Quality Monitoring System')
@@ -160,6 +176,7 @@ class FDS_Resource(BasicResource):
         self.status_temp_cel = 0.0
         self.status_isIRDetected = False
         self.status_isSmokeDetected = False
+        self.influx_sensor = Sensor("fds", self.influx_client)
 
     async def render_get(self, request):
         print('Air Quality Monitoring System')
