@@ -12,20 +12,10 @@
 #
 # @section libraries Libraries
 # - influxdb-client-python by @influxdata (https://github.com/influxdata/influxdb-client-python)
-# - python-dotenv by @theskumar (https://github.com/theskumar/python-dotenv)
 #
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-influxdb_bucket = os.getenv('INFLUXDB_BUCKET')
-influxdb_url = os.getenv('INFLUXDB_URL')
-influxdb_token = os.getenv('INFLUXDB_TOKEN')
-influxdb_org = os.getenv('INFLUXDB_ORG')
 
 
 class Influx:
