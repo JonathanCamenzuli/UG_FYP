@@ -101,6 +101,10 @@ class CPS_Resource(BasicResource):
         logging.info(
             f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
 
+        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("isCarParked", self.status_isCarParked)
+        self.influx_sensor.write()
+
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
 
 
@@ -158,6 +162,14 @@ class AQMS_Resource(BasicResource):
 
         logging.info(
             f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, CO2: {self.status_co2_ppm} PPM')
+
+        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
+        self.influx_sensor.add_value(
+            "humidity_percent", self.status_hum_percent)
+        self.influx_sensor.add_value("co_level_ppm", self.status_co_ppm)
+        self.influx_sensor.add_value("co2_level_ppm", self.status_co2_ppm)
+        self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
 
@@ -217,5 +229,12 @@ class FDS_Resource(BasicResource):
 
         logging.info(
             f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {isIRDetected_str}, {isSmokeDetected_str}')
+
+        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
+        self.influx_sensor.add_value("isIRDetected", self.status_isIRDetected)
+        self.influx_sensor.add_value(
+            "isSmokeDetected", self.status_isSmokeDetected)
+        self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
