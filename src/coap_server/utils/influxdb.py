@@ -38,4 +38,4 @@ class Sensor:
         self.point.field(name, value)
 
     def write(self):
-        self.influx.write(self.point)
+        self.client.write(self.point)
