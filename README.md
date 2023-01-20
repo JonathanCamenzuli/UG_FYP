@@ -67,6 +67,6 @@ Jonathan Camenzuli
     - [ ] Air Quality Monitoring
 - [ ] Server Side Software
   - [x] Payload handler
-  - [ ] Database - InfluxDB
+  - [x] Database - InfluxDB
   - [ ] Visualisation Platform - Grafana
   - [ ] NoIP DNS

@@ -21,8 +21,8 @@ import logging
 import json
 from dotenv import load_dotenv
 import os
-from influxdb import Influx
-from influxdb import Sensor
+from utils.influxdb import Influx
+from utils.influxdb import Sensor
 
 load_dotenv()
 
@@ -101,7 +101,7 @@ class CPS_Resource(BasicResource):
         logging.info(
             f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
 
-        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("isCarParked", self.status_isCarParked)
         self.influx_sensor.write()
 
@@ -163,7 +163,7 @@ class AQMS_Resource(BasicResource):
         logging.info(
             f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, CO2: {self.status_co2_ppm} PPM')
 
-        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
         self.influx_sensor.add_value(
             "humidity_percent", self.status_hum_percent)
@@ -230,7 +230,7 @@ class FDS_Resource(BasicResource):
         logging.info(
             f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {isIRDetected_str}, {isSmokeDetected_str}')
 
-        self.influx_sensor.add_field("node_id", self.node_id)
+        self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
         self.influx_sensor.add_value("isIRDetected", self.status_isIRDetected)
         self.influx_sensor.add_value(
