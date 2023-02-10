@@ -12,8 +12,8 @@
  *
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - ArduinoJson by @bblanchon (https://github.com/bblanchon/ArduinoJson)
  * - General Utility Header File (../../fyp_utils/fyp_utils.h)
+ * - Car Park Sensor Header File (./CarParkSensor_bp.h)
  *
  * @section hardware Hardware
  * -  Arduino Nano
@@ -22,7 +22,7 @@
 
 #include "LowPower.h"
 #include "fyp_utils.h"
-#include <ArduinoJson.h>
+#include "CarParkSensor_bp.h"
 
 #define echoPin 3 // Attach Pin D3 Arduino Nano to pin Echo of HC-SR04
 #define trigPin 2 // Attach Pin D2 Arduino Nano to pin Trig of HC-SR04
@@ -107,29 +107,4 @@ void loop()
   }
   else
     distReadings_i++;
-}
-
-String serializeJson(bool &isCarParked)
-{
-  DynamicJsonDocument jsonDoc(64);
-
-  // Set the values of the JSON packet
-  jsonDoc["nodetype"] = "CPS";
-  jsonDoc["id"] = "cps0001";
-
-  // Creating and setting the value for the data nested object
-  JsonObject data = jsonDoc.createNestedObject("data");
-  data["isCarParked"] = isCarParked;
-
-  // Create a string for storing the serialized JSON document
-  String buffer;
-
-  // Serialize the JSON packet
-  serializeJson(jsonDoc, buffer);
-
-  // Free the memory occupied by the JSON document
-  jsonDoc.clear();
-
-  // Return the serialized JSON document as a string
-  return buffer;
 }
