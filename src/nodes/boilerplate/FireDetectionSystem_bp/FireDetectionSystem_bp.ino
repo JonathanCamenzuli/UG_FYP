@@ -12,6 +12,7 @@
  *
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
+ * - ArduinoJson by @bblanchon (https://github.com/bblanchon/ArduinoJson)
  * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  *
  * @section hardware Hardware
@@ -22,6 +23,7 @@
 
 #include "LowPower.h"
 #include "fyp_utils.h"
+#include <ArduinoJson.h>
 
 #define flameSensorPin 2 // Attach Pin D2 Arduino Nano to Flame Sensor
 #define mqSensorPin 3    // Attach Pin D3 Arduino Nano to MQ-135 Sensor
@@ -66,9 +68,9 @@ void loop()
             {
                 // Indicate that fire is ACTUALLY present and change state
                 if (isFlamePresent == LOW)
-                  Serial.println("Fire is DETECTED: Flame Sensor");
+                    Serial.println("Fire is DETECTED: Flame Sensor");
                 if (gasAverage > thresGas)
-                  Serial.println("Fire is DETECTED: Gas");
+                    Serial.println("Fire is DETECTED: Gas");
 
                 isFireDetected = true;
                 // Turn on radio and transmit change
@@ -95,4 +97,31 @@ void loop()
     }
     else
         gasReadings_i++;
+}
+
+String serializeJson(float &temp, bool &isIRDetected, bool &isSmokeDetected)
+{
+    DynamicJsonDocument jsonDoc(64);
+
+    // Set the values of the JSON packet
+    jsonDoc["nodetype"] = "AQMS";
+    jsonDoc["id"] = "aqms0001";
+
+    // Creating and setting the value for the data nested object
+    JsonObject data = jsonDoc.createNestedObject("data");
+    data["temperature_c"] = temp;
+    data["isIRDetected"] = isIRDetected;
+    data["isSmokeDetected"] = isSmokeDetected;
+
+    // Create a string for storing the serialized JSON document
+    String buffer;
+
+    // Serialize the JSON packet
+    serializeJson(jsonDoc, buffer);
+
+    // Free the memory occupied by the JSON document
+    jsonDoc.clear();
+
+    // Return the serialized JSON document as a string
+    return buffer;
 }
