@@ -12,6 +12,7 @@
  *
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
+ * - ArduinoJson by @bblanchon (https://github.com/bblanchon/ArduinoJson)
  * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  *
  * @section hardware Hardware
@@ -21,6 +22,7 @@
 
 #include "LowPower.h"
 #include "fyp_utils.h"
+#include <ArduinoJson.h>
 
 #define echoPin 3 // Attach Pin D3 Arduino Nano to pin Echo of HC-SR04
 #define trigPin 2 // Attach Pin D2 Arduino Nano to pin Trig of HC-SR04
@@ -34,6 +36,7 @@ float average;                // Average of distReadings[]
 long duration;                // Duration of Ultrasonic wave travel
 int distance;                 // Distance calculated
 bool isVehicleParked = false; // Pretty self explanatory haha
+String jsonString;            // JSON Payload
 
 void setup()
 {
@@ -59,7 +62,7 @@ void loop()
   distance = duration * 0.034 / 2;
   distReadings[distReadings_i] = distance;
 
-  if (distReadings_i == arrayMAX-1)
+  if (distReadings_i == arrayMAX - 1)
   {
     average = averageArray(distReadings, arrayMAX);
     if (average < parkedVehicle_cm)
@@ -68,8 +71,12 @@ void loop()
       {
         // Indicate that car is ACTUALLY parked and change state
         Serial.println("Car is parked");
+
         isVehicleParked = true;
+        jsonString = serializeJson(isVehicleParked);
+
         // Turn on radio and transmit change in parking state
+        Serial.println(jsonString);
       }
     }
     else
@@ -78,8 +85,12 @@ void loop()
       {
         // Indicate that car is ACTUALLY not parked and change state
         Serial.println("Car is not parked");
+
         isVehicleParked = false;
+        jsonString = serializeJson(isVehicleParked);
+
         // Turn on radio and transmit change in parking state
+        Serial.println(jsonString);
       }
     }
     // After finishing reset index to 0
@@ -96,4 +107,29 @@ void loop()
   }
   else
     distReadings_i++;
+}
+
+String serializeJson(bool isCarParked)
+{
+  DynamicJsonDocument jsonDoc(64);
+
+  // Set the values of the JSON packet
+  jsonDoc["nodetype"] = "CPS";
+  jsonDoc["id"] = "cps0001";
+
+  // Creating and setting the value for the data nested object
+  JsonObject data = jsonDoc.createNestedObject("data");
+  data["isCarParked"] = isCarParked;
+
+  // Create a string for storing the serialized JSON document
+  String buffer;
+
+  // Serialize the JSON packet
+  serializeJson(jsonDoc, buffer);
+
+  // Free the memory occupied by the JSON document
+  jsonDoc.clear();
+
+  // Return the serialized JSON document as a string
+  return buffer;
 }
