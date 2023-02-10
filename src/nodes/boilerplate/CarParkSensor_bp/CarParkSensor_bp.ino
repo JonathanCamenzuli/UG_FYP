@@ -109,7 +109,7 @@ void loop()
     distReadings_i++;
 }
 
-String serializeJson(bool isCarParked)
+String serializeJson(bool &isCarParked)
 {
   DynamicJsonDocument jsonDoc(64);
 
