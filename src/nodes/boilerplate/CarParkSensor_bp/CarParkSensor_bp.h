@@ -3,7 +3,7 @@
  *
  * @author Jonathan Camenzuli
  *
- * @brief Car Park Sensor Header File
+ * @brief Boilerplate for Car Park Sensor Header File
  *
  * Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
  * "Miniature implementation of an IoT-based Smart City"
@@ -20,7 +20,7 @@
 #include <ArduinoJson.h>
 
 /**
- * @brief Function returns serialised JSON document
+ * @brief Function returns serialised JSON document for Car Park Sensor
  *
  * @param isCarParked     The `isCarParked` boolean variable
  * @return String         Serialised JSON document

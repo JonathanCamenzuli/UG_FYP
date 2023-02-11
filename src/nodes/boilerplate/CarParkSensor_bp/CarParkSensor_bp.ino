@@ -13,7 +13,7 @@
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
  * - General Utility Header File (../../fyp_utils/fyp_utils.h)
- * - Car Park Sensor Header File (./CarParkSensor_bp.h)
+ * - Boilerplate for Car Park Sensor Header File (./CarParkSensor_bp.h)
  *
  * @section hardware Hardware
  * -  Arduino Nano
