@@ -44,7 +44,7 @@ float averageArray(int *array, int elems)
  */
 String serializeJson(float &temp, bool &isIRDetected, bool &isSmokeDetected)
 {
-    DynamicJsonDocument jsonDoc(64);
+    StaticJsonDocument<64> jsonDoc;
 
     // Set the values of the JSON packet
     jsonDoc["nodetype"] = "FDS";
