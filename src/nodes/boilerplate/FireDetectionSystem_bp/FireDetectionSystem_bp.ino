@@ -12,7 +12,6 @@
  *
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  * - Boilerplate for Air Quality System Header File (./FireDetectionSystem_bp.h)
  *
  * @section hardware Hardware

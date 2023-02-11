@@ -12,7 +12,6 @@
  *
  * @section libraries Libraries
  * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - General Utility Header File (../../fyp_utils/fyp_utils.h)
  * - Boilerplate for Car Park Sensor Header File (./CarParkSensor_bp.h)
  *
  * @section hardware Hardware
@@ -101,8 +100,6 @@ void loop()
     // Putting Arduino to sleep for 40secs (supposedly)
     for (int i = 0; i < 5; i++)
       LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
-
-    // LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
   }
   else
     distReadings_i++;
