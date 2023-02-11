@@ -21,7 +21,6 @@
  */
 
 #include "LowPower.h"
-#include "fyp_utils.h"
 #include "CarParkSensor_bp.h"
 
 #define echoPin 3 // Attach Pin D3 Arduino Nano to pin Echo of HC-SR04

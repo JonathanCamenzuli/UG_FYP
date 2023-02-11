@@ -21,5 +21,4 @@
  */
 
 #include "LowPower.h"
-#include "fyp_utils.h"
 #include "AirQualitySystem_bp.h"

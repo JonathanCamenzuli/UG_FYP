@@ -22,7 +22,6 @@
  */
 
 #include "LowPower.h"
-#include "fyp_utils.h"
 #include "FireDetectionSystem_bp.h"
 
 #define flameSensorPin 2 // Attach Pin D2 Arduino Nano to Flame Sensor
