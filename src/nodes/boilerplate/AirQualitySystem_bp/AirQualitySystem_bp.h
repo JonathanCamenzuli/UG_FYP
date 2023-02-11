@@ -45,7 +45,7 @@ float averageArray(int *array, int elems)
  */
 String serializeJson(float &temp, float &hum, float &co, float &co2)
 {
-    StaticJsonDocument<64> jsonDoc;
+    StaticJsonDocument<96> jsonDoc;
 
     // Set the values of the JSON packet
     jsonDoc["nodetype"] = "AQMS";
