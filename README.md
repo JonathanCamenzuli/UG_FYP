@@ -54,7 +54,7 @@ Jonathan Camenzuli
 - [ ] Arduinos
   - [ ] Libraries
     - [ ] Resolve hostname into IP address
-    - [ ] JSON serialisation
+    - [x] JSON serialisation
     - [ ] CoAP packets
     - [ ] MQ Sensors
   - [ ] Boilerplate
