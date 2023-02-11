@@ -42,7 +42,7 @@ float averageArray(int *array, int elems)
  */
 String serializeJson(bool &isCarParked)
 {
-    DynamicJsonDocument jsonDoc(64);
+    StaticJsonDocument<64> jsonDoc;
 
     // Set the values of the JSON packet
     jsonDoc["nodetype"] = "CPS";
