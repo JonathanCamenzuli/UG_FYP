@@ -1,1 +1,0 @@
-If using these utility files, do not forget to add this folder in the Arduino Libraries folder (that is, if using the Arduino IDE)

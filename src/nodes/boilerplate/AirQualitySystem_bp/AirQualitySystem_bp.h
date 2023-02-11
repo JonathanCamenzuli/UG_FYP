@@ -20,6 +20,21 @@
 #include <ArduinoJson.h>
 
 /**
+ * @brief Function returns average of an array
+ *
+ * @param array     The array itself
+ * @param elems     Number of elements in array
+ * @return float    Sum of array elements divided by number of elements
+ */
+float averageArray(int *array, int elems)
+{
+    long sum = 0L;
+    for (int i = 0; i < elems - 1; i++)
+        sum += array[i];
+    return ((float)sum) / elems;
+}
+
+/**
  * @brief Function returns serialised JSON document for Air Quality Monitoring System
  *
  * @param temp      The `temperature_c` variable
