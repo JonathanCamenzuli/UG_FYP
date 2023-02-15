@@ -19,7 +19,7 @@
 
 #include <ArduinoJson.h>
 
-#define SLEEP_TIME 1000
+#define SLEEP_TIME 40000
 
 /**
  * @brief Function returns average of an array

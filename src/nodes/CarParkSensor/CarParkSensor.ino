@@ -1,5 +1,5 @@
 /**
- * @file CarParkSensor_bp.ino
+ * @file CarParkSensor.ino
  *
  * @author Jonathan Camenzuli
  *
@@ -97,8 +97,12 @@ void loop()
     // Forcing line to be printed before sleep
     Serial.flush();
 
-    // Putting Arduino to sleep for 40secs
-    //LowPower.sleep(SLEEP_TIME);
+    
+    USBDevice.detach();         // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME); // Putting Arduino to sleep for 2secs
+    USBDevice.attach();         // Restarting Serial Connection
+    delay(1000);                // Give time for Serial Connection to take place
+    Serial.println("\nI am awaken!");
   }
   else
     distReadings_i++;
