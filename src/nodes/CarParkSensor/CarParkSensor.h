@@ -11,7 +11,7 @@
  * @date 11/02/2023
  *
  * @section libraries Libraries
- * - ArduinoJson by @bblanchon (https://github.com/bblanchon/ArduinoJson)
+ * - ArduinoJson by Benolt Blanchon (https://github.com/bblanchon/ArduinoJson)
  */
 
 #ifndef __CPS_H
@@ -19,7 +19,7 @@
 
 #include <ArduinoJson.h>
 
-#define SLEEP_TIME 40000
+#define SLEEP_TIME_MS 40000
 
 /**
  * @brief Function returns average of an array

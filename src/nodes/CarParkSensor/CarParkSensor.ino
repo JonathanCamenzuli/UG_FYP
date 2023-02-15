@@ -11,7 +11,7 @@
  * @date 11/02/2023
  *
  * @section libraries Libraries
- * - ArduinoLowPower by @arduino-libraries (https://github.com/arduino-libraries/ArduinoLowPower)
+ * - ArduinoLowPower by Arduino (https://github.com/arduino-libraries/ArduinoLowPower)
  * - Car Park Sensor Header File (./CarParkSensor.h)
  *
  * @section hardware Hardware
@@ -97,11 +97,11 @@ void loop()
     // Forcing line to be printed before sleep
     Serial.flush();
 
-    
-    USBDevice.detach();         // Terminating Serial Connection
-    LowPower.sleep(SLEEP_TIME); // Putting Arduino to sleep for 2secs
-    USBDevice.attach();         // Restarting Serial Connection
-    delay(1000);                // Give time for Serial Connection to take place
+    delay(7000);                   // Give ample time to uploading sketches
+    USBDevice.detach();            // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
+    USBDevice.attach();            // Restarting Serial Connection
+    delay(2000);                   // Give time for Serial Connection to take place
     Serial.println("\nI am awaken!");
   }
   else
