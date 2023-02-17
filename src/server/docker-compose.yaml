@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  coap-server:
+    build: ./coap
+    container_name: coap-server
+    restart: always
+    ports:
+      - "5683:5683"
+    networks:
+      - fyp_smart_city_model
+  
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_volume:/var/lib/influxdb
+    env_file:
+      - influxdb.env
+    networks:
+      - fyp_smart_city_model
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3001:3001"
+    networks:
+      - fyp_smart_city_model
+    volumes:
+      - grafana_volume:/var/lib/influxdb
+
+networks:
+  fyp_smart_city_model: {}
+volumes:
+  influxdb_volume:
+    external: true
+  grafana_volume:
+    external: true
