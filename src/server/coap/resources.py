@@ -11,8 +11,9 @@
 # @date 23/12/2022
 #
 # @section libraries Libraries
-# - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
-# - python-dotenv by @theskumar (https://github.com/theskumar/python-dotenv)
+# - aiocoap by Christian Amsüss (https://github.com/chrysn/aiocoap)
+# - python-dotenv by Saurabh Kumar (https://github.com/theskumar/python-dotenv)
+# - InfluxDB Functionality Classes (./influxdb.py)
 #
 
 import aiocoap.resource as resource
@@ -21,8 +22,8 @@ import logging
 import json
 from dotenv import load_dotenv
 import os
-from utils.influxdb import Influx
-from utils.influxdb import Sensor
+from influxdb import Influx
+from influxdb import Sensor
 
 load_dotenv()
 
