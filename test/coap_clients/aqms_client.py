@@ -29,7 +29,7 @@ async def main():
 
     await asyncio.sleep(2)
 
-    payload = b'{"nodetype": "AQMS", "id": "aqmsTestClient", "data": {"temperature_c": 25, "humidity_percent": 100, "co_level_ppm": 1, "co2_level_ppm": 1}}'
+    payload = b'{"nodetype": "AQMS", "id": "aqmsTestClient", "data": {"temperature_c": 30, "humidity_percent": 55, "co_level_ppm": 55, "co2_level_ppm": 56}}'
     request = Message(code=PUT, payload=payload, uri="coap://localhost/aqms")
 
     response = await context.request(request).response

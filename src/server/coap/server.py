@@ -11,8 +11,8 @@
 # @date 23/12/2022
 #
 # @section libraries Libraries
-# - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
-# - General Utilities (./utils)
+# - aiocoap by Christian Amsüss (https://github.com/chrysn/aiocoap)
+# - CoAP Resource Classes (./resources.py)
 #
 
 import aiocoap.resource as resource
@@ -20,7 +20,7 @@ import aiocoap
 import threading
 import logging
 import asyncio
-from utils import resources
+import resources
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("coap-server").setLevel(logging.DEBUG)
