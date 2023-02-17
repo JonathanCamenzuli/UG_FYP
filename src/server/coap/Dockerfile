@@ -1,23 +1,26 @@
-FROM python:3.9-slim-buster
+# For more information, please refer to https://aka.ms/vscode-docker-python
+FROM python:3.8-slim
 
-# Set the working directory to /app
-WORKDIR /app
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+# Install pip requirements
+COPY requirements.txt .
+RUN python -m pip install -r requirements.txt
 
 # Expose the CoAP port
 EXPOSE 5683
 
-# Set the working directory /app and specify the entrypoint
 WORKDIR /app
-ENTRYPOINT ["python", "server.py"]
+COPY . /app
 
-# Mount the .env file
-VOLUME ["/app/.env"]
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
-# Run server.py when the container launches
-CMD ["python", "server.py"]
+# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
+CMD ["python", ".\server.py"]
