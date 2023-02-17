@@ -68,5 +68,7 @@ Jonathan Camenzuli
 - [ ] Server Side Software
   - [x] Payload handler
   - [x] Database - InfluxDB
-  - [ ] Visualisation Platform - Grafana
+  - [x] Visualisation Platform - Grafana
+  - [ ] Containerization (Docker)
   - [ ] NoIP DNS
+  - [ ] Deployment
