@@ -8,7 +8,7 @@ services:
     ports:
       - "5683:5683"
     networks:
-      - fyp_smart_city_model
+      - fyp_docker_network
   
   influxdb:
     image: influxdb:latest
@@ -21,7 +21,7 @@ services:
     env_file:
       - influxdb.env
     networks:
-      - fyp_smart_city_model
+      - fyp_docker_network
 
   grafana:
     image: grafana/grafana:latest
@@ -30,12 +30,12 @@ services:
     ports:
       - "3001:3001"
     networks:
-      - fyp_smart_city_model
+      - fyp_docker_network
     volumes:
       - grafana_volume:/var/lib/influxdb
 
 networks:
-  fyp_smart_city_model: {}
+  fyp_docker_network: {}
 volumes:
   influxdb_volume:
     external: true
