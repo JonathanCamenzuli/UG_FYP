@@ -39,7 +39,7 @@ def main():
     root.add_resource(['fds'], fdsResource)
 
     asyncio.Task(aiocoap.Context.create_server_context(
-        root, bind=('localhost', 5683)))
+        root, bind=('0.0.0.0', 5683)))
 
     # Spawn a daemon to notify observers when alarm status changes
     observers_notifier = threading.Thread(

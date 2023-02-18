@@ -15,7 +15,7 @@ RUN python -m pip install -r requirements.txt
 RUN python -m pip install python-dotenv
 
 # Expose the CoAP port
-EXPOSE 5683
+EXPOSE 5683/udp
 
 COPY . .
 
