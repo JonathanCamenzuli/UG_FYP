@@ -1,4 +1,5 @@
 version: "3.9"
+name: "fyp_smart_city_model"
 services:
   coap-server:
     build: ./coap

@@ -10,8 +10,9 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 
 # Install pip requirements
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 RUN python -m pip install -r requirements.txt
+RUN python -m pip install python-dotenv
 
 # Expose the CoAP port
 EXPOSE 5683
