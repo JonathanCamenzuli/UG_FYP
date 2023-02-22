@@ -1,6 +1,25 @@
 version: "3.9"
 name: "fyp_smart_city_model"
 services:
+  influxdb:
+    image: influxdb:2.6.1
+    container_name: influxdb
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb_volume:/var/lib/influxdb
+    env_file:
+      - .env
+    environment:
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUXDB_INIT_USERNAME}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUXDB_INIT_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUXDB_INIT_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUXDB_INIT_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUXDB_INIT_ADMIN_TOKEN}
+    networks:
+      - fyp_docker_network
+
   coap-server:
     build: ./coap
     container_name: coap-server
@@ -9,20 +28,7 @@ services:
       - "5683:5683"
     networks:
       - fyp_docker_network
-  
-  influxdb:
-    image: influxdb:latest
-    container_name: influxdb
-    restart: always
-    ports:
-      - "8086:8086"
-    volumes:
-      - influxdb_volume:/var/lib/influxdb
-    env_file:
-      - influxdb.env
-    networks:
-      - fyp_docker_network
-
+      
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -35,7 +41,8 @@ services:
       - grafana_volume:/var/lib/influxdb
 
 networks:
-  fyp_docker_network: {}
+  fyp_docker_network:
+    driver: bridge
 volumes:
   influxdb_volume:
     external: true
