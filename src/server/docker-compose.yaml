@@ -9,7 +9,7 @@ services:
     ports:
       - "5683:5683"
     networks:
-      - fyp_docker_network
+      - fyp_backend
   
   influxdb:
     container_name: influxdb
@@ -23,7 +23,8 @@ services:
     env_file:
       - influxdb.env
     networks:
-      - fyp_docker_network
+      - fyp_backend
+      - fyp_frontend
       
   grafana:
     container_name: grafana
@@ -33,12 +34,14 @@ services:
     ports:
       - "3001:3001"
     networks:
-      - fyp_docker_network
+      - fyp_frontend
     volumes:
       - grafana_volume:/var/lib/influxdb
 
 networks:
-  fyp_docker_network:
+  fyp_backend:
+    driver: bridge
+  fyp_frontend:
     driver: bridge
 volumes:
   influxdb_volume:
