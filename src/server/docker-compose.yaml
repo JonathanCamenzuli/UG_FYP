@@ -1,3 +1,17 @@
+##
+# docker-compose.yaml
+#
+# Jonathan Camenzuli
+#
+# Docker Compose File
+#
+# Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
+# "Miniature implementation of an IoT-based Smart City"
+#
+# 17/02/2023
+#
+#
+
 version: "3.9"
 name: "fyp_smart_city_model"
 services:
@@ -29,14 +43,16 @@ services:
   grafana:
     container_name: grafana
     hostname: grafana
-    image: grafana/grafana:latest
+    image: grafana/grafana:9.3.6
     restart: always
     ports:
       - "3001:3001"
+    volumes:
+      - grafana_volume:/var/lib/grafana
+    env_file:
+      - grafana.env
     networks:
       - fyp_frontend
-    volumes:
-      - grafana_volume:/var/lib/influxdb
 
 networks:
   fyp_backend:

@@ -1,4 +1,5 @@
-docker network create fyp_docker_network
+docker network create fyp_backend
+docker network create fyp_frontend
 docker volume create influxdb_volume
 docker volume create grafana_volume
 docker-compose run --detach -p 5683:5683/udp coap-server
