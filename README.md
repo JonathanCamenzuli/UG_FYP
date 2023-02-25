@@ -70,5 +70,11 @@ Jonathan Camenzuli
   - [x] Database - InfluxDB
   - [x] Visualisation Platform - Grafana
   - [ ] Containerization (Docker)
+    - [x] CoAP Server
+    - [x] InfluxDB
+    - [ ] Grafana
+      - [x] Operational
+      - [ ] Dashboard Setup
+    - [ ] DDNS?
   - [ ] NoIP DNS
   - [ ] Deployment
