@@ -54,7 +54,19 @@ services:
     networks:
       - fyp_frontend
 
+  ip-lookup:
+    container_name: ip-lookup
+    hostname: ip-lookup
+    build: ./ip_lookup
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - fyp_ip_lookup
+
 networks:
+  fyp_ip_lookup:
+    driver: bridge
   fyp_backend:
     driver: bridge
   fyp_frontend:

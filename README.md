@@ -75,6 +75,7 @@ Jonathan Camenzuli
     - [ ] Grafana
       - [x] Operational
       - [ ] Dashboard Setup
+    - [x] Public IP Lookup
     - [ ] DDNS?
   - [ ] NoIP DNS
   - [ ] Deployment
