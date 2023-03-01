@@ -19,7 +19,37 @@
 
 #include <ArduinoJson.h>
 
-#define SLEEP_TIME_MS 40000
+#define SLEEP_TIME_MS 40000           // Sleep time, in milliseconds
+#define PARKED_VEHICLE_THRESHOLD_CM 5 // Distance, in centimetres which indicates vehicle is parked
+
+#define echoPin 7    // Attach Pin D5 Arduino MKR NB 1500 to pin Echo of HC-SR04
+#define trigPin 6    // Attach Pin D4 Arduino MKR NB 1500 to pin Trig of HC-SR04
+#define arrayMAX 300 // Number of elements for averaging array
+
+/**
+ * @brief Function returns average of an array
+ *
+ * @param array     The array itself
+ * @param elems     Number of elements in array
+ * @return float    Sum of array elements divided by number of elements
+ */
+int getUltrasonicReading()
+{
+    long duration; // Duration of Ultrasonic wave travel
+    int distance;  // Distance calculated
+
+    // HC-SR04 shenanigans
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+
+    // Distance Calculation
+    duration = pulseIn(echoPin, HIGH);
+    distance = duration * 0.034 / 2;
+    return distance
+}
 
 /**
  * @brief Function returns average of an array

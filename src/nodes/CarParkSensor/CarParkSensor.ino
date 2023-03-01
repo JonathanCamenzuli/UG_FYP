@@ -20,19 +20,21 @@
  */
 
 #include <ArduinoLowPower.h>
+#include <MKRNB.h>
+#include <coap-simple.h>
 #include "CarParkSensor.h"
+#include "Communication.h"
 
-#define echoPin 7 // Attach Pin D5 Arduino MKR NB 1500 to pin Echo of HC-SR04
-#define trigPin 6 // Attach Pin D4 Arduino MKR NB 1500 to pin Trig of HC-SR04
-
-#define arrayMAX 300       // Number of elements for averaging array
-#define parkedVehicle_cm 5 // Distance which indicates vehicle is parked
+// Library Instances
+NBClient client;
+GPRS gprsAccess;
+NB nbAccess;
+NBUDP Udp;
+Coap coap(Udp);
 
 int distReadings[arrayMAX];   // Array which is used for averaging
 int distReadings_i = 0;       // Index to be used with distReadings[]
 float average;                // Average of distReadings[]
-long duration;                // Duration of Ultrasonic wave travel
-int distance;                 // Distance calculated
 bool isVehicleParked = false; // Pretty self explanatory haha
 String jsonString;            // JSON Payload
 
@@ -48,28 +50,17 @@ void setup()
 
 void loop()
 {
-  // HC-SR04 shenanigans
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-
-  // Distance Calculation
-  duration = pulseIn(echoPin, HIGH);
-  distance = duration * 0.034 / 2;
-  distReadings[distReadings_i] = distance;
+  distReadings[distReadings_i] = getUltrasonicReading();
 
   if (distReadings_i == arrayMAX - 1)
   {
     average = averageArray(distReadings, arrayMAX);
-    if (average < parkedVehicle_cm)
+    if (average < PARKED_VEHICLE_THRESHOLD_CM)
     {
       if (!isVehicleParked)
       {
         // Indicate that car is ACTUALLY parked and change state
         Serial.println("Car is parked");
-
         isVehicleParked = true;
         jsonString = serializeJson(isVehicleParked);
 
@@ -83,7 +74,6 @@ void loop()
       {
         // Indicate that car is ACTUALLY not parked and change state
         Serial.println("Car is not parked");
-
         isVehicleParked = false;
         jsonString = serializeJson(isVehicleParked);
 
