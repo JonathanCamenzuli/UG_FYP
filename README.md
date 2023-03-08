@@ -76,6 +76,6 @@ Jonathan Camenzuli
       - [x] Operational
       - [ ] Dashboard Setup
     - [x] Public IP Lookup
-    - [ ] DDNS?
-  - [ ] NoIP DNS
+    - ~~[ ] DDNS?~~
+  - [x] NoIP DNS
   - [ ] Deployment
