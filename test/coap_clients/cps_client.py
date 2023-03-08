@@ -12,13 +12,24 @@
 #
 # @section libraries Libraries
 # - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
+# - python-dotenv by Saurabh Kumar (https://github.com/theskumar/python-dotenv)
 #
 
 import logging
 import asyncio
+import os
 from aiocoap import *
+from dotenv import load_dotenv
 
 logging.basicConfig(level=logging.INFO)
+
+load_dotenv()
+
+coap_domain = os.getenv('COAP_DOMAIN')
+coap_port = os.getenv('COAP_PORT')
+
+endpoint = "cps"
+uri = f"coap://{coap_domain}:{coap_port}/{endpoint}"
 
 
 async def main():
@@ -30,7 +41,7 @@ async def main():
     await asyncio.sleep(2)
 
     payload = b'{"nodetype": "CPS", "id": "cpsTestClient", "data": {"isCarParked": true}}'
-    request = Message(code=PUT, payload=payload, uri="coap://localhost/cps")
+    request = Message(code=PUT, payload=payload, uri=uri)
 
     response = await context.request(request).response
 
