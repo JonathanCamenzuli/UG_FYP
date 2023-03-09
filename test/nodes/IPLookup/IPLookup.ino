@@ -93,9 +93,7 @@ void loop()
     {
         String content;
         while (client.available())
-        {
             content += (char)client.read();
-        }
 
         // Find the index of the last newline character
         int lastNewlineIndex = -1;
@@ -112,7 +110,12 @@ void loop()
         {
             // Extract the substring from the last newline character to the end of the string
             String lastLine = content.substring(lastNewlineIndex + 1);
-            Serial.println(lastLine);
+            IPAddress ipaddress;
+            if (ipaddress.fromString(lastLine))
+                // print the parsed IPAddress
+                Serial.println(ipaddress);
+            else
+                Serial.println("Unparsable IP Address");
         }
     }
 
