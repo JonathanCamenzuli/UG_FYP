@@ -12,6 +12,7 @@
  *
  * @section hardware Hardware
  * -  Arduino Nano
+ * -  Arduino MKR NB 1500
  * -  HC-SR04 Ultrasonic Sensor
  */
 
