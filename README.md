@@ -52,8 +52,8 @@ Jonathan Camenzuli
   - [x] Establish communication protocol (CoAP)
   - [x] Establish what data is to be sent
 - [ ] Arduinos
+  - [x] Resolve hostname into IP address
   - [ ] Libraries
-    - [ ] Resolve hostname into IP address
     - [x] JSON serialisation
     - [ ] CoAP packets
     - [ ] MQ Sensors
