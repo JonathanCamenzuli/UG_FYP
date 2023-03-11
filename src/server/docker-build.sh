@@ -30,10 +30,10 @@ docker compose run --detach -p 3001:3001/tcp grafana
 docker compose run --detach -p 80:80 ip-lookup
 
 # Get ID of containers
-coap_id = $(docker ps --quiet --filter 'name=^fyp_smart_city_model_coap-server')
-influxdb_id = $(docker ps --quiet --filter 'name=^fyp_smart_city_model_influxdb')
-grafana_id = $(docker ps --quiet --filter 'name=^fyp_smart_city_model_grafana')
-iplookup_id = $(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
+coap_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_coap-server')
+influxdb_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_influxdb')
+grafana_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_grafana')
+iplookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
 
 # Stop Containers
 docker stop --time 1 $coap_id
