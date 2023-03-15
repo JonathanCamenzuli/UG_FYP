@@ -252,13 +252,16 @@ class Test_Resource(BasicResource):
         super().__init__()
 
         self.node_id = ""
-        self.test_val = 0.0
+        self.status_testValue = 0.0
         self.influx_sensor = Sensor("test", self.influx_client)
 
     async def render_get(self, request):
+        print('Test Endpoint')
+        print(f'Node ID: {self.node_id}')
+        print(f'Test Value: {self.testValue}')
 
         json_obj = {
-            "nodetype": "CPS",
+            "nodetype": "TEST",
             "id": {self.node_id},
             "data":
             {
@@ -275,12 +278,12 @@ class Test_Resource(BasicResource):
         print(payload)
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
-        self.test_val = payload_json['data']['testValue']
+        self.testValue = payload_json['data']['testValue']
 
         logging.info(f'⚠️  Payload from {self.node_id}: TEST PACKET RECEIVED')
 
         self.influx_sensor.add_value("node_id", self.node_id)
-        self.influx_sensor.add_value("testValue", self.test_val)
+        self.influx_sensor.add_value("testValue", self.testValue)
         self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))

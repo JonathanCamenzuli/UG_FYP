@@ -34,9 +34,15 @@ def main():
     aqmsResource = resources.AQMS_Resource()
     fdsResource = resources.FDS_Resource()
 
+    # TESTING PURPOSES ONLY
+    testResource = resources.Test_Resource()
+
     root.add_resource(['cps'], cpsResource)
     root.add_resource(['aqms'], aqmsResource)
     root.add_resource(['fds'], fdsResource)
+
+    # TESTING PURPOSES ONLY
+    root.add_resource(['test'], testResource)
 
     asyncio.Task(aiocoap.Context.create_server_context(
         root, bind=('0.0.0.0', 5683)))
