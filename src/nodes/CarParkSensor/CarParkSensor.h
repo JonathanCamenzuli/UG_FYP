@@ -48,7 +48,7 @@ int getUltrasonicReading()
     // Distance Calculation
     duration = pulseIn(echoPin, HIGH);
     distance = duration * 0.034 / 2;
-    return distance
+    return distance;
 }
 
 /**
