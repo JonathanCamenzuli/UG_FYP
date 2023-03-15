@@ -5,6 +5,18 @@ Jonathan Camenzuli
 
 ## Payloads to be handled
 
+### Test Payload
+
+```json
+{
+  "nodetype": "TEST",
+  "id": "test0001",
+  "data": {
+    "test_value": 1.1
+  }
+}
+```
+
 ### Parking Sensor
 
 ```json
