@@ -239,3 +239,48 @@ class FDS_Resource(BasicResource):
         self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+
+
+class Test_Resource(BasicResource):
+    """Test Resource
+
+    Args:
+        BasicResource (_type_): _description_
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.node_id = ""
+        self.test_val = 0.0
+        self.influx_sensor = Sensor("test", self.influx_client)
+
+    async def render_get(self, request):
+
+        json_obj = {
+            "nodetype": "CPS",
+            "id": {self.node_id},
+            "data":
+            {
+                "testValue": {self.status_isCarParked}
+            }
+        }
+        payload = json.dumps(json_obj)
+        payload = payload.encode('ascii')
+
+        return aiocoap.Message(payload=payload)
+
+    async def render_put(self, request):
+        payload = request.payload.decode('ascii')
+        print(payload)
+        payload_json = json.loads(payload)
+        self.node_id = payload_json['id']
+        self.test_val = payload_json['data']['testValue']
+
+        logging.info(f'⚠️  Payload from {self.node_id}: TEST PACKET RECEIVED')
+
+        self.influx_sensor.add_value("node_id", self.node_id)
+        self.influx_sensor.add_value("testValue", self.test_val)
+        self.influx_sensor.write()
+
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
