@@ -274,8 +274,8 @@ class Test_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
+        logging.info(f'Payload Received is as follows: {payload}')
         payload = request.payload.decode('ascii')
-        print(payload)
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
         self.testValue = payload_json['data']['testValue']
