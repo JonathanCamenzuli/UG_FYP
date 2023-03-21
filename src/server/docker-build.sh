@@ -36,10 +36,10 @@ grafana_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_grafana')
 iplookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
 
 # Stop Containers
-docker stop --time 1 $coap_id
-docker stop --time 1 $influxdb_id
-docker stop --time 1 $grafana_id
-docker stop --time 1 $iplookup_id
+docker stop --time 0 $coap_id
+docker stop --time 0 $influxdb_id
+docker stop --time 0 $grafana_id
+docker stop --time 0 $iplookup_id
 
 # Update Restart Policy
 docker update --restart always $coap_id
