@@ -21,6 +21,7 @@
 
 #include <ArduinoLowPower.h>
 #include <MKRNB.h>
+#include <ArduinoJson.h>
 #include <coap-simple.h>
 #include "arduino_secrets.h"
 #include "CoapTest.h"
@@ -35,7 +36,7 @@ char endpoint[] = "/";
 uint32_t httpPort = SECRET_HTTP_PORT;
 
 // TEMPORARY!!
-uint32_t coapIP = SECRET_IP_ADDRESS;
+char coapIP[] = SECRET_IP_ADDRESS;
 
 // CoAP server endpoint and port
 char coapEndpoint[] = SECRET_COAP_ENDPOINT;
@@ -53,11 +54,15 @@ NBUDP udp;
 Coap coap(udp);
 GPRS gprsAccess;
 
-// TEMPORARY!!
-IPAddress coapServer_ip(coapIP);
+// TEMPORARY !!
+// IPAddress coapServer_ip(coapIP);
+IPAddress coapServer_ip;
 
 void setup()
 {
+
+  coapServer_ip.fromString((coapIP));
+
   // Open serial communication and wait for port to open
   Serial.begin(115200);
   while (!Serial)
@@ -144,12 +149,48 @@ void loop()
   //   connectNB(nbAccess, gprsAccess);
   // }
 
+  // TEMPORARY !!
+
   Serial.print("Sending packet to CoAP Server");
-  sendPacket(coapServer_ip, coap);
+
+  // Generate random number
+  float rand = 20 + random(0, 9);
+
+  // Package JSON Document
+  // char *jsonDoc = serialiseJson(rand);
+
+  //////////////////////////////////////// serialise
+  // Size calculated on https://arduinojson.org/v6/assistant/
+  StaticJsonDocument<96> jsonDoc;
+
+  // Create a string for storing the serialized JSON document
+  char buffer[BUF_SIZE];
+
+  // Set the values of the JSON packet
+  jsonDoc["nodetype"] = "TEST";
+  jsonDoc["id"] = "test0001";
+
+  // Creating and setting the value for the data nested object
+  JsonObject data = jsonDoc.createNestedObject("data");
+  data["testValue"] = rand;
+
+  // Serialize the JSON document
+  serializeJson(jsonDoc, buffer);
+
+  // Free the memory occupied by the JSON document
+  jsonDoc.clear();
+
+  Serial.println(buffer);
+  // Serial.println(jsonDoc);
+
+  // uint16_t msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT1, jsonDoc);
+  uint16_t msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, buffer);
+
+  // sendPacket(coapServer_ip, coap);
   Serial.println("done.");
 
   // Continue CoAP operations (handle ACK, send response)
-  // coap.loop();
+  coap.loop();
 
   Serial.println("Wait 10s before sending again...");
   delay(10000);

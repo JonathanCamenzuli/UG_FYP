@@ -25,7 +25,7 @@
 #include "arduino_secrets.h"
 
 #define SLEEP_TIME_MS 40000 // Sleep time, in milliseconds
-#define BUF_SIZE 200        // Buffer Size
+#define BUF_SIZE 1000        // Buffer Size
 
 /**
  * @brief Function returns serialised JSON document for CoAP Test
@@ -54,6 +54,8 @@ char *serialiseJson(float testVal)
     // Free the memory occupied by the JSON document
     jsonDoc.clear();
 
+    Serial.println(buffer);
+
     // Return the serialized JSON document as a string
     return buffer;
 }
@@ -79,22 +81,22 @@ uint16_t sendPacket(IPAddress coapServer_ip, Coap coap)
 
     // Package JSON Document
     char *jsonDoc = serialiseJson(rand);
-    char buffer[BUF_SIZE];
+    Serial.println(jsonDoc);
 
-    uint32_t buf_size = snprintf(buffer, BUF_SIZE, jsonDoc);
+    uint16_t msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT1, jsonDoc);
 
-    // Send a CoAP POST message to CoAP server
-    uint16_t msgid = coap.send(
-        coapServer_ip,        // IP address
-        SECRET_COAP_PORT,     // Port
-        SECRET_COAP_ENDPOINT, // CoAP endpoint
-        COAP_CON,             // CoAP packet type (con, noncon, ack, reset)
-        COAP_POST,            // CoAP method
-        NULL,                 // CoAP token
-        0,                    // CoAP token length
-        (uint8_t *)buffer,    // Message payload
-        buf_size              // Message payload length
-    );
+    // // Send a CoAP POST message to CoAP server
+    // uint16_t msgid = coap.send(
+    //     coapServer_ip,        // IP address
+    //     SECRET_COAP_PORT,     // Port
+    //     SECRET_COAP_ENDPOINT, // CoAP endpoint
+    //     COAP_CON,             // CoAP packet type (con, noncon, ack, reset)
+    //     COAP_POST,            // CoAP method
+    //     NULL,                 // CoAP token
+    //     0,                    // CoAP token length
+    //     (uint8_t *)buffer,    // Message payload
+    //     buf_size              // Message payload length
+    // );
 
     return msgid;
 }
