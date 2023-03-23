@@ -274,8 +274,8 @@ class Test_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
-        logging.info(f'Payload Received is as follows: {payload}')
-        payload = request.payload.decode('ascii')
+        logging.info(f'Payload Received is as follows: {request.payload}')
+        payload = request.payload.decode('utf8')
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
         self.testValue = payload_json['data']['testValue']
@@ -286,4 +286,4 @@ class Test_Resource(BasicResource):
         self.influx_sensor.add_value("testValue", self.testValue)
         self.influx_sensor.write()
 
-        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
