@@ -67,7 +67,7 @@ Jonathan Camenzuli
   - [x] Resolve hostname into IP address
   - [ ] Libraries
     - [x] JSON serialisation
-    - [ ] CoAP packets
+    - [x] CoAP packets
     - [ ] MQ Sensors
   - [ ] Boilerplate
     - [x] Car Park Sensor
