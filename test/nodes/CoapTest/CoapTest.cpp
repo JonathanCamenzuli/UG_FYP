@@ -22,8 +22,6 @@ void serialiseJson(float &testVal, char *buffer)
 
     // Free the memory occupied by the JSON document
     jsonDoc.clear();
-
-    // Serial.println(buffer);
 }
 
 bool connectNB(NB nbAccess, GPRS gprsAccess)
@@ -40,16 +38,15 @@ bool connectNB(NB nbAccess, GPRS gprsAccess)
     return true;
 }
 
-uint16_t sendPacket(IPAddress &coapServer_ip, Coap &coap, float &rand)
+void sendPacket(IPAddress &coapServer_ip, Coap &coap, float &rand)
 {
     // Create a string for storing the serialized JSON document
-    char jsonDocBuf[BUF_SIZE];
+    char *jsonDocBuf = (char*)malloc(BUF_SIZE);
 
     // Package JSON Document
     serialiseJson(rand, jsonDocBuf);
     Serial.println(jsonDocBuf);
 
-    uint16_t msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, jsonDocBuf);
+    coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, jsonDocBuf);
     free(jsonDocBuf);
-    return msgid;
 }

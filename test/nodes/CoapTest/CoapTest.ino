@@ -141,10 +141,6 @@ void loop()
 
   Serial.println("done.");
 
-  // Continue CoAP operations (handle ACK, send response)
-  coap.loop();
-
+  Serial.println("Wait 30s before sending again...");
   delay(30000);
-  Serial.println("30s passed...");
-  // Serial.println("Wait 30s before sending again...");
 }

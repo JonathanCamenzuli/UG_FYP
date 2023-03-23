@@ -23,7 +23,7 @@
 #include <coap-simple.h>
 
 #define SLEEP_TIME_MS 40000 // Sleep time, in milliseconds
-#define BUF_SIZE 500        // Buffer Size
+#define BUF_SIZE 250        // Buffer Size
 
 /**
  * @brief Function returns serialised JSON document for CoAP Test
@@ -34,6 +34,6 @@ void serialiseJson(float &testVal, char *buffer);
 
 bool connectNB(NB nbAccess, GPRS gprsAccess);
 
-uint16_t sendPacket(IPAddress &coapServer_ip, Coap &coap, float &rand);
+void sendPacket(IPAddress &coapServer_ip, Coap &coap, float &rand);
 
 #endif
