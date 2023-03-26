@@ -30,92 +30,33 @@
 char pinNumber[] = SECRET_PINNUMBER;
 char apn[] = SECRET_GPRS_APN;
 
-// IP Lookup URL, endpoint and port
+// IP Lookup URL, Endpoint and Port
 char server[] = SECRET_HOSTNAME;
 char endpoint[] = "/";
 uint32_t httpPort = SECRET_HTTP_PORT;
 
-// TEMPORARY!!
-char coapIP[] = SECRET_IP_ADDRESS;
-
-// CoAP server endpoint and port
+// CoAP Server Endpoint and Port
 char coapEndpoint[] = SECRET_COAP_ENDPOINT;
 uint32_t coapPort = SECRET_COAP_PORT;
 
-// Radio Access Technology (7 is for LTE-M and 8 is for NB-IoT)
-uint32_t rat = SECRET_RAT;
-
-bool debug = false;
-
-// initialize the library instance
-NB nbAccess(debug);
-NBClient client;
+// Initialise any Library Instances
+NBClient nbClient;
 NBUDP udp;
 Coap coap(udp);
+HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
-
-// TEMPORARY !!
-// IPAddress coapServer_ip(coapIP);
+NB nbAccess;
 IPAddress coapServer_ip;
 
 void setup()
 {
-  // Temporary
-  coapServer_ip.fromString((coapIP));
 
   // Open serial communication and wait for port to open
-  Serial.begin(115200);
+  Serial.begin(9600);
   while (!Serial)
     ;
 
-  // Wait for it to get ready
-  Serial.print("Waiting for modem to get ready...");
-  MODEM.begin();
-  while (!MODEM.noop())
-    ;
-  Serial.println("done.");
-
-  // Disconnect from any connected networks
-  Serial.print("Disconnecting from network...");
-  MODEM.send("AT+COPS=2");
-  MODEM.waitForResponse(2000);
-  Serial.println("done.");
-
-  // Set RAT (NB-IoT or LTE-M)
-  Serial.print("Setting Radio Access Technology to NB-IoT or LTE-M (7 is for LTE-M and 8 is for NB-IoT)...");
-  MODEM.sendf("AT+URAT=%d", rat);
-  MODEM.waitForResponse(2000);
-  Serial.println("done.");
-
-  // Apply changes and save configuration
-  Serial.print("Applying changes and saving configuration...");
-  MODEM.send("AT+CFUN=15");
-  do
-  {
-    delay(1000);
-    MODEM.noop();
-  } while (MODEM.waitForResponse(1000) != 1);
-  Serial.println("done.");
-
-  // Turn radio on
-  Serial.print("Modem ready, turn radio on in order to configure it...");
-  MODEM.send("AT+CFUN=1");
-  MODEM.waitForResponse(2000);
-  Serial.println("done.");
-
-  // Check attachment
-  Serial.print("Check attachment until CSQ RSSI indicator is less than 99...");
-  String response;
-  int status = 99;
-  while (status > 98 && status > 0)
-  {
-    MODEM.send("AT+CSQ");
-    MODEM.waitForResponse(2000);
-    String sub = response.substring(6, 8);
-    status = sub.toInt(); // Will return 0 if no valid number is found
-    delay(1000);
-  }
-  Serial.println("done.");
+  setupModem();
 
   // Check if connected and if not, reconnect
   if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY)
@@ -129,10 +70,12 @@ void setup()
 
 void loop()
 {
-  // Seed random number generator with noise from pin 0
+  getIPAddress(coapServer_ip, httpClient);
+
   randomSeed(analogRead(0));
 
-  Serial.print("Sending packet to CoAP Server");
+  Serial.print("Sending packet to CoAP Server on ");
+  Serial.println(coapServer_ip);
 
   // Generate random number
   float rand = 20 + random(0, 9);
