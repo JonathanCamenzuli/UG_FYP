@@ -85,12 +85,12 @@ class CPS_Resource(BasicResource):
             }
         }
         payload = json.dumps(json_obj)
-        payload = payload.encode('ascii')
+        payload = payload.encode('utf8')
 
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
-        payload = request.payload.decode('ascii')
+        payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
@@ -106,7 +106,7 @@ class CPS_Resource(BasicResource):
         self.influx_sensor.add_value("isCarParked", self.status_isCarParked)
         self.influx_sensor.write()
 
-        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
 
 
 class AQMS_Resource(BasicResource):
@@ -146,12 +146,12 @@ class AQMS_Resource(BasicResource):
             }
         }
         payload = json.dumps(json_obj)
-        payload = payload.encode('ascii')
+        payload = payload.encode('utf8')
 
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
-        payload = request.payload.decode('ascii')
+        payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
 
@@ -172,7 +172,7 @@ class AQMS_Resource(BasicResource):
         self.influx_sensor.add_value("co2_level_ppm", self.status_co2_ppm)
         self.influx_sensor.write()
 
-        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
 
 
 class FDS_Resource(BasicResource):
@@ -209,12 +209,12 @@ class FDS_Resource(BasicResource):
             }
         }
         payload = json.dumps(json_obj)
-        payload = payload.encode('ascii')
+        payload = payload.encode('utf8')
 
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
-        payload = request.payload.decode('ascii')
+        payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
 
@@ -238,7 +238,7 @@ class FDS_Resource(BasicResource):
             "isSmokeDetected", self.status_isSmokeDetected)
         self.influx_sensor.write()
 
-        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('ascii'))
+        return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
 
 
 class Test_Resource(BasicResource):
@@ -269,7 +269,7 @@ class Test_Resource(BasicResource):
             }
         }
         payload = json.dumps(json_obj)
-        payload = payload.encode('ascii')
+        payload = payload.encode('utf8')
 
         return aiocoap.Message(payload=payload)
 
