@@ -11,7 +11,6 @@
 # @date 23/12/2022
 #
 # @section libraries Libraries
-# - aiocoap by Christian Amsüss (https://github.com/chrysn/aiocoap)
 # - CoAP Resource Classes (./resources.py)
 #
 

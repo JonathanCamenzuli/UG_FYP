@@ -11,8 +11,6 @@
 # @date 23/12/2022
 #
 # @section libraries Libraries
-# - aiocoap by Christian Amsüss (https://github.com/chrysn/aiocoap)
-# - python-dotenv by Saurabh Kumar (https://github.com/theskumar/python-dotenv)
 # - InfluxDB Functionality Classes (./influxdb.py)
 #
 
