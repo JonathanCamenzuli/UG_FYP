@@ -3,6 +3,16 @@
 Final Year Project in Computer Engineering (2022/23)
 Jonathan Camenzuli
 
+## Libraries
+
+# Physical Nodes
+
+- [ArduinoHttpLibrary](https://github.com/arduino-libraries/ArduinoHttpClient) by Arduino Libraries
+- [ArduinoLowPower](https://github.com/arduino-libraries/ArduinoLowPower) by Arduino Libraries
+- [MKRNB](https://github.com/arduino-libraries/MKRNB) by Arduino Libraries
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) by Benolt Blanchon
+- [CoAP-simple-library](https://github.com/hirotakaster/CoAP-simple-library) by Hirotaka Niisato
+
 ## Payloads to be handled
 
 ### Test Payload
