@@ -5,13 +5,21 @@ Jonathan Camenzuli
 
 ## Libraries
 
-# Physical Nodes
+### Server
 
-- [ArduinoHttpLibrary](https://github.com/arduino-libraries/ArduinoHttpClient) by Arduino Libraries
-- [ArduinoLowPower](https://github.com/arduino-libraries/ArduinoLowPower) by Arduino Libraries
-- [MKRNB](https://github.com/arduino-libraries/MKRNB) by Arduino Libraries
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) by Benolt Blanchon
-- [CoAP-simple-library](https://github.com/hirotakaster/CoAP-simple-library) by Hirotaka Niisato
+- [aiocoap](https://github.com/chrysn/aiocoap) by [Christian Amsüss](https://github.com/chrysn)
+- [influxdb-client-python](https://github.com/influxdata/influxdb-client-python) by [InfluxData](https://github.com/influxdata)
+- [requests](https://github.com/psf/requests) by [Python Software Foundation](https://github.com/psf)
+- [flask](https://github.com/pallets/flask) by [Pallets Projects](https://github.com/pallets)
+- [python-dotenv](https://github.com/theskumar/python-dotenv) by [Saurabh Kumar](https://github.com/theskumar)
+
+### Physical Nodes
+
+- [ArduinoHttpLibrary](https://github.com/arduino-libraries/ArduinoHttpClient) by [Arduino Libraries](https://github.com/arduino-libraries)
+- [ArduinoLowPower](https://github.com/arduino-libraries/ArduinoLowPower) by [Arduino Libraries](https://github.com/arduino-libraries)
+- [MKRNB](https://github.com/arduino-libraries/MKRNB) by [Arduino Libraries](https://github.com/arduino-libraries)
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) by [Benolt Blanchon](https://github.com/bblanchon)
+- [CoAP-simple-library](https://github.com/hirotakaster/CoAP-simple-library) by [Hirotaka Niisato](https://github.com/hirotakaster)
 
 ## Payloads to be handled
 

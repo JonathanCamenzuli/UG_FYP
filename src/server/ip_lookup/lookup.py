@@ -10,10 +10,6 @@
 #
 # @date 26/02/2022
 #
-# @section libraries Libraries
-# - requests by Python Software Foundation (https://github.com/psf/requests)
-# - flask by Pallets Projects (https://github.com/pallets/flask)
-#
 
 import requests
 import flask
