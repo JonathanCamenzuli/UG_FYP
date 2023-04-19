@@ -68,7 +68,7 @@ class CPS_Resource(BasicResource):
         super().__init__()
 
         self.node_id = ""
-        self.status_isCarParked = False
+        self.status_isCarParked = 0
         self.influx_sensor = Sensor("cps", self.influx_client)
 
     async def render_get(self, request):
@@ -92,13 +92,11 @@ class CPS_Resource(BasicResource):
         print(payload)
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
-        self.status_isCarParked = payload_json['data']['isCarParked']
+        self.status_isCarParked = int(payload_json['data']['isCarParked'] == True) 
 
-        isCarParked_str = ("No vehicle is parked", "Vehicle is parked")[
-            self.status_isCarParked]
+        isCarParked_str = ("No vehicle is parked", "Vehicle is parked")[bool(self.status_isCarParked)]
 
-        logging.info(
-            f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
+        logging.info(f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
 
         self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("isCarParked", self.status_isCarParked)
@@ -185,8 +183,8 @@ class FDS_Resource(BasicResource):
 
         self.node_id = ""
         self.status_temp_cel = 0.0
-        self.status_isIRDetected = False
-        self.status_isSmokeDetected = False
+        self.status_isIRDetected = 0
+        self.status_isSmokeDetected = 0
         self.influx_sensor = Sensor("fds", self.influx_client)
 
     async def render_get(self, request):
@@ -218,22 +216,18 @@ class FDS_Resource(BasicResource):
 
         self.node_id = payload_json['id']
         self.status_temp_cel = payload_json['data']['temperature_c']
-        self.status_isIRDetected = payload_json['data']['isIRDetected']
-        self.status_isSmokeDetected = payload_json['data']['isSmokeDetected']
+        self.status_isIRDetected = int(payload_json['data']['isIRDetected'] == True) 
+        self.status_isSmokeDetected = int(payload_json['data']['isSmokeDetected'] == True) 
 
-        isIRDetected_str = ("IR not detected", "IR detected")[
-            self.status_isIRDetected]
-        isSmokeDetected_str = ("Smoke not detected", "Smoke detected")[
-            self.status_isSmokeDetected]
+        isIRDetected_str = ("IR not detected", "IR detected")[bool(self.status_isIRDetected)]
+        isSmokeDetected_str = ("Smoke not detected", "Smoke detected")[bool(self.status_isSmokeDetected)]
 
-        logging.info(
-            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {isIRDetected_str}, {isSmokeDetected_str}')
+        logging.info(f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {bool(isIRDetected_str)}, {bool(isSmokeDetected_str)}')
 
         self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
         self.influx_sensor.add_value("isIRDetected", self.status_isIRDetected)
-        self.influx_sensor.add_value(
-            "isSmokeDetected", self.status_isSmokeDetected)
+        self.influx_sensor.add_value("isSmokeDetected", self.status_isSmokeDetected)
         self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
@@ -263,7 +257,7 @@ class Test_Resource(BasicResource):
             "id": {self.node_id},
             "data":
             {
-                "testValue": {self.status_isCarParked}
+                "testValue": {self.status_testValue}
             }
         }
         payload = json.dumps(json_obj)
