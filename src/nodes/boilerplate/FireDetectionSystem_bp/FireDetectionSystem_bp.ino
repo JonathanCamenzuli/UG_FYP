@@ -10,10 +10,6 @@
  *
  * @date 13/12/2022
  *
- * @section libraries Libraries
- * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - Boilerplate for Air Quality System Header File (./FireDetectionSystem_bp.h)
- *
  * @section hardware Hardware
  * - Arduino Nano
  * - Flame Sensor Module

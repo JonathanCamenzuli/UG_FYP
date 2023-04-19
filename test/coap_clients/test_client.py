@@ -10,10 +10,6 @@
 #
 # @date 06/01/2023
 #
-# @section libraries Libraries
-# - aiocoap by @chrysn (https://github.com/chrysn/aiocoap)
-# - python-dotenv by Saurabh Kumar (https://github.com/theskumar/python-dotenv)
-#
 
 import logging
 import asyncio

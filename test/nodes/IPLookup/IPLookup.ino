@@ -10,10 +10,6 @@
  *
  * @date 06/03/2023
  *
- * @section libraries Libraries
- * - MKRNB by Arduino Libraries (https://github.com/arduino-libraries/MKRNB)
- * - ArduinoHttpClient by Arduino Libraries (https://github.com/arduino-libraries/ArduinoHttpClient)
- *
  * @section hardware Hardware
  * -  Arduino MKR NB 1500
  */
