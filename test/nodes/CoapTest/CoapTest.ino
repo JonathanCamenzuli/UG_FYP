@@ -10,12 +10,6 @@
  *
  * @date 15/03/2023
  *
- * @section libraries Libraries
- * - ArduinoJson by Benoît Blanchon (https://github.com/bblanchon/ArduinoJson)
- * - MKRNB by Arduino Libraries (https://github.com/arduino-libraries/MKRNB)
- * - CoAP-simple-library by Hirotaka Niisato (https://github.com/hirotakaster/CoAP-simple-library)
- * - CoAP Test Header File (./CoapTest.h)
- *
  * @section hardware Hardware
  * -  Arduino MKR NB 1500
  */

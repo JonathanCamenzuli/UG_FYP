@@ -11,9 +11,6 @@
  * @date 15/03/2023
  *
  * @section libraries Libraries
- * - MKRNB by Arduino Libraries (https://github.com/arduino-libraries/MKRNB)
- * - ArduinoJson by Benolt Blanchon (https://github.com/bblanchon/ArduinoJson)
- * - CoAP-simple-library by Hirotaka Niisato (https://github.com/hirotakaster/CoAP-simple-library)
  */
 
 #ifndef __COAPTEST_H
@@ -43,9 +40,10 @@ void setupModem();
 bool connectNB(NB &nbAccess, GPRS &gprsAccess);
 
 /**
- * @brief Function returns serialised JSON document for CoAP Test
+ * @brief Creates Serialised JSON document for CoAP Test
  *
- * @return String Serialised JSON Document
+ * @param testVal   A float used for testing purposes
+ * @param buffer    Buffer to store serialised JSON document
  */
 void serialiseJson(float &testVal, char *buffer);
 

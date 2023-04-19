@@ -1,6 +1,6 @@
 # Miniature implementation of an IoT-based Smart City
 
-Final Year Project in Computer Engineering (2022/23)
+Final Year Project in Computer Engineering (2022/23)\
 Jonathan Camenzuli
 
 ## Libraries
@@ -18,8 +18,9 @@ Jonathan Camenzuli
 - [ArduinoHttpLibrary](https://github.com/arduino-libraries/ArduinoHttpClient) by [Arduino Libraries](https://github.com/arduino-libraries)
 - [ArduinoLowPower](https://github.com/arduino-libraries/ArduinoLowPower) by [Arduino Libraries](https://github.com/arduino-libraries)
 - [MKRNB](https://github.com/arduino-libraries/MKRNB) by [Arduino Libraries](https://github.com/arduino-libraries)
-- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) by [Benolt Blanchon](https://github.com/bblanchon)
+- [ArduinoJson](https://github.com/bblanchon/ArduinoJson) by [Benoît Blanchon](https://github.com/bblanchon)
 - [CoAP-simple-library](https://github.com/hirotakaster/CoAP-simple-library) by [Hirotaka Niisato](https://github.com/hirotakaster)
+- [Low-Power](https://github.com/rocketscream/Low-Power) by [Rocketscream Electronics](https://github.com/rocketscream)
 
 ## Payloads to be handled
 

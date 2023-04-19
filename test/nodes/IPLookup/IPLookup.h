@@ -9,10 +9,6 @@
  * "Miniature implementation of an IoT-based Smart City"
  *
  * @date 09/03/2023
- *
- * @section libraries Libraries
- * - MKRNB by Arduino Libraries (https://github.com/arduino-libraries/MKRNB)
- * - ArduinoHttpClient by Arduino Libraries (https://github.com/arduino-libraries/ArduinoHttpClient)
  */
 
 #ifndef __IPLOOKUP_H
