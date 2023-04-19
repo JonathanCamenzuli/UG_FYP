@@ -10,10 +10,6 @@
  *
  * @date 26/11/2022
  *
- * @section libraries Libraries
- * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - Boilerplate for Car Park Sensor Header File (./CarParkSensor_bp.h)
- *
  * @section hardware Hardware
  * -  Arduino Nano
  * -  HC-SR04 Ultrasonic Sensor

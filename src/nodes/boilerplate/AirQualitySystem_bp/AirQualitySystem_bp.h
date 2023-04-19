@@ -9,9 +9,6 @@
  * "Miniature implementation of an IoT-based Smart City"
  *
  * @date 11/02/2023
- *
- * @section libraries Libraries
- * - ArduinoJson by @bblanchon (https://github.com/bblanchon/ArduinoJson)
  */
 
 #ifndef __AQMS_BP_H

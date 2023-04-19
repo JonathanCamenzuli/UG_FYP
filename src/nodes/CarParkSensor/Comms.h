@@ -1,27 +1,23 @@
 /**
- * @file CoapTest.h
+ * @file Comms.h
  *
  * @author Jonathan Camenzuli
  *
- * @brief CoAP Test Header File
+ * @brief Communication-related Functions Header File
  *
  * Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
  * "Miniature implementation of an IoT-based Smart City"
  *
- * @date 15/03/2023
- *
- * @section libraries Libraries
+ * @date 02/03/2023
  */
 
-#ifndef __COAPTEST_H
-#define __COAPTEST_H
+#ifndef __COMMS_H
+#define __COMMS_H
 
 #include <MKRNB.h>
 #include <coap-simple.h>
 #include <ArduinoHttpClient.h>
-
-#define SLEEP_TIME_MS 40000 // Sleep time, in milliseconds
-#define BUF_SIZE 250        // Buffer Size
+#include "arduino_secrets.h"
 
 /**
  * @brief Function for Setting Up Modem and Chipset
@@ -40,21 +36,13 @@ void setupModem();
 bool connectNB(NB &nbAccess, GPRS &gprsAccess);
 
 /**
- * @brief Creates Serialised JSON document for CoAP Test
- *
- * @param testVal   A float used for testing purposes
- * @param buffer    Buffer to store serialised JSON document
- */
-void serialiseJson(float &testVal, char *buffer);
-
-/**
  * @brief Sends Packet to CoAP server
  *
  * @param coapServer_ip IP Address to Server (Object)
  * @param coap          Coap Object
- * @param rand          Random Number
+ * @param packet        Packet to send to CoAP server
  */
-void sendPacket(IPAddress &coapServer_ip, Coap &coap, float &rand);
+void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet);
 
 /**
  * @brief Provides IP Address from IP Lookup Server

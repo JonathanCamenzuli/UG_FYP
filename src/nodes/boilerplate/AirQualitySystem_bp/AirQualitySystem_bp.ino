@@ -10,10 +10,6 @@
  *
  * @date DD/MM/YYY
  *
- * @section libraries Libraries
- * - Low-Power by @rocketscream (https://github.com/rocketscream/Low-Power)
- * - Boilerplate for Air Quality Monitoring System Header File (./AirQualitySystem_bp.h)
- *
  * @section hardware Hardware
  * -  Arduino Nano
  * -  MQ135 Hazardous Gas Detection Module

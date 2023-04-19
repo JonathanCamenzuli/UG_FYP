@@ -11,7 +11,6 @@
  * @date 11/02/2023
  *
  * @section libraries Libraries
- * - ArduinoLowPower by Arduino (https://github.com/arduino-libraries/ArduinoLowPower)
  * - Car Park Sensor Header File (./CarParkSensor.h)
  *
  * @section hardware Hardware
@@ -20,41 +19,62 @@
  */
 
 #include <ArduinoLowPower.h>
+#include <ArduinoHttpClient.h>
 #include <MKRNB.h>
 #include <coap-simple.h>
+#include <ArduinoJson.h>
 #include "CarParkSensor.h"
-#include "Communication.h"
+#include "Comms.h"
+#include "arduino_secrets.h"
 
-// Library Instances
-NBClient client;
+/* ----------------------------------- ARDUINO SECRETS ----------------------------------- */
+char pinNumber[] = SECRET_PINNUMBER;
+char apn[] = SECRET_GPRS_APN;
+char server[] = SECRET_HOSTNAME;
+char endpoint[] = "/";
+uint32_t httpPort = SECRET_HTTP_PORT;
+char coapEndpoint[] = SECRET_COAP_ENDPOINT;
+uint32_t coapPort = SECRET_COAP_PORT;
+
+/* ----------------------------------- LIBRARY OBJECTS ----------------------------------- */
+NBClient nbClient;
+NBUDP udp;
+Coap coap(udp, JSON_BUF_SIZE);
+HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess;
-NBUDP Udp;
-Coap coap(Udp);
+IPAddress coapServer_ip;
 
-int distReadings[arrayMAX];   // Array which is used for averaging
+/* ----------------------------------- VARIABLES ----------------------------------- */
+int distReadings[ARRAY_MAX];  // Array which is used for averaging
 int distReadings_i = 0;       // Index to be used with distReadings[]
 float average;                // Average of distReadings[]
 bool isVehicleParked = false; // Pretty self explanatory haha
-String jsonString;            // JSON Payload
 
 void setup()
 {
   // 9600 Baudrate
   Serial.begin(9600);
 
+  // Waiting for Serial port to Connect
+  while (!Serial)
+    ;
+
   // HC-SR04 shenanigans
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+
+
+  Serial.println("Hello from setup!");
 }
 
 void loop()
 {
   distReadings[distReadings_i] = getUltrasonicReading();
 
-  if (distReadings_i == arrayMAX - 1)
+  if (distReadings_i == ARRAY_MAX - 1)
   {
-    average = averageArray(distReadings, arrayMAX);
+    average = averageArray(distReadings, ARRAY_MAX);
     if (average < PARKED_VEHICLE_THRESHOLD_CM)
     {
       if (!isVehicleParked)
@@ -62,10 +82,7 @@ void loop()
         // Indicate that car is ACTUALLY parked and change state
         Serial.println("Car is parked");
         isVehicleParked = true;
-        jsonString = serializeJson(isVehicleParked);
-
-        // Turn on radio and transmit change in parking state
-        Serial.println(jsonString);
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
       }
     }
     else
@@ -75,10 +92,7 @@ void loop()
         // Indicate that car is ACTUALLY not parked and change state
         Serial.println("Car is not parked");
         isVehicleParked = false;
-        jsonString = serializeJson(isVehicleParked);
-
-        // Turn on radio and transmit change in parking state
-        Serial.println(jsonString);
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
       }
     }
     // After finishing reset index to 0
@@ -87,11 +101,11 @@ void loop()
     // Forcing line to be printed before sleep
     Serial.flush();
 
-    delay(7000);                   // Give ample time to uploading sketches
+    delay(10000);                  // Give ample time to uploading sketches
     USBDevice.detach();            // Terminating Serial Connection
     LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
     USBDevice.attach();            // Restarting Serial Connection
-    delay(2000);                   // Give time for Serial Connection to take place
+    delay(5000);                   // Give time for Serial Connection to take place
     Serial.println("\nI am awaken!");
   }
   else
