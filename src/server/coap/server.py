@@ -21,7 +21,7 @@ import logging
 import asyncio
 import resources
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO,format='(%(asctime)s) %(message)s', datefmt='%d/%m/%Y %I:%M:%S')
 logging.getLogger("coap-server").setLevel(logging.DEBUG)
 
 
