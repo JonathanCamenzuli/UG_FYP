@@ -69,7 +69,7 @@ bool connectNB(NB &nbAccess, GPRS &gprsAccess)
 
 void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet)
 {
-    coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
+  coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
 }
 
 void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient)

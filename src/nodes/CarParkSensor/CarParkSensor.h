@@ -18,7 +18,7 @@
 #include <ArduinoHttpClient.h>
 #include <coap-simple.h>
 
-#define SLEEP_TIME_MS 40000           // Sleep time, in milliseconds
+#define SLEEP_TIME_MS 10000           // Sleep time, in milliseconds
 #define PARKED_VEHICLE_THRESHOLD_CM 5 // Distance, in centimetres which indicates vehicle is parked
 
 #define ECHO_PIN 7        // Attach Pin D5 Arduino MKR NB 1500 to pin Echo of HC-SR04
@@ -27,11 +27,9 @@
 #define JSON_BUF_SIZE 256 // JSON Buffer Size
 
 /**
- * @brief Function returns average of an array
+ * @brief Function returns an Ultrasonic Distance Reading
  *
- * @param array     The array itself
- * @param elems     Number of elements in array
- * @return float    Sum of array elements divided by number of elements
+ * @return int Ultrasonic Distance Reading
  */
 int getUltrasonicReading();
 
@@ -44,6 +42,16 @@ int getUltrasonicReading();
  */
 float averageArray(int *array, int elems);
 
+/**
+ * @brief Sends the updated parking state to a CoAP server.
+ *
+ * @param isVehicleParked   Indicating whether the vehicle is currently parked on the sensor
+ * @param nbAccess          NB Object
+ * @param gprsAccess        GPRS Object
+ * @param ipAddress         IP Address to Server (Object)
+ * @param httpClient        HTTP Client Object
+ * @param coap              Coap Object
+ */
 void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap);
 
 /**
