@@ -49,7 +49,7 @@ IPAddress coapServer_ip;
 int distReadings[ARRAY_MAX];  // Array which is used for averaging
 int distReadings_i = 0;       // Index to be used with distReadings[]
 float average;                // Average of distReadings[]
-bool isVehicleParked = false; // Pretty self explanatory haha
+bool isVehicleParked = true; // Pretty self explanatory haha
 
 void setup()
 {
@@ -63,7 +63,6 @@ void setup()
   // HC-SR04 shenanigans
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
-
 
   Serial.println("Hello from setup!");
 }
@@ -101,7 +100,7 @@ void loop()
     // Forcing line to be printed before sleep
     Serial.flush();
 
-    delay(10000);                  // Give ample time to uploading sketches
+    delay(5000);                  // Give ample time to uploading sketches
     USBDevice.detach();            // Terminating Serial Connection
     LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
     USBDevice.attach();            // Restarting Serial Connection

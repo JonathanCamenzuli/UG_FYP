@@ -1,8 +1,7 @@
 #include "CarParkSensor.h"
 #include <ArduinoJson.h>
 #include "Comms.h"
-
-// ALREADY DECLARED IN HEADER FILE
+#include "arduino_secrets.h"
 #include <MKRNB.h>
 #include <ArduinoHttpClient.h>
 #include <coap-simple.h>
@@ -25,13 +24,6 @@ int getUltrasonicReading()
     return distance;
 }
 
-/**
- * @brief Function returns average of an array
- *
- * @param array     The array itself
- * @param elems     Number of elements in array
- * @return float    Sum of array elements divided by number of elements
- */
 float averageArray(int *array, int elems)
 {
     long sum = 0L;
@@ -57,19 +49,23 @@ void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAcces
         connectNB(nbAccess, gprsAccess);
     }
     getIPAddress(ipAddress, httpClient);
-    coap.start();
-    sendPacket(ipAddress, coap, jsonDocBuf);
 
-    // Temporary
+    Serial.print("Setting Up CoAP Functionality...");
+    coap.start(SECRET_COAP_PORT);
+    Serial.println("done.");
+
+    Serial.print("Sending packet to CoAP server on ");
+    Serial.print(ipAddress);
+    Serial.print("...");
+    sendPacket(ipAddress, coap, jsonDocBuf);
+    Serial.println("done.");
+
+    Serial.print("Disconnecting from ISP and turning off Modem...");
+    nbAccess.shutdown();
+    Serial.println("done.");
     free(jsonDocBuf);
 }
 
-/**
- * @brief Creates Serialised JSON document for Car Park Sensor
- *
- * @param isCarParked   Boolean which indicates whether a vehicle is parked
- * @param buffer        Buffer to store serialised JSON document
- */
 void serialiseJson(bool &isCarParked, char *buffer)
 {
     // Size calculated on https://arduinojson.org/v6/assistant/
@@ -84,7 +80,6 @@ void serialiseJson(bool &isCarParked, char *buffer)
     data["isCarParked"] = isCarParked;
 
     // Serialize the JSON document
-    // serializeJson(jsonDoc, buffer, sizeof(buffer));
     serializeJson(jsonDoc, buffer, JSON_BUF_SIZE);
 
     // Free the memory occupied by the JSON document
