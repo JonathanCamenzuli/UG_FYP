@@ -36,7 +36,7 @@ async def main():
 
     await asyncio.sleep(2)
 
-    payload = b'{"nodetype": "CPS", "id": "cpsTestClient", "data": {"isCarParked": true}}'
+    payload = b'{"nodetype": "CPS", "id": "cpsTestClient", "data": {"isCarParked": false}}'
     request = Message(code=PUT, payload=payload, uri=uri)
 
     response = await context.request(request).response

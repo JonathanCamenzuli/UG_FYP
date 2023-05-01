@@ -35,7 +35,7 @@ float averageArray(int *array, int elems)
 void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)
 {
     // Create a string for storing the serialized JSON document
-    char *jsonDocBuf = (char *)malloc(JSON_BUF_SIZE);
+    char jsonDocBuf[JSON_BUF_SIZE];
 
     serialiseJson(isVehicleParked, jsonDocBuf);
 
@@ -51,19 +51,14 @@ void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAcces
     getIPAddress(ipAddress, httpClient);
 
     Serial.print("Setting Up CoAP Functionality...");
-    coap.start(SECRET_COAP_PORT);
+    coap.start();
     Serial.println("done.");
 
-    Serial.print("Sending packet to CoAP server on ");
-    Serial.print(ipAddress);
-    Serial.print("...");
     sendPacket(ipAddress, coap, jsonDocBuf);
-    Serial.println("done.");
 
     Serial.print("Disconnecting from ISP and turning off Modem...");
     nbAccess.shutdown();
     Serial.println("done.");
-    free(jsonDocBuf);
 }
 
 void serialiseJson(bool &isCarParked, char *buffer)
