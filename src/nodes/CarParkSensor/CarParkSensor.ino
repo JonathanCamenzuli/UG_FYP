@@ -39,7 +39,7 @@ uint32_t coapPort = SECRET_COAP_PORT;
 /* ----------------------------------- LIBRARY OBJECTS ----------------------------------- */
 NBClient nbClient;
 NBUDP udp;
-Coap coap(udp, JSON_BUF_SIZE);
+Coap coap(udp);
 HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess;
