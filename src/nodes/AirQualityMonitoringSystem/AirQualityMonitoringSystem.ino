@@ -49,7 +49,7 @@ GPRS gprsAccess;
 NB nbAccess;
 IPAddress coapServer_ip;
 DHT dht(DHT11_PIN, DHT11);
-MQUnifiedsensor mq135("Arduino MKR NB 1500", 5, 10, MQ135_PIN, "MQ-135");
+MQUnifiedsensor mq135(MQ135_BOARD, MQ135_VOLTAGE_RES, MQ135_ADC_BIT_RES, MQ135_PIN, MQ135_TYPE);
 
 /* ----------------------------------- VARIABLES ----------------------------------- */
 float humReadings[ARRAY_MAX];
@@ -80,28 +80,22 @@ void setup()
 
 void loop()
 {
-  // Wait a few seconds between measurements.
-  delay(2000);
-
   // Update data, Voltage from MQ135_PIN will be read
   mq135.update();
 
-  //humReadings[idx] = getHumidity(dht);
-  //tempReadings[idx] = getTemperature(dht);
-  //coReadings[idx] = getCO(mq135);
-  //co2Readings[idx] = getCO2(mq135);
+  delay(500);
 
-  if (idx == ARRAY_MAX-1)
+  humReadings[idx] = getHumidity(dht);
+  tempReadings[idx] = getTemperature(dht);
+  coReadings[idx] = getCO(mq135);
+  co2Readings[idx] = getCO2(mq135);
+
+  if (idx == ARRAY_MAX - 1)
   {
-    // humidity_percent = averageArray(humReadings, ARRAY_MAX);
-    // temperature_c = averageArray(tempReadings, ARRAY_MAX);
-    // co_level_ppm = averageArray(coReadings, ARRAY_MAX);
-    // co2_level_ppm = averageArray(co2Readings, ARRAY_MAX);
-
-    humidity_percent = getHumidity(dht);
-    temperature_c = getTemperature(dht);
-    co_level_ppm = getCO(mq135);
-    co2_level_ppm = getCO2(mq135);
+    humidity_percent = averageArray(humReadings, ARRAY_MAX);
+    temperature_c = averageArray(tempReadings, ARRAY_MAX);
+    co_level_ppm = averageArray(coReadings, ARRAY_MAX);
+    co2_level_ppm = averageArray(co2Readings, ARRAY_MAX);
 
     sendAQMSData(temperature_c, humidity_percent, co_level_ppm, co2_level_ppm, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
 
@@ -111,7 +105,7 @@ void loop()
     // Forcing any lines to be printed before sleep
     Serial.flush();
 
-    delay(5000);                  // Give ample time to uploading sketches
+    delay(5000);                   // Give ample time to uploading sketches
     USBDevice.detach();            // Terminating Serial Connection
     LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
     USBDevice.attach();            // Restarting Serial Connection
