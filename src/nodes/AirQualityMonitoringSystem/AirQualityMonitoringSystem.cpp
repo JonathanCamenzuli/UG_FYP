@@ -16,20 +16,14 @@ void setupDHT11(DHT &dht)
   Serial.println("done.");
 }
 
-void setupMQ135(MQUnifiedsensor &MQ135)
+void setupMQ135(MQUnifiedsensor &mq135)
 {
-  float calcR0 = 0;
-  MQ135.setRegressionMethod(1);
-  MQ135.init();
-  MQ135.setRL(10);
-  Serial.print("MQ135: Calibrating...");
-  for(int i = 1; i <= 10; i++)
-  {
-    MQ135.update();
-    calcR0 += MQ135.calibrate(3.6); // RS/R0 = 3.6 ppm
-    Serial.print(".");
-  }
-  MQ135.setR0(calcR0/10);
+  Serial.print("MQ135: Setting up...");
+  float calcR0 = MQ135_R0_CALIBRATION;
+  mq135.setRegressionMethod(1);
+  mq135.init();
+  mq135.setRL(10);
+  mq135.setR0(calcR0/10);
   Serial.println("done.");
 
   if(isinf(calcR0))
@@ -67,19 +61,20 @@ float getTemperature(DHT &dht)
   return temp_c;
 }
 
-float getCO(MQUnifiedsensor &MQ135)
+float getCO(MQUnifiedsensor &mq135)
 {
-  MQ135.setA(605.18);
-  MQ135.setB(-3.937);
-  float co_ppm = MQ135.readSensor();
+  mq135.setA(605.18);
+  mq135.setB(-3.937);
+  float co_ppm = mq135.readSensor();
   return co_ppm;
 }
 
-float getCO2(MQUnifiedsensor &MQ135)
+float getCO2(MQUnifiedsensor &mq135)
 {
-  MQ135.setA(110.47);
-  MQ135.setB(-2.862);
-  float co2_ppm = MQ135.readSensor();
+  mq135.setA(110.47);
+  mq135.setB(-2.862);
+  float co2_ppm = mq135.readSensor();
+  co2_ppm += 400;
   return co2_ppm;
 }
 

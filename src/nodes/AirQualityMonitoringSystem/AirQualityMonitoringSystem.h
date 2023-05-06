@@ -21,18 +21,25 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-//#define SLEEP_TIME_MS 900000 // Sleep time, in milliseconds
+// #define SLEEP_TIME_MS 900000 // Sleep time, in milliseconds
 
 #define SLEEP_TIME_MS 5000 // Sleep time, in milliseconds
 
-#define DHT11_PIN 0       // Attach Pin A0 Arduino MKR NB 1500 to pin DHT11 output
-#define MQ135_PIN A1      // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
-#define ARRAY_MAX 100      // Number of elements for averaging array
+#define DHT11_PIN 0 // Attach Pin A0 Arduino MKR NB 1500 to pin DHT11 output
+
+#define MQ135_BOARD "Arduino MKR NB 1500"
+#define MQ135_VOLTAGE_RES 5
+#define MQ135_PIN A1 // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
+#define MQ135_TYPE "MQ-135"
+#define MQ135_ADC_BIT_RES 10
+#define MQ135_R0_CALIBRATION 255.12
+
+#define ARRAY_MAX 100     // Number of elements for averaging array
 #define JSON_BUF_SIZE 256 // JSON Buffer Size
 
 void setupDHT11(DHT &dht);
 
-void setupMQ135(MQUnifiedsensor &MQ135);
+void setupMQ135(MQUnifiedsensor &mq135);
 
 /**
  * @brief Get the Humidity object
@@ -56,7 +63,7 @@ float getTemperature(DHT &dht);
  * @param MQ135     MQUnifiedsensor Object
  * @return float    PPM level for Carbon Monoxide (CO)
  */
-float getCO(MQUnifiedsensor &MQ135);
+float getCO(MQUnifiedsensor &mq135);
 
 /**
  * @brief
@@ -64,7 +71,7 @@ float getCO(MQUnifiedsensor &MQ135);
  * @param MQ135     MQUnifiedsensor Object
  * @return float    PPM level for Carbon Dioxide (CO2)
  */
-float getCO2(MQUnifiedsensor &MQ135);
+float getCO2(MQUnifiedsensor &mq135);
 
 /**
  * @brief Function returns average of an array
