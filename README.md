@@ -86,14 +86,14 @@ Jonathan Camenzuli
   - [x] Establish what data is to be sent
 - [ ] Arduinos
   - [x] Resolve hostname into IP address
-  - [ ] Libraries
+  - [x] Libraries
     - [x] JSON serialisation
     - [x] CoAP packets
-    - [ ] MQ Sensors
-  - [ ] Boilerplate
+    - [x] MQ Sensors
+  - [x] Boilerplate
     - [x] Car Park Sensor
-    - [ ] Fire Detection System
-    - [ ] Air Quality Monitoring
+    - ~~[ ] Fire Detection System~~
+    - ~~[ ] Air Quality Monitoring~~
   - [ ] Narrowband functionality
     - [ ] Car Park Sensor
     - [ ] Fire Detection System
