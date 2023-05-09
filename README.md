@@ -73,8 +73,10 @@ Jonathan Camenzuli
   "id": "fds0001",
   "data": {
     "temperature_c": 1,
-    "isIRDetected": true,
-    "isSmokeDetected": true
+    "humidity_percent": 1,
+    "co_level_ppm": 1,
+    "smoke_level_ppm": 1,
+    "isIRDetected": true
   }
 }
 ```
