@@ -79,7 +79,7 @@ class CPS_Resource(BasicResource):
             "id": {self.node_id},
             "data":
             {
-                "isCarParked": {self.status_isCarParked}
+                "isCarParked": bool({self.status_isCarParked})
             }
         }
         payload = json.dumps(json_obj)
@@ -192,7 +192,7 @@ class FDS_Resource(BasicResource):
         self.influx_sensor = Sensor("fds", self.influx_client)
 
     async def render_get(self, request):
-        print('Air Quality Monitoring System')
+        print('Fire Detection System')
         print(f'Node ID: {self.node_id}')
         print(f'Temperature: {self.status_temp_cel}°C')
         print(f'Humidity: {self.status_hum_percent}%')
@@ -209,7 +209,7 @@ class FDS_Resource(BasicResource):
                 "humidity_percent": {self.status_hum_percent},
                 "co_level_ppm": {self.status_co_ppm},
                 "smoke_level_ppm": {self.status_smoke_level_ppm},
-                "isIRDetected": {self.status_isIRDetected},
+                "isIRDetected": bool({self.status_isIRDetected}),
             }
         }
         payload = json.dumps(json_obj)
