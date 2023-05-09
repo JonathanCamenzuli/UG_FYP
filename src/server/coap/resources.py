@@ -92,9 +92,11 @@ class CPS_Resource(BasicResource):
         print(payload)
         payload_json = json.loads(payload)
         self.node_id = payload_json['id']
-        self.status_isCarParked = int(payload_json['data']['isCarParked'] == True) 
+        self.status_isCarParked = int(
+            payload_json['data']['isCarParked'] == True)
 
-        isCarParked_str = ("No vehicle is parked", "Vehicle is parked")[bool(self.status_isCarParked)]
+        isCarParked_str = ("No vehicle is parked", "Vehicle is parked")[
+            bool(self.status_isCarParked)]
 
         logging.info(f'⚠️  Payload from {self.node_id}: {isCarParked_str}')
 
@@ -172,7 +174,7 @@ class AQMS_Resource(BasicResource):
 
 
 class FDS_Resource(BasicResource):
-    """Air Quality Monitoring System Resource
+    """Fire Detection System Resource
 
     Args:
         BasicResource (_type_): _description_
@@ -183,16 +185,20 @@ class FDS_Resource(BasicResource):
 
         self.node_id = ""
         self.status_temp_cel = 0.0
+        self.status_hum_percent = 0.0
+        self.status_co_ppm = 0.0
+        self.status_smoke_level_ppm = 0.0
         self.status_isIRDetected = 0
-        self.status_isSmokeDetected = 0
         self.influx_sensor = Sensor("fds", self.influx_client)
 
     async def render_get(self, request):
         print('Air Quality Monitoring System')
         print(f'Node ID: {self.node_id}')
         print(f'Temperature: {self.status_temp_cel}°C')
+        print(f'Humidity: {self.status_hum_percent}%')
+        print(f'CO: {self.status_co_ppm} PPM')
+        print(f'Smoke: {self.status_smoke_level_ppm} PPM')
         print(f'Is IR Detected?: {self.status_isIRDetected}')
-        print(f'Is Smoke Detected?: {self.status_isSmokeDetected}')
 
         json_obj = {
             "nodetype": "FDS",
@@ -200,8 +206,10 @@ class FDS_Resource(BasicResource):
             "data":
             {
                 "temperature_c": {self.status_temp_cel},
+                "humidity_percent": {self.status_hum_percent},
+                "co_level_ppm": {self.status_co_ppm},
+                "smoke_level_ppm": {self.status_smoke_level_ppm},
                 "isIRDetected": {self.status_isIRDetected},
-                "isSmokeDetected": {self.status_isSmokeDetected}
             }
         }
         payload = json.dumps(json_obj)
@@ -216,18 +224,26 @@ class FDS_Resource(BasicResource):
 
         self.node_id = payload_json['id']
         self.status_temp_cel = payload_json['data']['temperature_c']
-        self.status_isIRDetected = int(payload_json['data']['isIRDetected'] == True) 
-        self.status_isSmokeDetected = int(payload_json['data']['isSmokeDetected'] == True) 
+        self.status_hum_percent = payload_json['data']['humidity_percent']
+        self.status_co_ppm = payload_json['data']['co_level_ppm']
+        self.status_smoke_level_ppm = payload_json['data']['smoke_level_ppm']
+        self.status_isIRDetected = int(
+            payload_json['data']['isIRDetected'] == True)
 
-        isIRDetected_str = ("IR not detected", "IR detected")[bool(self.status_isIRDetected)]
-        isSmokeDetected_str = ("Smoke not detected", "Smoke detected")[bool(self.status_isSmokeDetected)]
+        isIRDetected_str = ("IR not detected", "IR detected")[
+            bool(self.status_isIRDetected)]
 
-        logging.info(f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {bool(isIRDetected_str)}, {bool(isSmokeDetected_str)}')
+        logging.info(
+            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, Smoke: {self.smoke_level_ppm} PPM, {bool(isIRDetected_str)}')
 
         self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
+        self.influx_sensor.add_value(
+            "humidity_percent", self.status_hum_percent)
+        self.influx_sensor.add_value("co_level_ppm", self.status_co_ppm)
+        self.influx_sensor.add_value(
+            "smoke_level_ppm", self.status_smoke_level_ppm)
         self.influx_sensor.add_value("isIRDetected", self.status_isIRDetected)
-        self.influx_sensor.add_value("isSmokeDetected", self.status_isSmokeDetected)
         self.influx_sensor.write()
 
         return aiocoap.Message(code=aiocoap.CHANGED, payload=payload.encode('utf8'))
