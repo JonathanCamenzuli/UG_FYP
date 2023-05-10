@@ -234,7 +234,7 @@ class FDS_Resource(BasicResource):
             bool(self.status_isIRDetected)]
 
         logging.info(
-            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, Smoke: {self.smoke_level_ppm} PPM, {bool(isIRDetected_str)}')
+            f'⚠️  Payload from {self.node_id}: {self.status_temp_cel}°C, {self.status_hum_percent}% Hum, CO: {self.status_co_ppm} PPM, Smoke: {self.status_smoke_level_ppm} PPM, {bool(isIRDetected_str)}')
 
         self.influx_sensor.add_value("node_id", self.node_id)
         self.influx_sensor.add_value("temperature_c", self.status_temp_cel)
