@@ -100,17 +100,17 @@ Jonathan Camenzuli
     - [ ] Car Park Sensor
     - [ ] Fire Detection System
     - [ ] Air Quality Monitoring
-- [ ] Server Side Software
+- [x] Server Side Software
   - [x] Payload handler
   - [x] Database - InfluxDB
   - [x] Visualisation Platform - Grafana
-  - [ ] Containerization (Docker)
+  - [x] Containerization (Docker)
     - [x] CoAP Server
     - [x] InfluxDB
-    - [ ] Grafana
+    - [x] Grafana
       - [x] Operational
       - [ ] Dashboard Setup
     - [x] Public IP Lookup
     - ~~[ ] DDNS?~~
   - [x] NoIP DNS
-  - [ ] Deployment
+  - [x] Deployment
