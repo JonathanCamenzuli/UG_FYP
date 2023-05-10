@@ -36,7 +36,7 @@ async def main():
 
     await asyncio.sleep(2)
 
-    payload = b'{"nodetype": "FDS", "id": "fdsTestClient", "data": {"temperature_c": 25, "isIRDetected": true, "isSmokeDetected": true}}'
+    payload = b'{"nodetype": "FDS", "id": "fdsTestClient", "data": {"temperature_c": 25, "humidity_percent": 69, "co_level_ppm": 1, "smoke_level_ppm": 1, "isIRDetected": true}}'
     request = Message(code=PUT, payload=payload, uri=uri)
 
     response = await context.request(request).response
