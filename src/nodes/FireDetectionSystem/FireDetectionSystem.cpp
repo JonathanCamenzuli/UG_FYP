@@ -1,4 +1,4 @@
-#include "AirQualityMonitoringSystem.h"
+#include "FireDetectionSystem.h"
 #include "Comms.h"
 #include "arduino_secrets.h"
 #include <ArduinoJson.h>
@@ -16,27 +16,27 @@ void setupDHT11(DHT &dht)
   Serial.println("done.");
 }
 
-void setupMQ135(MQUnifiedsensor &mq135)
+void setupMQ4(MQUnifiedsensor &mq4)
 {
-  Serial.print("MQ135: Setting up...");
-  float calcR0 = MQ135_R0_CALIBRATION;
+  Serial.print("MQ4: Setting up...");
+  float calcR0 = MQ4_R0_CALIBRATION;
   delay(20000); // Preheat Time
-  mq135.setRegressionMethod(1);
-  mq135.init();
-  mq135.setRL(10);
-  mq135.setR0(calcR0 / 10);
+  mq4.setRegressionMethod(1);
+  mq4.init();
+  mq4.setRL(10);
+  mq4.setR0(calcR0 / 10);
   Serial.println("done.");
 
   if (isinf(calcR0))
   {
-    Serial.println("MQ135: WARNING: Conection issue, R0 is infinite - Check your wiring and supply and press RESET on your board");
+    Serial.println("MQ4: WARNING: Conection issue, R0 is infinite - Check your wiring and supply and press RESET on your board");
     while (1)
       ;
   }
 
   if (calcR0 == 0)
   {
-    Serial.println("MQ135: WARNING: Conection issue, R0 is zero - Check your wiring and supply and press RESET on your board");
+    Serial.println("MQ4: WARNING: Conection issue, R0 is zero - Check your wiring and supply and press RESET on your board");
     while (1)
       ;
   }
@@ -64,21 +64,29 @@ float getTemperature(DHT &dht)
   return temp_c;
 }
 
-float getCO(MQUnifiedsensor &mq135)
+float getCO(MQUnifiedsensor &mq4)
 {
-  mq135.setA(-0.220061597);
-  mq135.setB(0.653581876);
-  float co_ppm = mq135.readSensor();
+  mq4.setA(-0.05849699);
+  mq4.setB(0.75427267);
+  float co_ppm = mq4.readSensor();
   return co_ppm;
 }
 
-float getCO2(MQUnifiedsensor &mq135)
+float getSmokePPM(MQUnifiedsensor &mq4)
 {
-  mq135.setA(-0.366725791);
-  mq135.setB(0.763607977);
-  float co2_ppm = mq135.readSensor();
-  co2_ppm += 400;
-  return co2_ppm;
+  mq4.setA(-0.036579755);
+  mq4.setB(0.6076452);
+  float smoke_ppm = mq4.readSensor();
+  return smoke_ppm;
+}
+
+bool getIR()
+{
+  int ir = digitalRead(IR_PIN);
+  if (ir == HIGH)
+    return true;
+  else
+    return false;
 }
 
 float averageArray(float *array, int elems)
@@ -89,12 +97,12 @@ float averageArray(float *array, int elems)
   return ((float)sum) / elems;
 }
 
-void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)
+void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)
 {
   // Create a string for storing the serialized JSON document
   char jsonDocBuf[JSON_BUF_SIZE];
 
-  serialiseJson(temp_c, hum_percent, co_ppm, co2_ppm, jsonDocBuf);
+  serialiseJson(temp_c, hum_percent, co_ppm, smoke_ppm, ir_detect, jsonDocBuf);
 
   // Turn on radio and transmit change in parking state
   Serial.println(jsonDocBuf);
@@ -118,21 +126,22 @@ void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_p
   Serial.println("done.");
 }
 
-void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, char *buffer)
+void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, char *buffer)
 {
   // Size calculated on https://arduinojson.org/v6/assistant/
   StaticJsonDocument<192> jsonDoc;
 
   // Set the values of the JSON packet
-  jsonDoc["nodetype"] = "AQMS";
-  jsonDoc["id"] = "aqms0001";
+  jsonDoc["nodetype"] = "FDS";
+  jsonDoc["id"] = "fds0001";
 
   // Creating and setting the value for the data nested object
   JsonObject data = jsonDoc.createNestedObject("data");
   data["temperature_c"] = temp_c;
   data["humidity_percent"] = hum_percent;
   data["co_level_ppm"] = co_ppm;
-  data["co2_level_ppm"] = co2_ppm;
+  data["smoke_level_ppm"] = smoke_ppm;
+  data["isIRDetected"] = ir_detect;
 
   // Serialize the JSON document
   serializeJson(jsonDoc, buffer, JSON_BUF_SIZE);
