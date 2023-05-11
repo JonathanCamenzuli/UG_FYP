@@ -35,13 +35,13 @@ void setup() {
   Serial.begin(9600); //Init serial port
 
   //Set math model to calculate the PPM concentration and the value of constants
-  MQ135.setRegressionMethod(1); //_PPM =  a*ratio^b
+  MQ135.setRegressionMethod(0); //_PPM = 10^{[log10(ratio)-b]/a}
   
   /*****************************  MQ Init ********************************************/ 
   //Remarks: Configure the pin of arduino as input.
   /************************************************************************************/ 
   MQ135.init();
-  MQ135.setRL(10);
+  MQ135.setRL(1);
   /* 
     //If the RL value is different from 10K please assign your RL value with the following method:
     MQ135.setRL(10);
@@ -61,6 +61,7 @@ void setup() {
     calcR0 += MQ135.calibrate(RatioMQ135CleanAir);
     Serial.print(".");
   }
+  Serial.println(calcR0);
   MQ135.setR0(calcR0/10);
   Serial.println("  done!.");
   
@@ -68,31 +69,31 @@ void setup() {
   if(calcR0 == 0){Serial.println("Warning: Conection issue found, R0 is zero (Analog pin shorts to ground) please check your wiring and supply"); while(1);}
   /*****************************  MQ CAlibration ********************************************/ 
   Serial.println("** Values from MQ-135 ****");
-  Serial.println("|    CO   |  Alcohol |   CO2  |  Toluen  |  NH4  |  Aceton  |");  
+  Serial.println("|    CO   |   CO2  |");  
 }
 
 void loop() {
   MQ135.update(); // Update data, the arduino will read the voltage from the analog pin
 
-  MQ135.setA(605.18); MQ135.setB(-3.937); // Configure the equation to calculate CO concentration value
+  MQ135.setA(-0.220061597); MQ135.setB(0.653581876); // Configure the equation to calculate CO concentration value
   float CO = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
 
-  MQ135.setA(77.255); MQ135.setB(-3.18); //Configure the equation to calculate Alcohol concentration value
-  float Alcohol = MQ135.readSensor(); // SSensor will read PPM concentration using the model, a and b values set previously or from the setup
+  // MQ135.setA(77.255); MQ135.setB(-3.18); //Configure the equation to calculate Alcohol concentration value
+  // float Alcohol = MQ135.readSensor(); // SSensor will read PPM concentration using the model, a and b values set previously or from the setup
 
-  MQ135.setA(110.47); MQ135.setB(-2.862); // Configure the equation to calculate CO2 concentration value
+  MQ135.setA(-0.366725791); MQ135.setB(0.763607977); // Configure the equation to calculate CO2 concentration value
   float CO2 = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
 
-  MQ135.setA(44.947); MQ135.setB(-3.445); // Configure the equation to calculate Toluen concentration value
-  float Toluen = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
+  // MQ135.setA(44.947); MQ135.setB(-3.445); // Configure the equation to calculate Toluen concentration value
+  // float Toluen = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
   
-  MQ135.setA(102.2 ); MQ135.setB(-2.473); // Configure the equation to calculate NH4 concentration value
-  float NH4 = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
+  // MQ135.setA(102.2 ); MQ135.setB(-2.473); // Configure the equation to calculate NH4 concentration value
+  // float NH4 = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
 
-  MQ135.setA(34.668); MQ135.setB(-3.369); // Configure the equation to calculate Aceton concentration value
-  float Aceton = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
+  // MQ135.setA(34.668); MQ135.setB(-3.369); // Configure the equation to calculate Aceton concentration value
+  // float Aceton = MQ135.readSensor(); // Sensor will read PPM concentration using the model, a and b values set previously or from the setup
   Serial.print("|   "); Serial.print(CO); 
-  Serial.print("   |   "); Serial.print(Alcohol);
+  // Serial.print("   |   "); Serial.print(Alcohol);
   // Note: 400 Offset for CO2 source: https://github.com/miguel5612/MQSensorsLib/issues/29
   /*
   Motivation:
@@ -101,9 +102,9 @@ void loop() {
   https://www.lavanguardia.com/natural/20190514/462242832581/concentracion-dioxido-cabono-co2-atmosfera-bate-record-historia-humanidad.html
   */
   Serial.print("   |   "); Serial.print(CO2 + 400); 
-  Serial.print("   |   "); Serial.print(Toluen); 
-  Serial.print("   |   "); Serial.print(NH4); 
-  Serial.print("   |   "); Serial.print(Aceton);
+  // Serial.print("   |   "); Serial.print(Toluen); 
+  // Serial.print("   |   "); Serial.print(NH4); 
+  // Serial.print("   |   "); Serial.print(Aceton);
   Serial.println("   |"); 
   /*
     Exponential regression:
