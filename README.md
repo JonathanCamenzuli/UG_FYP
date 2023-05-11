@@ -92,6 +92,8 @@ Jonathan Camenzuli
     - [x] JSON serialisation
     - [x] CoAP packets
     - [x] MQ Sensors
+      - [ ] MQ-4 Tuning
+      - [ ] MQ-135 Tuning
   - [x] Boilerplate
     - [x] Car Park Sensor
     - ~~[ ] Fire Detection System~~
