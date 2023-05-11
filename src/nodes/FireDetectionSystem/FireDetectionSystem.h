@@ -1,18 +1,18 @@
 /**
- * @file AirQualityMonitoringSystem.h
+ * @file FireDetectionSystem.h
  *
  * @author Jonathan Camenzuli
  *
- * @brief Air Quality Monitoring System Header File
+ * @brief Fire Detection System Header File
  *
  * Source code is part of my Final Year Project in Computer Engineering (2022/23) entitled
  * "Miniature implementation of an IoT-based Smart City"
  *
- * @date 02/05/2023
+ * @date 09/05/2023
  */
 
-#ifndef __AQMS_H
-#define __AQMS_H
+#ifndef __FDS_H
+#define __FDS_H
 
 #include <MKRNB.h>
 #include <ArduinoHttpClient.h>
@@ -25,21 +25,33 @@
 
 #define SLEEP_TIME_MS 5000 // Sleep time, in milliseconds
 
-#define DHT11_PIN 0 // Attach Pin A0 Arduino MKR NB 1500 to pin DHT11 output
+#define DHT11_PIN 0 // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
 
-#define MQ135_BOARD "Arduino MKR NB 1500"
-#define MQ135_VOLTAGE_RES 5
-#define MQ135_PIN A1 // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
-#define MQ135_TYPE "MQ-135"
-#define MQ135_ADC_BIT_RES 10
-#define MQ135_R0_CALIBRATION 46.56
+#define MQ4_BOARD "Arduino MKR NB 1500"
+#define MQ4_VOLTAGE_RES 5
+#define MQ4_PIN A1 // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-4 output
+#define MQ4_TYPE "MQ-4"
+#define MQ4_ADC_BIT_RES 10
+#define MQ4_R0_CALIBRATION 255.12
+
+#define IR_PIN 1 // Attach Pin D1 Arduino MKR NB 1500 to pin IR output
 
 #define ARRAY_MAX 100     // Number of elements for averaging array
 #define JSON_BUF_SIZE 256 // JSON Buffer Size
 
+/**
+ * @brief Function which sets up the DHT11 sensor
+ * 
+ * @param dht   DHT Object
+ */
 void setupDHT11(DHT &dht);
 
-void setupMQ135(MQUnifiedsensor &mq135);
+/**
+ * @brief Function which sets up the MQ4 sensor
+ * 
+ * @param mq4   MQUnifiedsensor Object 
+ */
+void setupMQ4(MQUnifiedsensor &mq4);
 
 /**
  * @brief Get the Humidity object
@@ -60,18 +72,26 @@ float getTemperature(DHT &dht);
 /**
  * @brief
  *
- * @param MQ135     MQUnifiedsensor Object
+ * @param MQ4       MQUnifiedsensor Object
  * @return float    PPM level for Carbon Monoxide (CO)
  */
-float getCO(MQUnifiedsensor &mq135);
+float getCO(MQUnifiedsensor &mq4);
 
 /**
  * @brief
  *
- * @param MQ135     MQUnifiedsensor Object
- * @return float    PPM level for Carbon Dioxide (CO2)
+ * @param MQ4       MQUnifiedsensor Object
+ * @return float    PPM level for Smoke
  */
-float getCO2(MQUnifiedsensor &mq135);
+float getSmokePPM(MQUnifiedsensor &mq4);
+
+/**
+ * @brief 
+ * 
+ * @return true     Flame Detected!
+ * @return false    Flame not Detected!
+ */
+bool getIR();
 
 /**
  * @brief Function returns average of an array
@@ -88,14 +108,15 @@ float averageArray(float *array, int elems);
  * @param temp_c        Temperature in Degrees Celsius (°C)
  * @param hum_percent   Humidity Percentage
  * @param co_ppm        PPM level for Carbon Monoxide (CO)
- * @param co2_ppm       PPM level for Carbon Dioxide (CO2)
+ * @param smoke_ppm     PPM level for Smoke
+ * @param ir_detect     Boolean which indicates whether Flame is Present
  * @param nbAccess      NB Object
  * @param gprsAccess    GPRS Object
  * @param ipAddress     IP Address to Server (Object)
  * @param httpClient    HTTP Client Object
  * @param coap          Coap Object
  */
-void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap);
+void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap);
 
 /**
  * @brief Creates Serialised JSON document for Car Park Sensor
@@ -103,9 +124,10 @@ void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_p
  * @param temp_c        Temperature in Degrees Celsius (°C)
  * @param hum_percent   Humidity Percentage
  * @param co_ppm        PPM level for Carbon Monoxide (CO)
- * @param co2_ppm       PPM level for Carbon Dioxide (CO2)
+ * @param smoke_ppm     PPM level for Smoke
+ * @param ir_detect     Boolean which indicates whether Flame is Present
  * @param buffer        Buffer to store serialised JSON document
  */
-void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, char *buffer);
+void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, char *buffer);
 
 #endif
