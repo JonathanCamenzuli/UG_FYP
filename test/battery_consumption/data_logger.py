@@ -15,15 +15,22 @@
 #
 
 import serial
+import os
 
 baud_rate = 9600
+output = input("Enter filename of where you want to store data: ")
 com_port = input("Enter the Serial Port that you are currently using: ")
-output = input("Enter filename of where you want to store data")
+
+# Create the file if it doesn't exist
+if not os.path.exists(output):
+    with open(output, 'w'):
+        pass
 
 ser = serial.Serial(com_port, baud_rate)
 
 # Open the file in append mode
 with open(output, 'a') as file:
+
     # Continuous loop
     while True:
         # Read a line from the serial port
