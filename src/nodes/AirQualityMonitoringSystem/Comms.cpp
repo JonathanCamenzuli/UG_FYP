@@ -69,11 +69,15 @@ bool connectNB(NB &nbAccess, GPRS &gprsAccess)
 
 void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet)
 {
+    uint16_t msgid;
     Serial.print("Sending packet to CoAP server on ");
     Serial.print(coapServer_ip);
     Serial.print("...");
-    coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
-    Serial.println("done.");
+
+    msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
+
+    Serial.print("done - msgid: ");
+    Serial.println(msgid);
 }
 
 void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient)

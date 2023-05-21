@@ -113,6 +113,9 @@ void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_p
 
   sendPacket(ipAddress, coap, jsonDocBuf);
 
+  // Allow Time Between Sending Packet and Shutting Down Modem
+  delay(2000);
+
   Serial.print("Disconnecting from ISP and turning off Modem...");
   nbAccess.shutdown();
   Serial.println("done.");
