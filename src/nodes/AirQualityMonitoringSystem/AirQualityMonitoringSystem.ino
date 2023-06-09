@@ -43,13 +43,10 @@ uint32_t coapPort = SECRET_COAP_PORT;
 /* ----------------------------------- LIBRARY OBJECTS ----------------------------------- */
 NBClient nbClient;
 NBUDP udp;
-
-Coap coap(udp, JSON_BUF_SIZE*2);
-//Coap coap(udp);
-
+Coap coap(udp, JSON_BUF_SIZE);
 HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
-NB nbAccess;
+NB nbAccess(false);
 IPAddress coapServer_ip;
 DHT dht(DHT11_PIN, DHT11);
 MQUnifiedsensor mq135(MQ135_BOARD, MQ135_VOLTAGE_RES, MQ135_ADC_BIT_RES, MQ135_PIN, MQ135_TYPE);
@@ -70,9 +67,9 @@ void setup()
   // 9600 Baudrate
   Serial.begin(9600);
 
-  // Waiting for Serial port to Connect
-  while (!Serial)
-    ;
+  // Waiting for Serial port to Connect - COMMENT FOR DEPLOYMENT
+  // while (!Serial)
+  //   ;
 
   Serial.println("Hello from setup!");
 
