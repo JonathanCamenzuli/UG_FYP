@@ -80,13 +80,13 @@ float getSmokePPM(MQUnifiedsensor &mq4)
   return smoke_ppm;
 }
 
-bool getIR()
+int getIR()
 {
   int ir = digitalRead(IR_PIN);
   if (ir == HIGH)
-    return true;
+    return 1;
   else
-    return false;
+    return 0;
 }
 
 float averageArray(float *array, int elems)
@@ -102,25 +102,34 @@ void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_
   // Create a string for storing the serialized JSON document
   char jsonDocBuf[JSON_BUF_SIZE];
 
+  // Serialise and show JSON Document on Serial Monitor
   serialiseJson(temp_c, hum_percent, co_ppm, smoke_ppm, ir_detect, jsonDocBuf);
-
-  // Turn on radio and transmit change in parking state
   Serial.println(jsonDocBuf);
 
+  // Setup Modem for NB-IoT
   setupModem();
-  // Check if connected and if not, reconnect
+
+  // Check if connected and if not, reconnect to ISP
   if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY)
   {
     connectNB(nbAccess, gprsAccess);
   }
+
+  // Get IP Address of CoAP Server
   getIPAddress(ipAddress, httpClient);
 
+  // Setting up CoAP Functionality
   Serial.print("Setting Up CoAP Functionality...");
   coap.start();
   Serial.println("done.");
 
+  // Sending JSON document to CoAP Server
   sendPacket(ipAddress, coap, jsonDocBuf);
 
+  // Allow Time Between Sending Packet and Shutting Down Modem
+  delay(1500);
+
+  // Disconnecting from ISP and turning off Modem
   Serial.print("Disconnecting from ISP and turning off Modem...");
   nbAccess.shutdown();
   Serial.println("done.");
