@@ -116,9 +116,9 @@ Jonathan Camenzuli
     - ~~[ ] DDNS?~~
   - [x] NoIP DNS
   - [x] Deployment
-- [] Testing
-  - [] Preperation
-    - [] Power Consumption
-    - [] Load Test
-  - [] Power Consumption
-  - [] Load Test
+- [ ] Testing
+  - [ ] Preperation
+    - [ ] Power Consumption
+    - [ ] Load Test
+  - [ ] Power Consumption
+  - [ ] Load Test
