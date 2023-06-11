@@ -98,10 +98,10 @@ Jonathan Camenzuli
     - [x] Car Park Sensor
     - ~~[ ] Fire Detection System~~
     - ~~[ ] Air Quality Monitoring~~
-  - [ ] Narrowband functionality
-    - [ ] Car Park Sensor
-    - [ ] Fire Detection System
-    - [ ] Air Quality Monitoring
+  - [x] Narrowband functionality
+    - [x] Car Park Sensor
+    - [x] Fire Detection System
+    - [x] Air Quality Monitoring
 - [x] Server Side Software
   - [x] Payload handler
   - [x] Database - InfluxDB
@@ -116,3 +116,9 @@ Jonathan Camenzuli
     - ~~[ ] DDNS?~~
   - [x] NoIP DNS
   - [x] Deployment
+- [ ] Testing
+  - [ ] Preperation
+    - [ ] Power Consumption
+    - [ ] Load Test
+  - [ ] Power Consumption
+  - [ ] Load Test

@@ -36,20 +36,20 @@
 
 #define IR_PIN 1 // Attach Pin D1 Arduino MKR NB 1500 to pin IR output
 
-#define ARRAY_MAX 100     // Number of elements for averaging array
+#define ARRAY_MAX 50      // Number of elements for averaging array
 #define JSON_BUF_SIZE 256 // JSON Buffer Size
 
 /**
  * @brief Function which sets up the DHT11 sensor
- * 
+ *
  * @param dht   DHT Object
  */
 void setupDHT11(DHT &dht);
 
 /**
  * @brief Function which sets up the MQ4 sensor
- * 
- * @param mq4   MQUnifiedsensor Object 
+ *
+ * @param mq4   MQUnifiedsensor Object
  */
 void setupMQ4(MQUnifiedsensor &mq4);
 
@@ -72,7 +72,7 @@ float getTemperature(DHT &dht);
 /**
  * @brief
  *
- * @param MQ4       MQUnifiedsensor Object
+ * @param mq4       MQUnifiedsensor Object
  * @return float    PPM level for Carbon Monoxide (CO)
  */
 float getCO(MQUnifiedsensor &mq4);
@@ -80,18 +80,18 @@ float getCO(MQUnifiedsensor &mq4);
 /**
  * @brief
  *
- * @param MQ4       MQUnifiedsensor Object
+ * @param mq4       MQUnifiedsensor Object
  * @return float    PPM level for Smoke
  */
 float getSmokePPM(MQUnifiedsensor &mq4);
 
 /**
- * @brief 
- * 
- * @return true     Flame Detected!
- * @return false    Flame not Detected!
+ * @brief
+ *
+ * @return 1     Flame Detected!
+ * @return 0    Flame not Detected!
  */
-bool getIR();
+int getIR();
 
 /**
  * @brief Function returns average of an array
