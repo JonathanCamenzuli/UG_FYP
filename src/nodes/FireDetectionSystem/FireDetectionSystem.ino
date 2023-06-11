@@ -28,6 +28,7 @@
 #include <MQUnifiedsensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include <math.h>
 #include "FireDetectionSystem.h"
 #include "Comms.h"
 #include "arduino_secrets.h"
@@ -61,6 +62,7 @@ float coReadings[ARRAY_MAX];
 float co_level_ppm;
 float smokeReadings[ARRAY_MAX];
 float smoke_level_ppm;
+float irReadings[ARRAY_MAX];
 bool ir_detect;
 int idx = 0;
 
@@ -69,9 +71,9 @@ void setup()
   // 9600 Baudrate
   Serial.begin(9600);
 
-  // Waiting for Serial port to Connect
-  while (!Serial)
-    ;
+  // Waiting for Serial port to Connect - COMMENT FOR DEPLOYMENT
+  // while (!Serial)
+  //   ;
 
   Serial.println("Hello from setup!");
 
@@ -91,6 +93,7 @@ void loop()
   tempReadings[idx] = getTemperature(dht);
   coReadings[idx] = getCO(mq4);
   smokeReadings[idx] = getSmokePPM(mq4);
+  irReadings[idx] = getIR();
 
   if (idx == ARRAY_MAX - 1)
   {
@@ -99,7 +102,10 @@ void loop()
     co_level_ppm = averageArray(coReadings, ARRAY_MAX);
     smoke_level_ppm = averageArray(smokeReadings, ARRAY_MAX);
 
-    ir_detect = getIR();
+    if (round(averageArray(irReadings, ARRAY_MAX)))
+      ir_detect = true;
+    else
+      ir_detect = false;
 
     sendFDSData(temperature_c, humidity_percent, co_level_ppm, smoke_level_ppm, ir_detect, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
 
