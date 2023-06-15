@@ -20,7 +20,14 @@ import threading
 import logging
 import asyncio
 import resources
+import os
+import time
 
+# Setting Time Zone to CET
+os.environ['TZ'] = 'Europe/Berlin'
+time.tzset()
+
+# Setting Up Logging Capabilities
 logging.basicConfig(level=logging.INFO,format='(%(asctime)s) %(message)s', datefmt='%d/%m/%Y %T %z %Z')
 logging.getLogger("coap-server").setLevel(logging.DEBUG)
 
