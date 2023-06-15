@@ -1,5 +1,5 @@
 ##
-# open-coap-logs.sh
+# open-ip-lookup-logs.sh
 #
 # Jonathan Camenzuli
 #

@@ -17,28 +17,40 @@
 import serial
 import os
 
-baud_rate = 9600
-output = input("Enter filename of where you want to store data: ")
-com_port = input("Enter the Serial Port that you are currently using: ")
+# Set Buad Rate
+BAUD_RATE = 9600
+# Set filename for saving comma seperated values
+FILENAME_CSV = input("Enter the Filename for saving data: ")
+# Set COM Port
+COM_PORT = input("Enter the Serial Port that you are currently using: ")
 
 # Create the file if it doesn't exist
-if not os.path.exists(output):
-    with open(output, 'w'):
+if not os.path.exists(FILENAME_CSV):
+    with open(FILENAME_CSV, 'w'):
         pass
 
-ser = serial.Serial(com_port, baud_rate)
+ser = serial.Serial(COM_PORT, BAUD_RATE)
 
 # Open the file in append mode
-with open(output, 'a') as file:
+with open(FILENAME_CSV, 'a') as file:
+    try:
+        # Continuous loop
+        while True:
+            # Read a line from the serial port
+            line = ser.readline().decode().strip()
 
-    # Continuous loop
-    while True:
-        # Read a line from the serial port
-        line = ser.readline().decode().strip()
+            # Print the received data
+            print(line)
 
-        # Print the received data
-        print(line)
+            # Write the data to the file
+            file.write(line + '\n')
+            file.flush()  # Flush the buffer to ensure data is written immediately
 
-        # Write the data to the file
-        file.write(line + '\n')
-        file.flush()  # Flush the buffer to ensure data is written immediately
+    except KeyboardInterrupt:
+        # Handle keyboard interrupt
+        print("Keyboard interrupt detected. Stopping the data logger...")
+
+    finally:
+        # Close the serial port and file
+        ser.close()
+        file.close()
