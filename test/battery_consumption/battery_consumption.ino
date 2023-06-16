@@ -31,29 +31,18 @@ Adafruit_INA219 ina219;
 unsigned long previousMillis = 0;
 unsigned long interval = 100;
 
-// float shuntvoltage = 0;
-// float busvoltage = 0;
 float current_mA = 0;
-// float loadvoltage = 0;
-// float power_mW = 0;
-// float energy = 0;
 
 void setup(void)
 {
   Serial.begin(9500);
   while (!Serial)
-  {
-    // will pause Zero, Leonardo, etc until serial console opens
-    delay(1);
-  }
-  uint32_t currentFrequency;
+    ;
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
 
   // Initialize the INA219.
-  // By default the initialization will use the largest range (32V, 2A).  However
-  // you can call a setCalibration function to change this range (see comments).
   if (!ina219.begin())
   {
     Serial.println("Failed to find INA219 chip");
@@ -62,10 +51,9 @@ void setup(void)
       delay(10);
     }
   }
-  // To use a slightly lower 32V, 1A range (higher precision on amps):
-  // ina219.setCalibration_32V_1A();
-  // Or to use a lower 16V, 400mA range (higher precision on volts and amps):
-  // ina219.setCalibration_16V_400mA();
+
+  // Using a 16V, 400mA range
+  ina219.setCalibration_16V_400mA();
   Serial.println("Current (mA)");
 }
 
@@ -78,7 +66,8 @@ void loop()
     ina219values();
     displaydata();
   }
-  delay(500);
+
+  delay(1000);
 }
 
 void ina219values()
