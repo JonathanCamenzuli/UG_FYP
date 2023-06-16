@@ -3,7 +3,9 @@
 Final Year Project in Computer Engineering (2022/23)\
 Jonathan Camenzuli
 
-## Libraries
+This repository contains the source code for the implementation discussed in the FYP write-up.
+
+## Third-Party Libraries and Tools
 
 ### Server
 
@@ -24,62 +26,14 @@ Jonathan Camenzuli
 - [DHT sensor library](https://github.com/adafruit/DHT-sensor-library) by [Adafruit](https://github.com/adafruit)
 - [Low-Power](https://github.com/rocketscream/Low-Power) by [Rocketscream Electronics](https://github.com/rocketscream)
 
-## Payloads to be handled
-
-### Test Payload
-
-```json
-{
-  "nodetype": "TEST",
-  "id": "test0001",
-  "data": {
-    "testValue": 1.1
-  }
-}
-```
-
-### Parking Sensor
-
-```json
-{
-  "nodetype": "CPS",
-  "id": "cps0001",
-  "data": {
-    "isCarParked": true
-  }
-}
-```
-
-### Air Quality Monitoring System
-
-```json
-{
-  "nodetype": "AQMS",
-  "id": "aqms0001",
-  "data": {
-    "temperature_c": 1,
-    "humidity_percent": 1,
-    "co_level_ppm": 1,
-    "co2_level_ppm": 1
-  }
-}
-```
-
-### Fire Detection System
-
-```json
-{
-  "nodetype": "FDS",
-  "id": "fds0001",
-  "data": {
-    "temperature_c": 1,
-    "humidity_percent": 1,
-    "co_level_ppm": 1,
-    "smoke_level_ppm": 1,
-    "isIRDetected": true
-  }
-}
-```
+### Testing and Evaluation
+- [pySerial](https://github.com/pyserial/pyserial) by [pySerial](https://github.com/pyserial)
+- [psutil](https://github.com/giampaolo/psutil) by [Giampaolo Rodola](https://github.com/giampaolo)
+- [NumPy](https://github.com/numpy/numpy) by [NumPy](https://numpy.org/)
+- [pandas](https://github.com/pandas-dev/pandas/) by [pandas](https://pandas.pydata.org/)
+- [Matplotlib](https://github.com/matplotlib/matplotlib) by [Matplotlib](https://matplotlib.org/)
+- [Adafruit INA219 Library](https://github.com/adafruit/Adafruit_INA219) by [Adafruit](https://github.com/adafruit)
+- [Adafruit SSD1306 Library](https://github.com/adafruit/Adafruit_SSD1306) by [Adafruit](https://github.com/adafruit)
 
 ## To-Do List
 
