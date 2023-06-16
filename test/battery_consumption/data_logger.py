@@ -15,7 +15,9 @@
 #
 
 import serial
+from datetime import datetime
 import os
+import csv
 
 # Set Buad Rate
 BAUD_RATE = 9600
@@ -31,24 +33,34 @@ if not os.path.exists(FILENAME_CSV):
 
 ser = serial.Serial(COM_PORT, BAUD_RATE)
 
-# Open the file in append mode
-with open(FILENAME_CSV, 'a') as file:
+header = ['name', 'area', 'country_code2', 'country_code3']
+
+# Open the file in write (truncating) mode
+with open(FILENAME_CSV, 'w') as file:
+    writer = csv.writer(file)
     try:
+        header = ['Time', 'Current (mA)']
         # Continuous loop
         while True:
             # Read a line from the serial port
             line = ser.readline().decode().strip()
 
-            # Print the received data
-            print(line)
-
-            # Write the data to the file
-            file.write(line + '\n')
-            file.flush()  # Flush the buffer to ensure data is written immediately
+            if line == "Current (mA)":
+                print(f"Time -> Current (mA)")
+                writer.writerow(header)
+            else:
+                t = datetime.now()
+                s = t.strftime('%H:%M:%S.%f')
+                print(f"{s[:-3]} -> {line}")
+                line = line.replace(' mA', '')
+                data = [s[:-3], line]
+                writer.writerow(data)
 
     except KeyboardInterrupt:
-        # Handle keyboard interrupt
         print("Keyboard interrupt detected. Stopping the data logger...")
+
+    except serial.SerialException:
+        print("Logger disconnected. Stopping the data logger...")
 
     finally:
         # Close the serial port and file
