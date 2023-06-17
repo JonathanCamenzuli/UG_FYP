@@ -83,10 +83,10 @@ float getCO2(MQUnifiedsensor &mq135)
 
 float averageArray(float *array, int elems)
 {
-  long sum = 0L;
-  for (int i = 0; i < elems - 1; i++)
+  float sum = 0;
+  for (int i = 0; i < elems; i++)
     sum += array[i];
-  return ((float)sum) / elems;
+  return sum / elems;
 }
 
 void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)

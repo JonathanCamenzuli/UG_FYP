@@ -32,7 +32,7 @@
 #define MQ135_ADC_BIT_RES 10
 #define MQ135_R0_CALIBRATION 46.56
 
-#define ARRAY_MAX 100     // Number of elements for averaging array
+#define ARRAY_MAX 10     // Number of elements for averaging array
 #define JSON_BUF_SIZE 256 // JSON Buffer Size
 
 /**

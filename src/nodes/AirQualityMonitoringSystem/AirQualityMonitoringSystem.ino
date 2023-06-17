@@ -68,8 +68,8 @@ void setup()
   Serial.begin(9600);
 
   // Waiting for Serial port to Connect - COMMENT FOR DEPLOYMENT
-  // while (!Serial)
-  //   ;
+  while (!Serial)
+    ;
 
   Serial.println("Hello from setup!");
 
