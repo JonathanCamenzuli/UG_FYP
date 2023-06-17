@@ -21,7 +21,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define SLEEP_TIME_MS 900000 // Sleep time, in milliseconds
+#define SLEEP_TIME_MS 1800000 // Sleep time, in milliseconds (30 mins)
 
 #define DHT11_PIN 0 // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
 
