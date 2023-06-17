@@ -82,21 +82,24 @@ void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet)
 
 void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient)
 {
-    int statusCode;
+    int statusCode = 0;
     String response;
 
-    httpClient.get("/");
-
-    statusCode = httpClient.responseStatusCode();
-    response = httpClient.responseBody();
-
-    if (statusCode != 200)
+    do
     {
-        Serial.print("Status Code: ");
+      if (statusCode != 200 && statusCode != 0)
+      {
+        Serial.print("\nStatus Code: ");
         Serial.println(statusCode);
-        Serial.print("Server Not Found");
-        ipAddress.fromString("0.0.0.0");
-    }
+        Serial.println("Server Not Found - Trying again");
+      }
+
+      httpClient.get("/");
+      delay(500);
+      statusCode = httpClient.responseStatusCode();
+      response = httpClient.responseBody();
+
+    }while (statusCode != 200);
 
     ipAddress.fromString(response);
 }
