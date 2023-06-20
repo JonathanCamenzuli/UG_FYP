@@ -26,10 +26,10 @@ int getUltrasonicReading()
 
 float averageArray(int *array, int elems)
 {
-    long sum = 0L;
-    for (int i = 0; i < elems - 1; i++)
+    float sum = 0;
+    for (int i = 0; i < elems; i++)
         sum += array[i];
-    return ((float)sum) / elems;
+    return sum / elems;
 }
 
 void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)
@@ -37,25 +37,34 @@ void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAcces
     // Create a string for storing the serialized JSON document
     char jsonDocBuf[JSON_BUF_SIZE];
 
+    // Serialise and show JSON Document on Serial Monitor
     serialiseJson(isVehicleParked, jsonDocBuf);
-
-    // Turn on radio and transmit change in parking state
     Serial.println(jsonDocBuf);
 
+    // Setup Modem for NB-IoT
     setupModem();
-    // Check if connected and if not, reconnect
+
+    // Check if connected and if not, reconnect to ISP
     if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY)
     {
         connectNB(nbAccess, gprsAccess);
     }
+
+    // Get IP Address of CoAP Server
     getIPAddress(ipAddress, httpClient);
 
+    // Setting up CoAP Functionality
     Serial.print("Setting Up CoAP Functionality...");
     coap.start();
     Serial.println("done.");
 
+    // Sending JSON document to CoAP Server
     sendPacket(ipAddress, coap, jsonDocBuf);
 
+    // Allow Time Between Sending Packet and Shutting Down Modem
+    delay(2000);
+
+    // Disconnecting from ISP and turning off Modem
     Serial.print("Disconnecting from ISP and turning off Modem...");
     nbAccess.shutdown();
     Serial.println("done.");
