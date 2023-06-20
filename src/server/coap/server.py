@@ -24,7 +24,7 @@ import os
 import time
 
 # Setting Time Zone to CET
-os.environ['TZ'] = 'Europe/Berlin'
+os.environ['TZ'] = 'Europe/Malta'
 time.tzset()
 
 # Setting Up Logging Capabilities

@@ -19,7 +19,7 @@ from ipify import get_ip
 from ipify.exceptions import ServiceError
 
 # Setting Time Zone to CET
-os.environ['TZ'] = 'Europe/Berlin'
+os.environ['TZ'] = 'Europe/Malta'
 time.tzset()
 
 app = flask.Flask(__name__)
