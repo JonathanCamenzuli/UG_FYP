@@ -12,9 +12,15 @@
 #
 
 import flask
+import os
+import time
 from requests import get
 from ipify import get_ip
 from ipify.exceptions import ServiceError
+
+# Setting Time Zone to CET
+os.environ['TZ'] = 'Europe/Berlin'
+time.tzset()
 
 app = flask.Flask(__name__)
 

@@ -13,20 +13,20 @@
 #
 
 # Get ID of container
-ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
+ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model-ip-lookup')
 
 # Stop Container
-docker stop --time 0 $ip_lookup_id
+docker stop --time 1 $ip_lookup_id
 
 # Remove Continer
-docker rm $ip_lookup_id
+docker rm -f $ip_lookup_id
 
 # Remove Image
-docker image rm fyp_smart_city_model_ip-lookup
+docker rmi -f fyp_smart_city_model-ip-lookup
 
 # docker-build routine for IP Lookup server
 docker compose run --detach -p 80:80/tcp ip-lookup
-new_ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
+new_ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model-ip-lookup')
 docker stop --time 0 $new_ip_lookup_id
 docker update --restart always $new_ip_lookup_id
 docker start $new_ip_lookup_id

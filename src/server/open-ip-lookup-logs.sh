@@ -15,7 +15,7 @@
 clear
 
 # Get ID of Container
-ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model_ip-lookup')
+ip_lookup_id=$(docker ps --quiet --filter 'name=^fyp_smart_city_model-ip-lookup-run')
 
 # Open Container Logs
 docker logs -f $ip_lookup_id
