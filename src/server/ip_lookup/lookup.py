@@ -11,17 +11,22 @@
 # @date 26/02/2022
 #
 
-import requests
 import flask
+from requests import get
+from ipify import get_ip
+from ipify.exceptions import ServiceError
 
 app = flask.Flask(__name__)
 
-
 @app.route('/', methods=['GET'])
 def get_public_ip():
-    ip_address = requests.get('https://api.ipify.org')
-    return ip_address.text
-
+    try:
+        ip_address = get_ip()
+        return ip_address
+    except ServiceError:
+        # Using another service in case ipify is down
+        ip_address = get('https://ident.me/').text
+        return ip_address
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
