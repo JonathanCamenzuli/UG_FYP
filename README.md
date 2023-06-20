@@ -9,14 +9,16 @@ This repository contains the source code for the implementation discussed in the
 
 ### Server
 
-- [Python Slim Docker Image Version 3.8](https://hub.docker.com/layers/library/python/3.8-slim/images/sha256-d017c2d3c37f312679e1c32bd6eb5b7bf101d29913833f4e74d14bf02425b57c?context=explore) by The Docker Community
-- [InfluxDB Docker Image Version 2.6.1](https://hub.docker.com/layers/library/influxdb/2.6.1/images/sha256-62bb8be55010a76e14e3b11079cd4003e428ae90ec60497782e586dd9dbda94d?context=explore) by [InfluxData](https://github.com/influxdata)
-- [Grafana Docker Image Version 9.3.6](https://hub.docker.com/layers/grafana/grafana/9.3.6/images/sha256-825065ced6a481f088d53b1c42fdfb9beadce6f87a07af614be1b1a78461e2bd?context=explore) by [Grafana Labs](https://grafana.com/)
+- [Python Slim 3.7 Docker Image](https://hub.docker.com/layers/library/python/3.7-slim/images/sha256-05be27b7e8722b0dfd691d8352e7b7c6bedacc8c43343711db98bd3b1a2d8177?context=explore) by The Docker Community
+- [Python Slim 3.8 Docker Image](https://hub.docker.com/layers/library/python/3.8-slim/images/sha256-d017c2d3c37f312679e1c32bd6eb5b7bf101d29913833f4e74d14bf02425b57c?context=explore) by The Docker Community
+- [InfluxDB 2.6.1 Docker Image](https://hub.docker.com/layers/library/influxdb/2.6.1/images/sha256-62bb8be55010a76e14e3b11079cd4003e428ae90ec60497782e586dd9dbda94d?context=explore) by [InfluxData](https://github.com/influxdata)
+- [Grafana 9.3.6 Docker Image](https://hub.docker.com/layers/grafana/grafana/9.3.6/images/sha256-825065ced6a481f088d53b1c42fdfb9beadce6f87a07af614be1b1a78461e2bd?context=explore) by [Grafana Labs](https://grafana.com/)
 - [aiocoap](https://github.com/chrysn/aiocoap) by [Christian Amsüss](https://github.com/chrysn)
 - [influxdb-client-python](https://github.com/influxdata/influxdb-client-python) by [InfluxData](https://github.com/influxdata)
 - [requests](https://github.com/psf/requests) by [Python Software Foundation](https://github.com/psf)
 - [flask](https://github.com/pallets/flask) by [Pallets Projects](https://github.com/pallets)
 - [python-dotenv](https://github.com/theskumar/python-dotenv) by [Saurabh Kumar](https://github.com/theskumar)
+- [python-ipify](https://github.com/rdegges/python-ipify) by [Randall Degges](https://github.com/rdegges)
 
 ### Physical Nodes
 
