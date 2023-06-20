@@ -69,30 +69,37 @@ bool connectNB(NB &nbAccess, GPRS &gprsAccess)
 
 void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet)
 {
+    uint16_t msgid;
     Serial.print("Sending packet to CoAP server on ");
     Serial.print(coapServer_ip);
     Serial.print("...");
-    coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
-    Serial.println("done.");
+
+    msgid = coap.put(coapServer_ip, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT, packet);
+
+    Serial.print("done - msgid: ");
+    Serial.println(msgid);
 }
 
 void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient)
 {
-    int statusCode;
+    int statusCode = 0;
     String response;
 
-    httpClient.get("/");
-
-    statusCode = httpClient.responseStatusCode();
-    response = httpClient.responseBody();
-
-    if (statusCode != 200)
+    do
     {
-        Serial.print("Status Code: ");
-        Serial.println(statusCode);
-        Serial.print("Server Not Found");
-        ipAddress.fromString("0.0.0.0");
-    }
+        if (statusCode != 200 && statusCode != 0)
+        {
+            Serial.print("\nStatus Code: ");
+            Serial.println(statusCode);
+            Serial.println("Server Not Found - Trying again");
+        }
+
+        httpClient.get("/");
+        delay(500);
+        statusCode = httpClient.responseStatusCode();
+        response = httpClient.responseBody();
+
+    } while (statusCode != 200);
 
     ipAddress.fromString(response);
 }
