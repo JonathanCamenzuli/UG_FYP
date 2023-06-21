@@ -99,9 +99,9 @@ void loop() {
     // After finishing reset index to 0
     idx = 0;
 
-    // Forcing any lines to be printed before sleep
-    Serial.flush();
+    Serial.println("I am going to sleep!");
 
+    Serial.flush();                 // Forcing any lines to be printed before sleep
     USBDevice.detach();             // Terminating Serial Connection
     LowPower.sleep(SLEEP_TIME_MS);  // Putting Arduino to sleep
     USBDevice.attach();             // Restarting Serial Connection
