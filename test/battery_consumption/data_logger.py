@@ -33,8 +33,6 @@ if not os.path.exists(FILENAME_CSV):
 
 ser = serial.Serial(COM_PORT, BAUD_RATE)
 
-header = ['name', 'area', 'country_code2', 'country_code3']
-
 # Open the file in write (truncating) mode
 with open(FILENAME_CSV, 'w') as file:
     writer = csv.writer(file)
