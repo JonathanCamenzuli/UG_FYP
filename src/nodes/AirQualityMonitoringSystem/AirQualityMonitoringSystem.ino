@@ -62,8 +62,7 @@ float co2Readings[ARRAY_MAX];
 float co2_level_ppm;
 int idx = 0;
 
-void setup()
-{
+void setup() {
   // 9600 Baudrate
   Serial.begin(9600);
 
@@ -78,8 +77,7 @@ void setup()
   setupMQ135(mq135);
 }
 
-void loop()
-{
+void loop() {
   // Update data, Voltage from MQ135_PIN will be read
   mq135.update();
 
@@ -90,8 +88,7 @@ void loop()
   coReadings[idx] = getCO(mq135);
   co2Readings[idx] = getCO2(mq135);
 
-  if (idx == ARRAY_MAX - 1)
-  {
+  if (idx == ARRAY_MAX - 1) {
     humidity_percent = averageArray(humReadings, ARRAY_MAX);
     temperature_c = averageArray(tempReadings, ARRAY_MAX);
     co_level_ppm = averageArray(coReadings, ARRAY_MAX);
@@ -105,13 +102,11 @@ void loop()
     // Forcing any lines to be printed before sleep
     Serial.flush();
 
-    delay(5000);                   // Give ample time to uploading sketches
-    USBDevice.detach();            // Terminating Serial Connection
-    LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
-    USBDevice.attach();            // Restarting Serial Connection
-    delay(5000);                   // Give time for Serial Connection to take place
+    USBDevice.detach();             // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME_MS);  // Putting Arduino to sleep
+    USBDevice.attach();             // Restarting Serial Connection
+    delay(3000);                    // Give time for Serial Connection to take place
     Serial.println("\nI am awaken!");
-  }
-  else
+  } else
     idx++;
 }
