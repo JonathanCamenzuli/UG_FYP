@@ -1,0 +1,13 @@
+Timestamps,Labels
+17:14:41.761,"Setup and Collecting Data From Sensors"
+12:09:12.108,"Change in State Detected"
+12:09:12.108,"Created JSON document"
+12:09:12.108,"Setting up Modem"
+12:09:22.438,"Connecting to ISP"
+12:10:34.398,"Sending Packet to CoAP Server"
+12:10:35.415,"Disconnecting from ISP, turning off Modem"
+12:10:35.415,"Going to Sleep"
+12:11:39.161,"Wake Up and Collecting Data From Sensors"
+12:11:49.235,"No Change in State, Going to Sleep"
+12:12:53.164,"Wake Up and Collecting Data From Sensors"
+12:13:03.245,"No Change in State, Going to Sleep"
