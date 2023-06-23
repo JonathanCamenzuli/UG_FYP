@@ -24,9 +24,8 @@
 #include <coap-simple.h>
 #include <ArduinoJson.h>
 #include "CarParkSensor.h"
-#include "Comms.h"
 #include "arduino_secrets.h"
-
+#include <Comms.h>
 /* ----------------------------------- ARDUINO SECRETS ----------------------------------- */
 char pinNumber[] = SECRET_PINNUMBER;
 char apn[] = SECRET_GPRS_APN;
@@ -39,74 +38,65 @@ uint32_t coapPort = SECRET_COAP_PORT;
 /* ----------------------------------- LIBRARY OBJECTS ----------------------------------- */
 NBClient nbClient;
 NBUDP udp;
-Coap coap(udp);
+Coap coap(udp, JSON_BUF_SIZE);
 HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess;
 IPAddress coapServer_ip;
 
 /* ----------------------------------- VARIABLES ----------------------------------- */
-int distReadings[ARRAY_MAX];  // Array which is used for averaging
-int distReadings_i = 0;		  // Index to be used with distReadings[]
-float average;				  // Average of distReadings[]
-bool isVehicleParked = false; // Pretty self explanatory haha
+int distReadings[ARRAY_MAX];   // Array which is used for averaging
+int distReadings_i = 0;        // Index to be used with distReadings[]
+float average;                 // Average of distReadings[]
+bool isVehicleParked = false;  // Pretty self explanatory haha
 
-void setup()
-{
-	// 9600 Baudrate
-	Serial.begin(9600);
+void setup() {
+  // 9600 Baudrate
+  Serial.begin(9600);
 
-	// Waiting for Serial port to Connect
-	while (!Serial)
-		;
+  // Waiting for Serial port to Connect - COMMENT FOR DEPLOYMENT
+  while (!Serial)
+    ;
 
-	// HC-SR04 shenanigans
-	pinMode(TRIG_PIN, OUTPUT);
-	pinMode(ECHO_PIN, INPUT);
+  Serial.println("Hello from setup!");
 
-	Serial.println("Hello from setup!");
+  // HC-SR04 shenanigans
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
 }
 
-void loop()
-{
-	distReadings[distReadings_i] = getUltrasonicReading();
+void loop() {
+  distReadings[distReadings_i] = getUltrasonicReading();
 
-	if (distReadings_i == ARRAY_MAX - 1)
-	{
-		average = averageArray(distReadings, ARRAY_MAX);
-		if (average < PARKED_VEHICLE_THRESHOLD_CM)
-		{
-			if (!isVehicleParked)
-			{
-				// Indicate that car is ACTUALLY parked and change state
-				Serial.println("Car is parked");
-				isVehicleParked = true;
-				changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
-			}
-		}
-		else
-		{
-			if (isVehicleParked)
-			{
-				// Indicate that car is ACTUALLY not parked and change state
-				Serial.println("Car is not parked");
-				isVehicleParked = false;
-				changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
-			}
-		}
-		// After finishing reset index to 0
-		distReadings_i = 0;
+  if (distReadings_i == ARRAY_MAX - 1) {
+    average = averageArray(distReadings, ARRAY_MAX);
+    if (average < PARKED_VEHICLE_THRESHOLD_CM) {
+      if (!isVehicleParked) {
+        // Indicate that car is ACTUALLY parked and change state
+        Serial.println("Car is parked");
+        isVehicleParked = true;
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+      }
+    } else {
+      if (isVehicleParked) {
+        // Indicate that car is ACTUALLY not parked and change state
+        Serial.println("Car is not parked");
+        isVehicleParked = false;
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+      }
+    }
+    // After finishing reset index to 0
+    distReadings_i = 0;
 
-		// Forcing any lines to be printed before sleep
-		Serial.flush();
+    Serial.println("I am going to sleep!");
 
-		delay(5000);				   // Give ample time to uploading sketches
-		USBDevice.detach();			   // Terminating Serial Connection
-		LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
-		USBDevice.attach();			   // Restarting Serial Connection
-		delay(5000);				   // Give time for Serial Connection to take place
-		Serial.println("\nI am awaken!");
-	}
-	else
-		distReadings_i++;
+    // Forcing any lines to be printed before sleep
+    Serial.flush();
+    USBDevice.detach();             // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME_MS);  // Putting Arduino to sleep
+    USBDevice.attach();             // Restarting Serial Connection
+    delay(3000);                    // Give time for Serial Connection to take place
+    Serial.println("\nI have awoken!");
+  } else
+    distReadings_i++;
 }

@@ -17,7 +17,6 @@
 #include <MKRNB.h>
 #include <coap-simple.h>
 #include <ArduinoHttpClient.h>
-#include "arduino_secrets.h"
 
 /**
  * @brief Function for Setting Up Modem and Chipset
@@ -30,10 +29,12 @@ void setupModem();
  *
  * @param nbAccess      NB Object
  * @param gprsAccess    GPRS Object
+ * @param pin           SIM PIN
+ * @param apn           SIM APN
  * @return true         Connection Successful
  * @return false        Connection Failed
  */
-bool connectNB(NB &nbAccess, GPRS &gprsAccess);
+bool connectNB(NB &nbAccess, GPRS &gprsAccess, char *pin, char *apn);
 
 /**
  * @brief Sends Packet to CoAP server
@@ -41,8 +42,10 @@ bool connectNB(NB &nbAccess, GPRS &gprsAccess);
  * @param coapServer_ip IP Address to Server (Object)
  * @param coap          Coap Object
  * @param packet        Packet to send to CoAP server
+ * @param port          CoAP Server Port
+ * @param endpoint      CoAP Server Endpoint
  */
-void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet);
+void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet, uint32_t port, char *endpoint);
 
 /**
  * @brief Provides IP Address from IP Lookup Server
