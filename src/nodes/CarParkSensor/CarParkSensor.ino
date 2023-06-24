@@ -21,11 +21,8 @@
 #include <ArduinoLowPower.h>
 #include <ArduinoHttpClient.h>
 #include <MKRNB.h>
-#include <coap-simple.h>
-#include <ArduinoJson.h>
 #include "CarParkSensor.h"
 #include "arduino_secrets.h"
-#include <Comms.h>
 /* ----------------------------------- ARDUINO SECRETS ----------------------------------- */
 char pinNumber[] = SECRET_PINNUMBER;
 char apn[] = SECRET_GPRS_APN;

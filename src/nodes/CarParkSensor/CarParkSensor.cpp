@@ -2,9 +2,6 @@
 #include <ArduinoJson.h>
 #include <Comms.h>
 #include "arduino_secrets.h"
-#include <MKRNB.h>
-#include <ArduinoHttpClient.h>
-#include <coap-simple.h>
 
 int getUltrasonicReading()
 {

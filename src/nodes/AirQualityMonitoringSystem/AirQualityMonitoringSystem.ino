@@ -22,13 +22,10 @@
 #include <ArduinoLowPower.h>
 #include <ArduinoHttpClient.h>
 #include <MKRNB.h>
-#include <coap-simple.h>
-#include <ArduinoJson.h>
 #include <MQUnifiedsensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
 #include "AirQualityMonitoringSystem.h"
-#include "Comms.h"
 #include "arduino_secrets.h"
 
 /* ----------------------------------- ARDUINO SECRETS ----------------------------------- */
