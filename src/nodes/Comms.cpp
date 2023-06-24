@@ -1,4 +1,3 @@
-//#include <ArduinoJson.h>
 #include <MKRNB.h>
 #include <coap-simple.h>
 #include <ArduinoHttpClient.h>
