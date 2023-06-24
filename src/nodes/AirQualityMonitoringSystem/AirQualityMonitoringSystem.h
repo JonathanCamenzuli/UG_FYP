@@ -27,10 +27,10 @@
 
 #define MQ135_BOARD "Arduino MKR NB 1500"
 #define MQ135_VOLTAGE_RES 5
-#define MQ135_PIN A1  // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
+#define MQ135_PIN A1                        // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
 #define MQ135_TYPE "MQ-135"
 #define MQ135_ADC_BIT_RES 10
-#define MQ135_R0_CALIBRATION 46.56
+#define MQ135_R0_CALIBRATION 62.87          // Obtained through a calibration exercise - Look at "../../test/nodes/MQ135/MQ135.ino"
 
 #define ARRAY_MAX 10       // Number of elements for averaging array
 #define JSON_BUF_SIZE 256  // JSON Buffer Size

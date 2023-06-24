@@ -16,9 +16,9 @@ void setupMQ135(MQUnifiedsensor &mq135) {
   Serial.print("MQ135: Setting up...");
   float calcR0 = MQ135_R0_CALIBRATION;
   delay(20000);  // Preheat Time
-  mq135.setRegressionMethod(1);
+  mq135.setRegressionMethod(0);
   mq135.init();
-  mq135.setRL(10);
+  mq135.setRL(1);
   mq135.setR0(calcR0 / 10);
   Serial.println("done.");
 
