@@ -1,87 +1,73 @@
 #include "FireDetectionSystem.h"
-#include "Comms.h"
-#include "arduino_secrets.h"
 #include <ArduinoJson.h>
-#include <MKRNB.h>
-#include <ArduinoHttpClient.h>
-#include <coap-simple.h>
+#include <Comms.h>
 #include <MQUnifiedsensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include "arduino_secrets.h"
 
-void setupDHT11(DHT &dht)
-{
+void setupDHT11(DHT &dht) {
   Serial.print("DHT11: Setting up...");
   dht.begin();
   Serial.println("done.");
 }
 
-void setupMQ4(MQUnifiedsensor &mq4)
-{
+void setupMQ4(MQUnifiedsensor &mq4) {
   Serial.print("MQ4: Setting up...");
   float calcR0 = MQ4_R0_CALIBRATION;
-  delay(20000); // Preheat Time
+  delay(20000);  // Preheat Time
   mq4.setRegressionMethod(1);
   mq4.init();
   mq4.setRL(10);
   mq4.setR0(calcR0 / 10);
   Serial.println("done.");
 
-  if (isinf(calcR0))
-  {
+  if (isinf(calcR0)) {
     Serial.println("MQ4: WARNING: Conection issue, R0 is infinite - Check your wiring and supply and press RESET on your board");
     while (1)
       ;
   }
 
-  if (calcR0 == 0)
-  {
+  if (calcR0 == 0) {
     Serial.println("MQ4: WARNING: Conection issue, R0 is zero - Check your wiring and supply and press RESET on your board");
     while (1)
       ;
   }
 }
 
-float getHumidity(DHT &dht)
-{
+float getHumidity(DHT &dht) {
   float hum_percent = dht.readHumidity();
-  if (isnan(hum_percent))
-  {
+  if (isnan(hum_percent)) {
     Serial.println("DHT - getHumidity: Failed to read from DHT sensor! - Returning 0");
     return 0;
   }
   return hum_percent;
 }
 
-float getTemperature(DHT &dht)
-{
+float getTemperature(DHT &dht) {
   float temp_c = dht.readTemperature();
-  if (isnan(temp_c))
-  {
+  if (isnan(temp_c)) {
     Serial.println("DHT - getTemperature: Failed to read from DHT sensor! - Returning 0");
     return 0;
   }
   return temp_c;
 }
 
-float getCO(MQUnifiedsensor &mq4)
-{
+float getCO(MQUnifiedsensor &mq4) {
   mq4.setA(-0.05849699);
   mq4.setB(0.75427267);
   float co_ppm = mq4.readSensor();
   return co_ppm;
 }
 
-float getSmokePPM(MQUnifiedsensor &mq4)
-{
+float getSmokePPM(MQUnifiedsensor &mq4) {
   mq4.setA(-0.036579755);
   mq4.setB(0.6076452);
   float smoke_ppm = mq4.readSensor();
   return smoke_ppm;
 }
 
-int getIR()
-{
+int getIR() {
   int ir = digitalRead(IR_PIN);
   if (ir == HIGH)
     return 1;
@@ -89,16 +75,14 @@ int getIR()
     return 0;
 }
 
-float averageArray(float *array, int elems)
-{
+float averageArray(float *array, int elems) {
   long sum = 0L;
   for (int i = 0; i < elems - 1; i++)
     sum += array[i];
   return ((float)sum) / elems;
 }
 
-void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap)
-{
+void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap) {
   // Create a string for storing the serialized JSON document
   char jsonDocBuf[JSON_BUF_SIZE];
 
@@ -110,9 +94,8 @@ void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_
   setupModem();
 
   // Check if connected and if not, reconnect to ISP
-  if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY)
-  {
-    connectNB(nbAccess, gprsAccess);
+  if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY) {
+    connectNB(nbAccess, gprsAccess, SECRET_PINNUMBER, SECRET_GPRS_APN);
   }
 
   // Get IP Address of CoAP Server
@@ -124,10 +107,10 @@ void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_
   Serial.println("done.");
 
   // Sending JSON document to CoAP Server
-  sendPacket(ipAddress, coap, jsonDocBuf);
+  sendPacket(ipAddress, coap, jsonDocBuf, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT);
 
   // Allow Time Between Sending Packet and Shutting Down Modem
-  delay(1500);
+  delay(2000);
 
   // Disconnecting from ISP and turning off Modem
   Serial.print("Disconnecting from ISP and turning off Modem...");
@@ -135,8 +118,7 @@ void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_
   Serial.println("done.");
 }
 
-void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, char *buffer)
-{
+void serialiseJson(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, char *buffer) {
   // Size calculated on https://arduinojson.org/v6/assistant/
   StaticJsonDocument<192> jsonDoc;
 

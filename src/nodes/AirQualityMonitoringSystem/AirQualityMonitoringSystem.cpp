@@ -1,13 +1,10 @@
 #include "AirQualityMonitoringSystem.h"
-#include "Comms.h"
-#include "arduino_secrets.h"
 #include <ArduinoJson.h>
-#include <MKRNB.h>
-#include <ArduinoHttpClient.h>
-#include <coap-simple.h>
 #include <MQUnifiedsensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
+#include <Comms.h>
+#include "arduino_secrets.h"
 
 void setupDHT11(DHT &dht) {
   Serial.print("DHT11: Setting up...");
@@ -91,7 +88,7 @@ void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_p
 
   // Check if connected and if not, reconnect
   if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY) {
-    connectNB(nbAccess, gprsAccess);
+    connectNB(nbAccess, gprsAccess, SECRET_PINNUMBER, SECRET_GPRS_APN);
   }
 
   // Get IP Address of CoAP Server
@@ -103,7 +100,7 @@ void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_p
   Serial.println("done.");
 
   // Sending JSON document to CoAP Server
-  sendPacket(ipAddress, coap, jsonDocBuf);
+  sendPacket(ipAddress, coap, jsonDocBuf, SECRET_COAP_PORT, SECRET_COAP_ENDPOINT);
 
   // Allow Time Between Sending Packet and Shutting Down Modem
   delay(1500);

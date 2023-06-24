@@ -23,14 +23,11 @@
 #include <ArduinoLowPower.h>
 #include <ArduinoHttpClient.h>
 #include <MKRNB.h>
-#include <coap-simple.h>
-#include <ArduinoJson.h>
 #include <MQUnifiedsensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
 #include <math.h>
 #include "FireDetectionSystem.h"
-#include "Comms.h"
 #include "arduino_secrets.h"
 
 /* ----------------------------------- ARDUINO SECRETS ----------------------------------- */
@@ -45,7 +42,8 @@ uint32_t coapPort = SECRET_COAP_PORT;
 /* ----------------------------------- LIBRARY OBJECTS ----------------------------------- */
 NBClient nbClient;
 NBUDP udp;
-Coap coap(udp);
+Coap coap(udp, JSON_BUF_SIZE);
+// HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess;
@@ -66,14 +64,13 @@ float irReadings[ARRAY_MAX];
 bool ir_detect;
 int idx = 0;
 
-void setup()
-{
+void setup() {
   // 9600 Baudrate
   Serial.begin(9600);
 
   // Waiting for Serial port to Connect - COMMENT FOR DEPLOYMENT
-  // while (!Serial)
-  //   ;
+  while (!Serial)
+    ;
 
   Serial.println("Hello from setup!");
 
@@ -82,8 +79,7 @@ void setup()
   setupMQ4(mq4);
 }
 
-void loop()
-{
+void loop() {
   // Update data, Voltage from MQ4_PIN will be read
   mq4.update();
 
@@ -95,8 +91,7 @@ void loop()
   smokeReadings[idx] = getSmokePPM(mq4);
   irReadings[idx] = getIR();
 
-  if (idx == ARRAY_MAX - 1)
-  {
+  if (idx == ARRAY_MAX - 1) {
     humidity_percent = averageArray(humReadings, ARRAY_MAX);
     temperature_c = averageArray(tempReadings, ARRAY_MAX);
     co_level_ppm = averageArray(coReadings, ARRAY_MAX);
@@ -115,13 +110,12 @@ void loop()
     // Forcing any lines to be printed before sleep
     Serial.flush();
 
-    delay(5000);                   // Give ample time to uploading sketches
-    USBDevice.detach();            // Terminating Serial Connection
-    LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
-    USBDevice.attach();            // Restarting Serial Connection
-    delay(5000);                   // Give time for Serial Connection to take place
+    delay(5000);                    // Give ample time to uploading sketches
+    USBDevice.detach();             // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME_MS);  // Putting Arduino to sleep
+    USBDevice.attach();             // Restarting Serial Connection
+    delay(5000);                    // Give time for Serial Connection to take place
     Serial.println("\nI am awaken!");
-  }
-  else
+  } else
     idx++;
 }
