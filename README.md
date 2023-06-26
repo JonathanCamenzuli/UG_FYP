@@ -76,8 +76,11 @@ This repository contains the source code for the implementation discussed in the
   - [x] NoIP DNS
   - [x] Deployment
 - [ ] Testing
-  - [ ] Preperation
-    - [ ] Power Consumption
-    - [ ] Load Test
+  - [x] Preperation
+    - [x] Power Consumption
+    - [x] Load Test
   - [ ] Power Consumption
+    - [ ] Car Park Sensor
+    - [x] Air Quality Monitoring System
+    - [ ] Fire Detection System
   - [ ] Load Test
