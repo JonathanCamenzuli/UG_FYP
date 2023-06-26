@@ -16,9 +16,9 @@ void setupMQ4(MQUnifiedsensor &mq4) {
   Serial.print("MQ4: Setting up...");
   float calcR0 = MQ4_R0_CALIBRATION;
   delay(20000);  // Preheat Time
-  mq4.setRegressionMethod(1);
+  mq4.setRegressionMethod(0);
   mq4.init();
-  mq4.setRL(10);
+  mq4.setRL(1);
   mq4.setR0(calcR0 / 10);
   Serial.println("done.");
 
@@ -76,10 +76,10 @@ int getIR() {
 }
 
 float averageArray(float *array, int elems) {
-  long sum = 0L;
-  for (int i = 0; i < elems - 1; i++)
+  float sum = 0;
+  for (int i = 0; i < elems; i++)
     sum += array[i];
-  return ((float)sum) / elems;
+  return sum / elems;
 }
 
 void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap) {
