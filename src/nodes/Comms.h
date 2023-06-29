@@ -53,6 +53,6 @@ void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet, uint32_t por
  * @param ipAddress     IPAddress Object where IP Address will be stored
  * @param httpClient    HTTP Client Object
  */
-void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient);
+void getIPAddress(IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t port);
 
 #endif

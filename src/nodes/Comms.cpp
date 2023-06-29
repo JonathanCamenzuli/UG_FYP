@@ -75,8 +75,9 @@ void sendPacket(IPAddress &coapServer_ip, Coap &coap, char *packet, uint32_t por
   Serial.println(msgid);
 }
 
-void getIPAddress(IPAddress &ipAddress, HttpClient &httpClient)
+void getIPAddress(IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort)
 {
+  HttpClient httpClient = HttpClient(nbClient, server, httpPort);
   int statusCode = 0;
   String response;
 
