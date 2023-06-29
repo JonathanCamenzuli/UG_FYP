@@ -36,18 +36,19 @@ uint32_t coapPort = SECRET_COAP_PORT;
 NBClient nbClient;
 NBUDP udp;
 Coap coap(udp, JSON_BUF_SIZE);
-HttpClient httpClient = HttpClient(nbClient, server, httpPort);
+// HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess;
 IPAddress coapServer_ip;
 
 /* ----------------------------------- VARIABLES ----------------------------------- */
-int distReadings[ARRAY_MAX];   // Array which is used for averaging
-int distReadings_i = 0;        // Index to be used with distReadings[]
-float average;                 // Average of distReadings[]
-bool isVehicleParked = false;  // Pretty self explanatory haha
+int distReadings[ARRAY_MAX];  // Array which is used for averaging
+int distReadings_i = 0;       // Index to be used with distReadings[]
+float average;                // Average of distReadings[]
+bool isVehicleParked = false; // Pretty self explanatory haha
 
-void setup() {
+void setup()
+{
   // 9600 Baudrate
   Serial.begin(9600);
 
@@ -62,24 +63,31 @@ void setup() {
   pinMode(ECHO_PIN, INPUT);
 }
 
-void loop() {
+void loop()
+{
   distReadings[distReadings_i] = getUltrasonicReading();
 
-  if (distReadings_i == ARRAY_MAX - 1) {
+  if (distReadings_i == ARRAY_MAX - 1)
+  {
     average = averageArray(distReadings, ARRAY_MAX);
-    if (average < PARKED_VEHICLE_THRESHOLD_CM) {
-      if (!isVehicleParked) {
+    if (average < PARKED_VEHICLE_THRESHOLD_CM)
+    {
+      if (!isVehicleParked)
+      {
         // Indicate that car is ACTUALLY parked and change state
         Serial.println("Car is parked");
         isVehicleParked = true;
-        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, nbClient, server, httpPort, coap);
       }
-    } else {
-      if (isVehicleParked) {
+    }
+    else
+    {
+      if (isVehicleParked)
+      {
         // Indicate that car is ACTUALLY not parked and change state
         Serial.println("Car is not parked");
         isVehicleParked = false;
-        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+        changeSendParkingState(isVehicleParked, nbAccess, gprsAccess, coapServer_ip, nbClient, server, httpPort, coap);
       }
     }
     // After finishing reset index to 0
@@ -89,11 +97,12 @@ void loop() {
 
     // Forcing any lines to be printed before sleep
     Serial.flush();
-    USBDevice.detach();             // Terminating Serial Connection
-    LowPower.sleep(SLEEP_TIME_MS);  // Putting Arduino to sleep
-    USBDevice.attach();             // Restarting Serial Connection
-    delay(3000);                    // Give time for Serial Connection to take place
+    USBDevice.detach();            // Terminating Serial Connection
+    LowPower.sleep(SLEEP_TIME_MS); // Putting Arduino to sleep
+    USBDevice.attach();            // Restarting Serial Connection
+    delay(3000);                   // Give time for Serial Connection to take place
     Serial.println("\nI have awoken!");
-  } else
+  }
+  else
     distReadings_i++;
 }
