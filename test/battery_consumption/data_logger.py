@@ -10,9 +10,6 @@
 #
 # @date 12/05/2023
 #
-# @section libraries Libraries
-# - Pyserial (https://github.com/pyserial/pyserial)
-#
 
 import serial
 from datetime import datetime
