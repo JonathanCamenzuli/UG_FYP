@@ -41,7 +41,7 @@ uint32_t coapPort = SECRET_COAP_PORT;
 NBClient nbClient;
 NBUDP udp;
 Coap coap(udp, JSON_BUF_SIZE);
-HttpClient httpClient = HttpClient(nbClient, server, httpPort);
+// HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess(false);
 IPAddress coapServer_ip;
@@ -91,7 +91,7 @@ void loop() {
     co_level_ppm = averageArray(coReadings, ARRAY_MAX);
     co2_level_ppm = averageArray(co2Readings, ARRAY_MAX);
 
-    sendAQMSData(temperature_c, humidity_percent, co_level_ppm, co2_level_ppm, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+    sendAQMSData(temperature_c, humidity_percent, co_level_ppm, co2_level_ppm, nbAccess, gprsAccess, coapServer_ip, nbClient, server, httpPort, coap);
 
     // After finishing reset index to 0
     idx = 0;
