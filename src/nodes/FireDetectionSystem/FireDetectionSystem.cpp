@@ -82,7 +82,7 @@ float averageArray(float *array, int elems) {
   return sum / elems;
 }
 
-void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, HttpClient &httpClient, Coap &coap) {
+void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap) {
   // Create a string for storing the serialized JSON document
   char jsonDocBuf[JSON_BUF_SIZE];
 
@@ -99,7 +99,7 @@ void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_
   }
 
   // Get IP Address of CoAP Server
-  getIPAddress(ipAddress, httpClient);
+  getIPAddress(ipAddress, nbClient, server, httpPort);
 
   // Setting up CoAP Functionality
   Serial.print("Setting Up CoAP Functionality...");

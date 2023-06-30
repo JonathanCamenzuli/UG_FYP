@@ -102,7 +102,7 @@ void loop() {
     else
       ir_detect = false;
 
-    sendFDSData(temperature_c, humidity_percent, co_level_ppm, smoke_level_ppm, ir_detect, nbAccess, gprsAccess, coapServer_ip, httpClient, coap);
+    sendFDSData(temperature_c, humidity_percent, co_level_ppm, smoke_level_ppm, ir_detect, nbAccess, gprsAccess, coapServer_ip, nbClient, server, httpPort, coap);
 
     // After finishing reset index to 0
     idx = 0;
