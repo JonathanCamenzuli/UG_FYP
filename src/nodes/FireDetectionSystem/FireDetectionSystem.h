@@ -21,21 +21,21 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define SLEEP_TIME_MS 90000 // Sleep time, in milliseconds (90 secs)
+#define SLEEP_TIME_MS 90000  // Sleep time, in milliseconds (90 secs)
 
-#define DHT11_PIN 0 // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
+#define DHT11_PIN 0  // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
 
 #define MQ4_BOARD "Arduino MKR NB 1500"
 #define MQ4_VOLTAGE_RES 5
-#define MQ4_PIN A1 // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-4 output
+#define MQ4_PIN A1  // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-4 output
 #define MQ4_TYPE "MQ-4"
 #define MQ4_ADC_BIT_RES 10
 #define MQ4_R0_CALIBRATION 48.79
 
-#define IR_PIN 1 // Attach Pin D1 Arduino MKR NB 1500 to pin IR output
+#define IR_PIN 1  // Attach Pin D1 Arduino MKR NB 1500 to pin IR output
 
-#define ARRAY_MAX 50      // Number of elements for averaging array
-#define JSON_BUF_SIZE 256 // JSON Buffer Size
+#define ARRAY_MAX 50       // Number of elements for averaging array
+#define JSON_BUF_SIZE 256  // JSON Buffer Size
 
 /**
  * @brief Function which sets up the DHT11 sensor
@@ -111,7 +111,9 @@ float averageArray(float *array, int elems);
  * @param nbAccess      NB Object
  * @param gprsAccess    GPRS Object
  * @param ipAddress     IP Address to Server (Object)
- * @param httpClient    HTTP Client Object
+ * @param nbClient      NBClient Object
+ * @param server        Server Hostname
+ * @param httpPort      HTTP Port
  * @param coap          Coap Object
  */
 void sendFDSData(float &temp_c, float &hum_percent, float &co_ppm, float &smoke_ppm, bool &ir_detect, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap);

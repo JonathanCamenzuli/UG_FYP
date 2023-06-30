@@ -21,19 +21,19 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-#define SLEEP_TIME_MS 1800000 // Sleep time, in milliseconds (30 mins)
+#define SLEEP_TIME_MS 1800000  // Sleep time, in milliseconds (30 mins)
 
-#define DHT11_PIN 0 // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
+#define DHT11_PIN 0  // Attach Pin D0 Arduino MKR NB 1500 to pin DHT11 output
 
 #define MQ135_BOARD "Arduino MKR NB 1500"
 #define MQ135_VOLTAGE_RES 5
-#define MQ135_PIN A1 // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
+#define MQ135_PIN A1  // Attach Pin A1 Arduino MKR NB 1500 to pin MQ-135 output
 #define MQ135_TYPE "MQ-135"
 #define MQ135_ADC_BIT_RES 10
-#define MQ135_R0_CALIBRATION 62.87 // Obtained through a calibration exercise - Look at "../../test/nodes/MQ135/MQ135.ino"
+#define MQ135_R0_CALIBRATION 62.87  // Obtained through a calibration exercise - Look at "../../test/nodes/MQ135/MQ135.ino"
 
-#define ARRAY_MAX 10      // Number of elements for averaging array
-#define JSON_BUF_SIZE 256 // JSON Buffer Size
+#define ARRAY_MAX 10       // Number of elements for averaging array
+#define JSON_BUF_SIZE 256  // JSON Buffer Size
 
 /**
  * @brief Setting up DHT 11 Sensor
@@ -100,7 +100,9 @@ float averageArray(float *array, int elems);
  * @param nbAccess      NB Object
  * @param gprsAccess    GPRS Object
  * @param ipAddress     IP Address to Server (Object)
- * @param httpClient    HTTP Client Object
+ * @param nbClient      NBClient Object
+ * @param server        Server Hostname
+ * @param httpPort      HTTP Port
  * @param coap          Coap Object
  */
 void sendAQMSData(float &temp_c, float &hum_percent, float &co_ppm, float &co2_ppm, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap);

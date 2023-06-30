@@ -18,13 +18,13 @@
 #include <ArduinoHttpClient.h>
 #include <coap-simple.h>
 
-#define SLEEP_TIME_MS 60000           // Sleep time, in milliseconds (60 secs)
-#define PARKED_VEHICLE_THRESHOLD_CM 5 // Distance, in centimetres which indicates vehicle is parked
+#define SLEEP_TIME_MS 60000            // Sleep time, in milliseconds (60 secs)
+#define PARKED_VEHICLE_THRESHOLD_CM 5  // Distance, in centimetres which indicates vehicle is parked
 
-#define ECHO_PIN 7        // Attach Pin D5 Arduino MKR NB 1500 to pin Echo of HC-SR04
-#define TRIG_PIN 6        // Attach Pin D4 Arduino MKR NB 1500 to pin Trig of HC-SR04
-#define ARRAY_MAX 10      // Number of elements for averaging array
-#define JSON_BUF_SIZE 256 // JSON Buffer Size
+#define ECHO_PIN 7         // Attach Pin D5 Arduino MKR NB 1500 to pin Echo of HC-SR04
+#define TRIG_PIN 6         // Attach Pin D4 Arduino MKR NB 1500 to pin Trig of HC-SR04
+#define ARRAY_MAX 10       // Number of elements for averaging array
+#define JSON_BUF_SIZE 256  // JSON Buffer Size
 
 /**
  * @brief Function returns an Ultrasonic Distance Reading
@@ -49,7 +49,9 @@ float averageArray(int *array, int elems);
  * @param nbAccess          NB Object
  * @param gprsAccess        GPRS Object
  * @param ipAddress         IP Address to Server (Object)
- * @param httpClient        HTTP Client Object
+ * @param nbClient          NBClient Object
+ * @param server            Server Hostname
+ * @param httpPort          HTTP Port
  * @param coap              Coap Object
  */
 void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap);

@@ -3,10 +3,9 @@
 #include <Comms.h>
 #include "arduino_secrets.h"
 
-int getUltrasonicReading()
-{
-  long duration; // Duration of Ultrasonic wave travel
-  int distance;  // Distance calculated
+int getUltrasonicReading() {
+  long duration;  // Duration of Ultrasonic wave travel
+  int distance;   // Distance calculated
 
   // HC-SR04 shenanigans
   digitalWrite(TRIG_PIN, LOW);
@@ -21,16 +20,14 @@ int getUltrasonicReading()
   return distance;
 }
 
-float averageArray(int *array, int elems)
-{
+float averageArray(int *array, int elems) {
   float sum = 0;
   for (int i = 0; i < elems; i++)
     sum += array[i];
   return sum / elems;
 }
 
-void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap)
-{
+void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAccess, IPAddress &ipAddress, NBClient &nbClient, char *server, uint32_t httpPort, Coap &coap) {
   // Create a string for storing the serialized JSON document
   char jsonDocBuf[JSON_BUF_SIZE];
 
@@ -42,8 +39,7 @@ void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAcces
   setupModem();
 
   // Check if connected and if not, reconnect to ISP
-  if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY)
-  {
+  if (nbAccess.status() != NB_READY || gprsAccess.status() != GPRS_READY) {
     connectNB(nbAccess, gprsAccess, SECRET_PINNUMBER, SECRET_GPRS_APN);
   }
 
@@ -67,8 +63,7 @@ void changeSendParkingState(bool &isVehicleParked, NB &nbAccess, GPRS &gprsAcces
   Serial.println("done.");
 }
 
-void serialiseJson(bool &isCarParked, char *buffer)
-{
+void serialiseJson(bool &isCarParked, char *buffer) {
   // Size calculated on https://arduinojson.org/v6/assistant/
   StaticJsonDocument<96> jsonDoc;
 

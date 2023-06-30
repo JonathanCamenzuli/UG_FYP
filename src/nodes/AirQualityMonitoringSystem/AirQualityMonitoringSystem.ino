@@ -41,7 +41,6 @@ uint32_t coapPort = SECRET_COAP_PORT;
 NBClient nbClient;
 NBUDP udp;
 Coap coap(udp, JSON_BUF_SIZE);
-// HttpClient httpClient = HttpClient(nbClient, server, httpPort);
 GPRS gprsAccess;
 NB nbAccess(false);
 IPAddress coapServer_ip;
