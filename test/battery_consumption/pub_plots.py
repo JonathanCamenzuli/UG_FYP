@@ -124,6 +124,7 @@ def plot_data_pub(data_source, start_idx, end_idx):
 if __name__ == '__main__':
     mpl.rcParams['font.family'] = 'Lato'
     mpl.rcParams['font.sans-serif'] = 'Lato'
+    mpl.rcParams['figure.figsize'] = [7.5, 3.75]
 
     data_sources = ['cps_cis', 'cps_ss', 'aqms', 'fds']
     start_idxs = [10, 15, 10, 10]
