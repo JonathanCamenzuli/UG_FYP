@@ -77,8 +77,8 @@ def plot_data_markers(data, title, path=None):
             plt.axvline(x=index, color='r', linestyle='--')
 
     if path != None:
-        plt.savefig(f'{path}.pdf', dpi=300)
-        plt.savefig(f'{path}.png', dpi=300)
+        plt.savefig(f'{path}.pdf', dpi=300, bbox_inches='tight')
+        plt.savefig(f'{path}.png', dpi=300, bbox_inches='tight')
 
     plt.show()
 
@@ -121,10 +121,33 @@ def plot_data_pub(data_source, start_idx, end_idx):
                   path=f'./assets/{data_source}_plot')
 
 
+def set_plot_size(width, fraction=1):
+    # Width of figure (in pts)
+    fig_width_pt = width * fraction
+
+    # Convert from pt to inches
+    inches_per_pt = 1 / 72.27
+
+    golden_ratio = (5**.5 - 1) / 2
+
+    # Figure width in inches
+    fig_width_in = fig_width_pt * inches_per_pt
+    # Figure height in inches
+    fig_height_in = fig_width_in * golden_ratio
+    print(
+        f'Plot width and height: {fig_width_in:.2f}x{fig_height_in:.2f} inches')
+
+    return fig_width_in, fig_height_in
+
+
 if __name__ == '__main__':
     mpl.rcParams['font.family'] = 'Lato'
     mpl.rcParams['font.sans-serif'] = 'Lato'
-    mpl.rcParams['figure.figsize'] = [7.5, 3.75]
+
+    width_pt = 417.5
+    plot_width, plot_height = set_plot_size(width_pt)
+
+    mpl.rcParams['figure.figsize'] = [plot_width, plot_height]
 
     data_sources = ['cps_cis', 'cps_ss', 'aqms', 'fds']
     start_idxs = [10, 15, 10, 10]
