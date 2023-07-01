@@ -79,8 +79,8 @@ This repository contains the source code for the implementation discussed in the
   - [x] Preperation
     - [x] Power Consumption
     - [x] Load Test
-  - [ ] Power Consumption
-    - [ ] Car Park Sensor
+  - [x] Power Consumption
+    - [x] Car Park Sensor
     - [x] Air Quality Monitoring System
-    - [ ] Fire Detection System
+    - [x] Fire Detection System
   - [ ] Load Test
