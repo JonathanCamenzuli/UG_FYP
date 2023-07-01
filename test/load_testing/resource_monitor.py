@@ -23,7 +23,7 @@ FILENAME_CSV = 'resource_data.csv'
 # Set the interval (in seconds) between resource measurements
 TIME_INTERVAL_SECONDS = 1
 # Set the total duration (in seconds) for resource measurement
-TEST_DURATION_SECONDS = 900
+TEST_DURATION_SECONDS = 1200
 
 # Open a CSV file to store resource data
 with open(FILENAME_CSV, 'w', newline='') as csvfile:
