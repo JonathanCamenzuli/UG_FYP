@@ -43,9 +43,9 @@ def plot_data(data, path=None):
     plt.plot(t, data['Disk (%)'])
     # plt.plot(t, data['Temperature (C)'])
 
-    plt.xlabel('Timestamp')
-    plt.ylabel('Utilization / Temperature')
-    plt.title('System Resource Utilization and Temperature')
+    plt.xlabel('Time (Seconds)')
+    plt.ylabel('Utilisation (%)')
+    plt.title('System Resource Utilisation')
     plt.legend(['CPU Utilisation (%)', 'Memory Utilisation (%)',
                'Disk Utilisation (%)'])
     plt.grid(True)
@@ -61,30 +61,51 @@ def plot_data(data, path=None):
 def plot_data_markers(data, path=None):
     t = np.arange(len(data['Timestamp']))
 
-    plt.plot(t, data['CPU (%)'])
-    plt.plot(t, data['Memory (%)'])
-    plt.plot(t, data['Disk (%)'])
+    fig, axs = plt.subplots(1, 1)
+
+    axs.plot(t, data['CPU (%)'], label='CPU Utilisation (%)')
+    axs.plot(t, data['Memory (%)'], label='Memory Utilisation (%)')
+    axs.plot(t, data['Disk (%)'], label='Disk Utilisation (%)')
     # plt.plot(t, data['Temperature (C)'])
 
-    plt.xlabel('Timestamp')
-    plt.ylabel('Utilisation')
-    plt.title('System Resource Utilisation')
-    plt.legend(['CPU Utilisation (%)', 'Memory Utilisation (%)',
-               'Disk Utilisation (%)'])
-    plt.grid(True)
+    axs.set_xlabel('Time (Seconds)')
+    axs.set_ylabel('Utilisation (%)')
+    axs.set_title('System Resource Utilisation')
+    axs.grid(True)
+
+    # Create an empty dictionary to store the line types that have been plotted
+    plotted_lines = {}
 
     for index, row in data.iterrows():
         if not pd.isna(row['Label']):
             if "CoAP Payload Received from" in row['Label']:
                 if "Renderable Error" in row['Label']:
-                    plt.axvline(x=index, color='orange', linestyle='--')
+                    line_type = 'CoAP Renderable Error (Unexpected)'
+                    line_color = 'orange'
                 else:
-                    plt.axvline(x=index, color='red', linestyle='--')
+                    line_type = 'Expected CoAP Message Received'
+                    line_color = 'red'
             else:
                 if "192.168.1.254" in row['Label']:
-                    plt.axvline(x=index, color='mediumblue', linestyle='--')
+                    line_type = 'Expected HTTP Request'
+                    line_color = 'mediumblue'
                 else:
-                    plt.axvline(x=index, color='purple', linestyle='--')
+                    line_type = 'Unexpected HTTP Request'
+                    line_color = 'purple'
+
+            if line_type not in plotted_lines:
+                # Plot the vertical line only if it hasn't been plotted before
+                axs.axvline(x=index, color=line_color,
+                            linestyle='--', label=line_type)
+                plotted_lines[line_type] = True
+            else:
+                # Plot the vertical line without a label if it has been plotted before
+                axs.axvline(x=index, color=line_color, linestyle='--')
+
+    axs.legend(loc='lower center', bbox_to_anchor=(
+        0.5, -0.4, 0, 0), ncol=2, fontsize=7.5)
+
+    fig.subplots_adjust(bottom=0.15)
 
     if path != None:
         plt.savefig(f'{path}.pdf', dpi=300, bbox_inches='tight')
