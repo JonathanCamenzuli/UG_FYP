@@ -37,6 +37,7 @@ def get_merged_data(resource_df, label_df):
 
 def plot_data(data, path=None):
     t = np.arange(len(data['Timestamp']))
+    t *= 2
 
     plt.plot(t, data['CPU (%)'])
     plt.plot(t, data['Memory (%)'])
@@ -60,6 +61,7 @@ def plot_data(data, path=None):
 
 def plot_data_markers(data, path=None):
     t = np.arange(len(data['Timestamp']))
+    t *= 2
 
     fig, axs = plt.subplots(1, 1)
 
@@ -95,12 +97,12 @@ def plot_data_markers(data, path=None):
 
             if line_type not in plotted_lines:
                 # Plot the vertical line only if it hasn't been plotted before
-                axs.axvline(x=index, color=line_color,
+                axs.axvline(x=index*2, color=line_color,
                             linestyle='--', label=line_type)
                 plotted_lines[line_type] = True
             else:
                 # Plot the vertical line without a label if it has been plotted before
-                axs.axvline(x=index, color=line_color, linestyle='--')
+                axs.axvline(x=index*2, color=line_color, linestyle='--')
 
     axs.legend(loc='lower center', bbox_to_anchor=(
         0.5, -0.4, 0, 0), ncol=2, fontsize=7.5)

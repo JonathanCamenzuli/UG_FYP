@@ -83,14 +83,18 @@ def plot_data_markers(data, title, path=None):
     plt.show()
 
 
-def get_current_average(data, type):
+def get_current_desc(data, type):
     average = data['Current (mA)'].mean()
+    maximum = data['Current (mA)'].max()
+    minimum = data['Current (mA)'].min()
     print(f'The average current for {type} over 3 cycles is {average:.2f} mA')
+    print(f'The maximum current for {type} over 3 cycles is {maximum:.2f} mA')
+    print(f'The minimum current for {type} over 3 cycles is {minimum:.2f} mA')
     return average
 
 
 def calc_battery_life(data, type, battery_cap_mAh=10000):
-    load_current = get_current_average(data, type)
+    load_current = get_current_desc(data, type)
     battery_life_hrs = battery_cap_mAh/load_current
     battery_life_days = battery_life_hrs/24
     print(f'For a {battery_cap_mAh} mAh battery, {type} lasts {battery_life_hrs:.2f} hours ({battery_life_days:.2f} days)')
