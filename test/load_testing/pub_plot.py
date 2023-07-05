@@ -19,6 +19,18 @@ import matplotlib.pyplot as plt
 
 
 def get_merged_data(resource_df, label_df):
+    """
+    Get Merged Data
+
+    This function merges two dataframes based on their timestamp columns.
+
+    Args:
+        resource_df (DataFrame): The resource dataframe.
+        label_df (DataFrame): The label dataframe.
+
+    Returns:
+        DataFrame: The merged dataframe.
+    """
 
     # Convert the timestamps to datetime objects
     resource_df_copy = resource_df.copy()
@@ -36,6 +48,16 @@ def get_merged_data(resource_df, label_df):
 
 
 def plot_data(data, path=None):
+    """
+    Plot Data
+
+    This function plots the system resource utilization data.
+
+    Args:
+        data (DataFrame): The data to be plotted.
+        path (str): The path to save the plot. Default is None.
+    """
+
     t = np.arange(len(data['Timestamp']))
     t *= 2
 
@@ -60,6 +82,16 @@ def plot_data(data, path=None):
 
 
 def plot_data_markers(data, path=None):
+    """
+    Plot Data with Markers
+
+    This function plots the system resource utilization data with vertical markers indicating HTTP and CoAP requests received.
+
+    Args:
+        data (DataFrame): The data to be plotted.
+        path (str): The path to save the plot. Default is None.
+    """
+
     t = np.arange(len(data['Timestamp']))
     t *= 2
 
@@ -117,6 +149,19 @@ def plot_data_markers(data, path=None):
 
 
 def set_plot_size(width, fraction=1):
+    """
+    Set Plot Size
+
+    This function calculates the width and height of a plot based on the desired width in points. It returns the width and height in inches.
+
+    Args:
+        width (float): The desired width of the plot in points.
+        fraction (float): The fraction of the golden ratio to be used as the height. Default is 1.
+
+    Returns:
+        tuple: The width and height of the plot in inches.
+    """
+
     # Width of figure (in pts)
     fig_width_pt = width * fraction
 

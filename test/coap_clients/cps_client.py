@@ -29,8 +29,11 @@ uri = f"coap://{coap_domain}:{coap_port}/{endpoint}"
 
 
 async def main():
-    """Perform a single PUT request to localhost on the default port.
-    The request is sent 2 seconds after initialization"""
+    """
+    Send CPS JSON Data
+
+    This function sends a CoAP PUT request with a predefined FDS payload to an IP address and port.
+    """
 
     context = await Context.create_client_context()
 

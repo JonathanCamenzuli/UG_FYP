@@ -19,6 +19,18 @@ import matplotlib.pyplot as plt
 
 
 def get_merged_data(current_df, label_df):
+    """
+    Merge Current and Label Data
+
+    This function merges the current data and label data based on the timestamp column. It converts the timestamps to datetime objects and removes the decimal point from the timestamps. The merged dataframe is returned.
+
+    Args:
+        current_df (pd.DataFrame): The dataframe containing the current data.
+        label_df (pd.DataFrame): The dataframe containing the label data.
+
+    Returns:
+        pd.DataFrame: The merged dataframe.
+    """
 
     # Convert the timestamps to datetime objects
     current_df_copy = current_df.copy()
@@ -43,6 +55,17 @@ def get_merged_data(current_df, label_df):
 
 
 def plot_data(data, title, path=None):
+    """
+    Plot Data
+
+    This function plots the current data over time and saves the plot as a PDF and PNG file if a path is provided. The title of the plot is also set.
+
+    Args:
+        data (pd.DataFrame): The dataframe containing the data to be plotted.
+        title (str): The title of the plot.
+        path (str): The path to save the plot. If None, the plot is only displayed.
+    """
+
     t = np.arange(len(data['Current (mA)']))
 
     # Plot the data
@@ -61,6 +84,16 @@ def plot_data(data, title, path=None):
 
 
 def plot_data_markers(data, title, path=None):
+    """
+    Plot Data with Markers
+
+    This function plots the current data over time and adds vertical markers at specific points which indicate a particular event. The points with non-null 'Labels' are marked with red vertical lines. The plot is saved as a PDF and PNG file if a path is provided.
+
+    Args:
+        data (pd.DataFrame): The dataframe containing the data to be plotted.
+        title (str): The title of the plot.
+        path (str): The path to save the plot. If None, the plot is only displayed.
+    """
     t = np.arange(len(data['Current (mA)']))
 
     # Plot the data
@@ -84,6 +117,19 @@ def plot_data_markers(data, title, path=None):
 
 
 def get_current_desc(data, type):
+    """
+    Get Current Descriptions
+
+    This function calculates and prints the average, maximum, and minimum current values for current data over 3 cycles.
+
+    Args:
+        data (pd.DataFrame): The dataframe containing the current data.
+        type (str): The type of data.
+
+    Returns:
+        float: The average current value.
+    """
+
     average = data['Current (mA)'].mean()
     maximum = data['Current (mA)'].max()
     minimum = data['Current (mA)'].min()
@@ -94,6 +140,17 @@ def get_current_desc(data, type):
 
 
 def calc_battery_life(data, type, battery_cap_mAh=10000):
+    """
+    Calculate Battery Life
+
+    This function calculates and prints the battery life for a specific type of data based on the average current and the battery capacity.
+
+    Args:
+        data (pd.DataFrame): The dataframe containing the current data.
+        type (str): The type of data.
+        battery_cap_mAh (float): The battery capacity in milliampere-hours (mAh). Default is 10000.
+    """
+
     load_current = get_current_desc(data, type)
     battery_life_hrs = battery_cap_mAh/load_current
     battery_life_days = battery_life_hrs/24
@@ -101,6 +158,17 @@ def calc_battery_life(data, type, battery_cap_mAh=10000):
 
 
 def plot_data_pub(data_source, start_idx, end_idx):
+    """
+    Plot Data for Publication
+
+    This function reads the current and label data, merges them, and selects a specific range of data based on the start and end indices. It then plots the data and saves it as a PDF and PNG file.
+
+    Args:
+        data_source (str): The data source name.
+        start_idx (int): The starting index of the data range.
+        end_idx (int): The ending index of the data range.
+    """
+
     if data_source == 'cps_ss' or data_source == 'cps_cis':
         current_df = pd.read_csv(f'./cps/{data_source}_data.csv')
         label_df = pd.read_csv(f'./cps/{data_source}_timestamps.csv')
@@ -126,6 +194,19 @@ def plot_data_pub(data_source, start_idx, end_idx):
 
 
 def set_plot_size(width, fraction=1):
+    """
+    Set Plot Size
+
+    This function calculates the width and height of a plot based on the desired width in points. It returns the width and height in inches.
+
+    Args:
+        width (float): The desired width of the plot in points.
+        fraction (float): The fraction of the golden ratio to be used as the height. Default is 1.
+
+    Returns:
+        tuple: The width and height of the plot in inches.
+    """
+
     # Width of figure (in pts)
     fig_width_pt = width * fraction
 
