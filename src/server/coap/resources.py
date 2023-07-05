@@ -32,7 +32,15 @@ influxdb_org = os.getenv('INFLUXDB_ORG')
 
 
 class BasicResource(resource.ObservableResource):
-    """A basic resource which supports GET and PUT methods.
+    """
+    Basic CoAP Resource
+
+    Represents a basic resource that is observable by clients
+
+    Attributes:
+        has_observers (bool): Indicates whether there are observers subscribed to this resource.
+        notify_observers (bool): Indicates whether the observers should be notified of updates.
+        influx_client (Influx): An instance of the Influx client for interacting with InfluxDB.
     """
 
     def __init__(self):
@@ -44,6 +52,9 @@ class BasicResource(resource.ObservableResource):
             influxdb_bucket, influxdb_url, influxdb_token, influxdb_org)
 
     def notify_observers_check(self):
+        """
+        Check and notify observers if there are any pending updates.
+        """
         while True:
             if self.has_observers and self.notify_observers:
                 print('notifying observers')
@@ -51,6 +62,12 @@ class BasicResource(resource.ObservableResource):
                 self.notify_observers = False
 
     def update_observation_count(self, count):
+        """
+        Update the observation count and manage observer state.
+
+        Args:
+            count (int): The new observation count.
+        """
         if count:
             self.has_observers = True
         else:
@@ -58,10 +75,18 @@ class BasicResource(resource.ObservableResource):
 
 
 class CPS_Resource(BasicResource):
-    """Car Park Sensor Resource
+    """
+    Car Park Sensor (CPS) CoAP Resource 
+
+    Represents a resource for a car park sensor. It inherits from the BasicResource class.
 
     Args:
-        BasicResource (_type_): _description_
+        `BasicResource (class)`: The parent class for the CPS resource.
+
+    Attributes:
+        node_id (str): The identifier of the CPS node.
+        status_isCarParked (int): The status indicating whether a car is parked (0 for not parked, 1 for parked).
+        influx_sensor (Sensor): An instance of the Sensor class for interacting with InfluxDB.
     """
 
     def __init__(self):
@@ -72,6 +97,15 @@ class CPS_Resource(BasicResource):
         self.influx_sensor = Sensor("cps", self.influx_client)
 
     async def render_get(self, request):
+        """
+        Handle GET requests to retrieve the status of the CPS.
+
+        Args:
+            request (aiocoap.Message): The GET request message.
+
+        Returns:
+            aiocoap.Message: The response message containing the JSON payload.
+        """
         print(f'Is Car Parked?: {self.status_isCarParked}')
 
         json_obj = {
@@ -88,6 +122,15 @@ class CPS_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
+        """
+        Handle PUT requests to update the status of the CPS.
+
+        Args:
+            request (aiocoap.Message): The PUT request message.
+
+        Returns:
+            aiocoap.Message: The response message indicating a successful update.
+        """
         payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
@@ -108,10 +151,21 @@ class CPS_Resource(BasicResource):
 
 
 class AQMS_Resource(BasicResource):
-    """Air Quality Monitoring System Resource
+    """
+    Air Quality Monitoring System (AQMS) CoAP Resource 
+
+    Represents a resource for an park air quality monitoring system. It inherits from the BasicResource class.
 
     Args:
-        BasicResource (_type_): _description_
+        `BasicResource (class)`: The parent class for the AQMS resource.
+
+    Attributes:
+        node_id (str): The identifier of the AQMS node.
+        status_temp_cel (float): The temperature in degrees Celsius.
+        status_hum_percent (float): The humidity level in percentage.
+        status_co_ppm (float): The carbon monoxide level in parts per million (PPM).
+        status_co2_ppm (float): The carbon dioxide level in parts per million (PPM).
+        influx_sensor (Sensor): An instance of the Sensor class for interacting with InfluxDB.
     """
 
     def __init__(self):
@@ -125,6 +179,15 @@ class AQMS_Resource(BasicResource):
         self.influx_sensor = Sensor("aqms", self.influx_client)
 
     async def render_get(self, request):
+        """
+        Handle GET requests to retrieve the status of the AQMS.
+
+        Args:
+            request (aiocoap.Message): The GET request message.
+
+        Returns:
+            aiocoap.Message: The response message containing the JSON payload.
+        """
         print('Air Quality Monitoring System')
         print(f'Node ID: {self.node_id}')
         print(f'Temperature: {self.status_temp_cel}°C')
@@ -149,6 +212,15 @@ class AQMS_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
+        """
+        Handle PUT requests to update the status of the AQMS.
+
+        Args:
+            request (aiocoap.Message): The PUT request message.
+
+        Returns:
+            aiocoap.Message: The response message indicating a successful update.
+        """
         payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
@@ -174,10 +246,22 @@ class AQMS_Resource(BasicResource):
 
 
 class FDS_Resource(BasicResource):
-    """Fire Detection System Resource
+    """
+    Fire Detection System (FDS) CoAP Resource
+
+    Represents a resource for a fire detection system. It inherits from the BasicResource class.
 
     Args:
-        BasicResource (_type_): _description_
+        BasicResource (class): The parent class for the FDS resource.
+
+    Attributes:
+        node_id (str): The identifier of the FDS node.
+        status_temp_cel (float): The temperature in degrees Celsius.
+        status_hum_percent (float): The humidity level in percentage.
+        status_co_ppm (float): The carbon monoxide level in parts per million (PPM).
+        status_smoke_level_ppm (float): The smoke level in parts per million (PPM).
+        status_isIRDetected (int): The status indicating whether infrared (IR) is detected (0 for not detected, 1 for detected).
+        influx_sensor (Sensor): An instance of the Sensor class for interacting with InfluxDB.
     """
 
     def __init__(self):
@@ -192,6 +276,15 @@ class FDS_Resource(BasicResource):
         self.influx_sensor = Sensor("fds", self.influx_client)
 
     async def render_get(self, request):
+        """
+        Handle GET requests to retrieve the status of the FDS.
+
+        Args:
+            request (aiocoap.Message): The GET request message.
+
+        Returns:
+            aiocoap.Message: The response message containing the JSON payload.
+        """
         print('Fire Detection System')
         print(f'Node ID: {self.node_id}')
         print(f'Temperature: {self.status_temp_cel}°C')
@@ -218,6 +311,15 @@ class FDS_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
+        """
+        Handle PUT requests to update the status of the AQMS.
+
+        Args:
+            request (aiocoap.Message): The PUT request message.
+
+        Returns:
+            aiocoap.Message: The response message indicating a successful update.
+        """
         payload = request.payload.decode('utf8')
         print(payload)
         payload_json = json.loads(payload)
@@ -250,10 +352,18 @@ class FDS_Resource(BasicResource):
 
 
 class Test_Resource(BasicResource):
-    """Test Resource
+    """
+    Test CoAP Resource
+
+    Represents a test resource. It inherits from the BasicResource class.
 
     Args:
-        BasicResource (_type_): _description_
+        BasicResource (class): The parent class for the Test resource.
+
+    Attributes:
+        node_id (str): The identifier of the test node.
+        status_testValue (float): The test value, which is a pseudorandom number generated from the test physical node
+        influx_sensor (Sensor): An instance of the Sensor class for interacting with InfluxDB.
     """
 
     def __init__(self):
@@ -264,6 +374,15 @@ class Test_Resource(BasicResource):
         self.influx_sensor = Sensor("test", self.influx_client)
 
     async def render_get(self, request):
+        """
+        Handle GET requests to retrieve the test value.
+
+        Args:
+            request (aiocoap.Message): The GET request message.
+
+        Returns:
+            aiocoap.Message: The response message containing the JSON payload.
+        """
         print('Test Endpoint')
         print(f'Node ID: {self.node_id}')
         print(f'Test Value: {self.testValue}')
@@ -282,6 +401,15 @@ class Test_Resource(BasicResource):
         return aiocoap.Message(payload=payload)
 
     async def render_put(self, request):
+        """
+        Handle PUT requests to retrieve the test value.
+
+        Args:
+            request (aiocoap.Message): The PUT request message.
+
+        Returns:
+            aiocoap.Message: The response message indicating a successful update.
+        """
         logging.info(f'Payload Received is as follows: {request.payload}')
         payload = request.payload.decode('utf8')
         payload_json = json.loads(payload)
