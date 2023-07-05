@@ -1,1 +1,0 @@
-NOTE: Sensitive network data will be in arduino_secrets.h which is not present in this repo

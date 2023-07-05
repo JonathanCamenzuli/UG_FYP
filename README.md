@@ -1,9 +1,31 @@
 # Miniature implementation of an IoT-based Smart City
+_Final Year Project (FYP) in Computer Engineering (2022/23)_
 
-Final Year Project in Computer Engineering (2022/23)\
-Jonathan Camenzuli
+This repository contains the source code for the implementation discussed in the Final Year Project (FYP) report. The project was submitted as part of the requirements for the degree of B.Sc. (Hons.) in Computer Engineering at the University of Malta.
 
-This repository contains the source code for the implementation discussed in the FYP write-up.
+## Project Description
+
+The project presents a scalable miniature implementation of an IoT-based smart city model, consisting of three physical nodes that perform air quality monitoring, parking sensing and fire detection. Data is sent to a server by making use of NB-IoT as an LPWAN and CoAP as a Application Layer Protocol.
+
+The purpose of this project is to demonstrate the feasibility of an IoT-based smart city system and showcase the integration of various sensors and communication protocols. The provided source code serves as a reference for understanding the implementation details discussed in the FYP report.
+
+Please refer to the FYP report for a comprehensive explanation of the project's objectives, methodologies, and findings.
+
+## Repo Structure
+
+The repo is mainly devised as follows:
+
+```markdown
+- src
+    - nodes
+    - server
+- test
+```
+
+- The `src` directory contains the source code for the project.
+    - The `src/nodes` subdirectory contains the source code related to the physical nodes.
+    - The `src/server` subdirectory contains the source code related to the server.
+- The `test` directory contains the source code related to testing components, including sensors, load testing, and battery consumption analysis.
 
 ## Third-Party Libraries and Tools
 
@@ -39,48 +61,3 @@ This repository contains the source code for the implementation discussed in the
 - [Matplotlib](https://github.com/matplotlib/matplotlib) by [Matplotlib](https://matplotlib.org/)
 - [Adafruit INA219 Library](https://github.com/adafruit/Adafruit_INA219) by [Adafruit](https://github.com/adafruit)
 - [Adafruit SSD1306 Library](https://github.com/adafruit/Adafruit_SSD1306) by [Adafruit](https://github.com/adafruit)
-
-## To-Do List
-
-- [x] Architecture
-  - [x] Establish communication protocol (CoAP)
-  - [x] Establish what data is to be sent
-- [ ] Arduinos
-  - [x] Resolve hostname into IP address
-  - [x] Libraries
-    - [x] JSON serialisation
-    - [x] CoAP packets
-    - [x] MQ Sensors
-      - [ ] MQ-4 Tuning
-      - [ ] MQ-135 Tuning
-  - [x] Boilerplate
-    - [x] Car Park Sensor
-    - ~~[ ] Fire Detection System~~
-    - ~~[ ] Air Quality Monitoring~~
-  - [x] Narrowband functionality
-    - [x] Car Park Sensor
-    - [x] Fire Detection System
-    - [x] Air Quality Monitoring
-- [x] Server Side Software
-  - [x] Payload handler
-  - [x] Database - InfluxDB
-  - [x] Visualisation Platform - Grafana
-  - [x] Containerization (Docker)
-    - [x] CoAP Server
-    - [x] InfluxDB
-    - [x] Grafana
-      - [x] Operational
-      - [ ] Dashboard Setup
-    - [x] Public IP Lookup
-    - ~~[ ] DDNS?~~
-  - [x] NoIP DNS
-  - [x] Deployment
-- [ ] Testing
-  - [x] Preperation
-    - [x] Power Consumption
-    - [x] Load Test
-  - [x] Power Consumption
-    - [x] Car Park Sensor
-    - [x] Air Quality Monitoring System
-    - [x] Fire Detection System
-  - [ ] Load Test
