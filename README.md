@@ -13,15 +13,16 @@ Please refer to the FYP report for a comprehensive explanation of the project's 
 
 ## Repo Structure
 
-The repo is mainly devised as follows:
+The repo is devised as follows:
 
 ```markdown
+- docs
 - src
     - nodes
     - server
 - test
 ```
-
+- The `docs` directory contains the poster and presentation related to the project itself
 - The `src` directory contains the source code for the project.
     - The `src/nodes` subdirectory contains the source code related to the physical nodes.
     - The `src/server` subdirectory contains the source code related to the server.
