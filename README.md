@@ -9,7 +9,7 @@ The project presents a scalable miniature implementation of an IoT-based smart c
 
 The purpose of this project is to demonstrate the feasibility of an IoT-based smart city system and showcase the integration of various sensors and communication protocols. The provided source code serves as a reference for understanding the implementation details discussed in the FYP report.
 
-Please refer to the FYP report for a comprehensive explanation of the project's objectives, methodologies, and findings.
+Please refer to the [FYP report](docs/jc_fyp_report.pdf) for a comprehensive explanation of the project's objectives, methodologies, and findings.
 
 ## Repo Structure
 
@@ -22,11 +22,11 @@ The repo is devised as follows:
     - server
 - test
 ```
-- The `docs` directory contains the poster and presentation related to the project itself
-- The `src` directory contains the source code for the project.
-    - The `src/nodes` subdirectory contains the source code related to the physical nodes.
-    - The `src/server` subdirectory contains the source code related to the server.
-- The `test` directory contains the source code related to testing components, including sensors, load testing, and battery consumption analysis.
+- The [`docs`](docs/) directory contains the report itself and any other material related to the project itself
+- The [`src`](src/) directory contains the source code for the project.
+    - The [`src/nodes`](src/nodes/) subdirectory contains the source code related to the physical nodes.
+    - The [`src/server`](src/server/) subdirectory contains the source code related to the server.
+- The [`test`](test/) directory contains the source code related to testing components, including sensors, load testing, and battery consumption analysis.
 
 ## Third-Party Libraries and Tools
 
