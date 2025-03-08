@@ -9,7 +9,25 @@ The project presents a scalable miniature implementation of an IoT-based smart c
 
 The purpose of this project is to demonstrate the feasibility of an IoT-based smart city system and showcase the integration of various sensors and communication protocols. The provided source code serves as a reference for understanding the implementation details discussed in the FYP report.
 
-Please refer to the [FYP report](docs/jc_fyp_report.pdf) for a comprehensive explanation of the project's objectives, methodologies, and findings.
+Please refer to the [FYP report](docs/jc_fyp_report.pdf) for a comprehensive explanation of the project's objectives, methodologies, and findings. The report is also available (with restricted access) at [University of Malta's Institutional Repository](https://www.um.edu.mt/library/oar/handle/123456789/131928).
+
+## Citation
+
+If you use or reference this project in your work, please cite it as follows:
+
+```bibtex
+@phdthesis{Camenzuli_2023,
+    type={bachelorThesis},
+    title={Miniature implementation of an IoT‐based smart city},
+    rights={info:eu-repo/semantics/restrictedAccess},
+    url={https://www.um.edu.mt/library/oar/handle/123456789/131928},
+    note={Accepted: 2025-02-13T13:27:13Z},
+    school={University of Malta},
+    author={Camenzuli, Jonathan (2023)},
+    year={2023},
+    language={en}
+}
+```
 
 ## Repo Structure
 
@@ -22,7 +40,7 @@ The repo is devised as follows:
     - server
 - test
 ```
-- The [`docs`](docs/) directory contains the report itself and any other material related to the project itself
+- The [`docs`](docs/) directory contains the report itself and any other material related to the project.
 - The [`src`](src/) directory contains the source code for the project.
     - The [`src/nodes`](src/nodes/) subdirectory contains the source code related to the physical nodes.
     - The [`src/server`](src/server/) subdirectory contains the source code related to the server.
@@ -55,6 +73,7 @@ The repo is devised as follows:
 - [Low-Power](https://github.com/rocketscream/Low-Power) by [Rocketscream Electronics](https://github.com/rocketscream)
 
 ### Testing and Evaluation
+
 - [pySerial](https://github.com/pyserial/pyserial) by [pySerial](https://github.com/pyserial)
 - [psutil](https://github.com/giampaolo/psutil) by [Giampaolo Rodola](https://github.com/giampaolo)
 - [NumPy](https://github.com/numpy/numpy) by [NumPy](https://numpy.org/)
